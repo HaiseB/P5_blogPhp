@@ -1,0 +1,15 @@
+{
+    "name": "benjamin/blogphp",
+    "description": "projet 5 Openclassrooms",
+    "authors": [
+        {
+            "name": "Benjamin Haise",
+            "email": "benjaminhaise@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^3.0",
+        "robmorgan/phinx": "^0.12.0",
+        "fzaninotto/faker": "^1.9"
+    }
+}

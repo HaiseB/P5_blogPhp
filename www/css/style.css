@@ -1,0 +1,22 @@
+*,body {
+    padding : 0;
+    margin : 0;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+footer{
+    background: #1A1E26;
+    font-family: 'Source Sans Pro', sans-serif;
+    text-align: center;
+    padding: 5% 15% 1% 15%;
+    margin-top: 20px;
+}
+
+.btn-footer{
+    font-size : 3em;
+}
+
+.signature{
+    color: white;
+    opacity: 0.5;
+}
