@@ -1,13 +1,29 @@
 {% extends "layout.twig" %}
 
 {% block head %}
-    <title>Les news</title>
+    <title>Accueil - Bienvenue</title>
 {% endblock head %}
 
 {% block content %}
-    <h1>Les dernières news</h1>
-    <hr>
-    {% for post in posts %}
-        <li>{{ post.name }}</li>
-    {% endfor %}
+
+{% endblock %}
+
+{% block footerContent %}
+<form method="post" action="" class="jumbotron">
+    <fieldset>
+        <legend>Laissez moi un message! <i class="far fa-grin"></i></legend>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <input type="text" name="name"  required class="form-control" id="InputPassword1" placeholder="Nom Prénom et/ou votre Entreprise">
+            </div>
+            <div class="form-group col-md-6">
+                <input type="email" name="email"  required class="form-control" id="InputEmail1" aria-describedby="emailHelp" placeholder="E-mail">
+            </div>
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" name="textarea"  required id="Textarea" rows="3" placeholder="N'oubliez pas le commentaire! （〜^∇^)〜"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+    </fieldset>
+</form>
 {% endblock %}

@@ -1,7 +1,7 @@
 ---
 name: 'Epic : New feature'
 about: Help to crate a new feature.
-title: '[Epic] : New feature'
+title: '[Epic] New feature'
 labels: epic
 assignees: HaiseB
 
@@ -9,7 +9,7 @@ assignees: HaiseB
 
 ### 1 - Challenges
 
-<!--What user problem are we trying to solve? What business problem are we trying to solve? Are there obstacles standing in the way?-->
+<!--What business problem are we trying to solve? Are there obstacles standing in the way?-->
 
 ### 2 - Vision
 

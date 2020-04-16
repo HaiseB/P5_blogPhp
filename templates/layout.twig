@@ -6,16 +6,37 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Bungee|Source+Sans+Pro&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="css/style.css">
         <script src="https://kit.fontawesome.com/6e34adc13e.js" crossorigin="anonymous"></script>
         <link rel="icon" type="png" href="images/favicon.png"/>
         {% block head %}
         {% endblock head %}
     </head>
     <body>
-        <div class="container">
-            {% block content %}
-            {% endblock %}
+        <div class="main">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <a class="navbar-brand" href="http://blogphp/">LOGO a placer</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item {#active#}">
+                        <a class="nav-link" href="http://blogphp/posts.html">Articles</a>
+                        </li>
+                    </ul>
+                    {#<form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                    </form>#}
+                </div>
+            </nav>
+
+            <div class="container">
+                {% block content %}
+                {% endblock %}
+            </div>
         </div>
 
     <footer>
@@ -23,10 +44,21 @@
             <a href="https://twitter.com/intent/tweet?screen_name=Raegald&ref_src=twsrc%5Etfw" class="btn-footer"><i class="fab fa-twitter"></i></a>
             <a href="https://github.com/HaiseB" class="btn-footer"><i class="fab fa-github"></i></a>
             <a href="https://www.linkedin.com/in/benjamin-haise-624aab16b/" class="btn-footer"><i class="fab fa-linkedin"></i></a>
-            <a href="mailto:benjaminhaise@gmail.com" class="btn-footer"><i class="far fa-envelope"></i></a>
+            <a href="documents/CV_2019.pptx" download class="btn-footer"><i class="fas fa-download"></i></a>
         </div>
         <hr>
-        <span class="col-12 signature">benjaminhaise.com | 2020</span>
+        {% block footerContent %}
+        {% endblock %}
+        <hr>
+        <div class="col-12">
+            <a href="" >plan du site</a>
+        </div>
+        <div class="col-12">
+            <a href="">mentions légales</a>
+        </div>
+        <div class="col-12">
+            <span class="signature">benjaminhaise.com | 2020</span>
+        </div>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

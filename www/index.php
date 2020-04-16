@@ -1,7 +1,7 @@
 <?php
 
 require '../vendor/autoload.php';
-require '../src/Models/Functions/MainFunction.php';
+require '../src/Models/Functions/MainFunctions.php';
 
 // Routing
 
@@ -19,13 +19,14 @@ $twig = new \Twig\Environment($loader, [
 ]);
 
 switch ($page) {
-    /* case 'contact':
-        echo $twig->render('contact.twig');
-        break; */
-
     case 'home':
         require '../src/Controllers/HomeController.php';
         homepage($twig);
+        break;
+
+    case 'posts':
+        require '../src/Controllers/PostsController.php';
+        posts($twig);
         break;
 
     default:
