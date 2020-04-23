@@ -19,6 +19,10 @@ color-sheme{
     font-family: 'Source Sans Pro', sans-serif;
 }
 
+.main{
+    background-color: #F2E9CE;
+}
+
 footer{
     background: #2C3E50;
     text-align: center;

@@ -1,42 +1,13 @@
 {% extends "layout.twig" %}
 
 {% block head %}
-    <title>Page non trouvée</title>
+    <title>Accueil - Bienvenue</title>
 {% endblock head %}
 
 {% block content %}
-<div class="d-flex p-2">
-    <div class="col-6">
-        <h1>Oups!</h1>
-        <p>La page que vous recherchez semble introuvable.</p>
-        <p>Code d'erreur : 404</p>
-        <div class="container">
-            <p>Voici quelques liens utiles à la place:</p>
-            <ul>
-                <li><a class="nav-link" href="http://blogphp/">Accueil</a></li>
-                <li><a class="nav-link" href="http://blogphp/posts.php">Articles</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="col-6 d-flex justify-content-center align-items-center">
-        <img src="images/female-detective.svg" alt="detective" height="250px"/>
-    </div>
-</div>
-<form method="post" action="" class="jumbotron text-center">
-    <fieldset>
-        <legend>Laissez moi un message!</legend>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <input type="text" name="name"  required class="form-control" id="InputPassword1" placeholder="Nom Prénom et/ou votre Entreprise">
-            </div>
-            <div class="form-group col-md-6">
-                <input type="email" name="email"  required class="form-control" id="InputEmail1" aria-describedby="emailHelp" placeholder="E-mail">
-            </div>
-        </div>
-        <div class="form-group">
-            <textarea class="form-control" name="textarea"  required id="Textarea" rows="3" placeholder="N'oubliez pas votre commentaire (〜^∇^)〜"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Envoyer</button>
-    </fieldset>
-</form>
+Page not found
+The page you are looking for could not be found. Take a look at one of the pages below instead.
+
+Home
+Blog
 {% endblock %}

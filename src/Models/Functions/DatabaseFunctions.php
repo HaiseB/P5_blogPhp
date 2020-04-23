@@ -2,26 +2,26 @@
 
 use Symfony\Component\Dotenv\Dotenv;
 
-function getDbInfo() :array {
+function getHostInfo() :array {
     $dotenv = new Dotenv();
     $dotenv->load('../.env');
 
-    $dbInfos = [
+    $hostInfos = [
         'dbName' => $_ENV['DB_NAME'],
         'dbHost' => $_ENV['DB_HOST'],
         'dbUser' => $_ENV['DB_USER'],
         'dbPass' => $_ENV['DB_PASS']
     ];
 
-    return $dbInfos;
+    return $hostInfos;
 }
 
-function getPdo() :object {
-    $dbInfos = getDbInfo();
+function getPdo(){
+    $hostInfos = getHostInfo();
 
-    $dns = 'mysql:dbname=' . $dbInfos['dbName'] . ';host=' . $dbInfos['dbHost'] ;
+    $dns = 'mysql:dbname=' . $hostInfos['dbName'] . ';host=' . $hostInfos['dbHost'] ;
 
-    $pdo = new PDO($dns, $dbInfos['dbUser'], $dbInfos['dbPass'], [
+    $pdo = new PDO($dns, $hostInfos['dbUser'], $hostInfos['dbPass'], [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ
         ]
@@ -31,8 +31,8 @@ function getPdo() :object {
 }
 
 function searchAll(string $table, array $columns = [], array $options = []) :object {
-    $query = 'SELECT * FROM ' . $table . " WHERE is_deleted = false ORDER BY id DESC LIMIT 12";
-
+    $query = 'SELECT * FROM ' . $table . " WHERE is_deleted = false";
+    // ORDER BY id DESC LIMIT
     $result = getPdo()->query($query);
 
     return $result;
@@ -46,7 +46,6 @@ function searchById(int $id, string $table, array $columns = [], array $options 
     return $result;
 }
 
-/*
 function searchByCondittion(int $id, string $table){
     //AND is_deleted = false
 }
@@ -54,4 +53,3 @@ function searchByCondittion(int $id, string $table){
 function updateById(int $id, string $table, array $column, array $values){
 
 }
-*/
