@@ -5,13 +5,63 @@
 {% endblock head %}
 
 {% block content %}
+<div>
+    <br>
+    <div class="text-center">
+        <img src="images/profilPicture.jpg" class="rounded" alt="Profil picture" height="100px">
+    </div>
 
-{% endblock %}
+    <div>
+        <h5>Qui suis-je?</h5>
+        <p>Je m'appelle Benjamin Haise, j'ai 25 ans et je suis passionné par Internet, sa culture, les jeux vidéo et la peinture.</p>
+    </div>
 
-{% block footerContent %}
-<form method="post" action="" class="jumbotron">
+    <div>
+        <h5>Pourquoi ce site?</h5>
+        <p>Au cours de ma formation chez Openclassrooms, un des projet était de creer un blog. En partant de ce matériau et de l'envie de partager mes passions, mes projets et mes découvertes, ce blog et portfolio à vu le jour!</p>
+    </div>
+
+    <div>
+        <h5>Me rejoindre</h5>
+        <p>
+            <ul>
+                <li>Sur <a href="https://twitter.com/intent/tweet?screen_name=Raegald&ref_src=twsrc%5Etfw">Twitter</a></li>
+                <li>Sur <a href="https://www.linkedin.com/in/benjamin-haise-624aab16b/">Linkedin</a></li>
+                <li>Sur <a href="https://github.com/HaiseB">Github</a></li>
+            </ul>
+        </p>
+    </div>
+
+    <div>
+        <h5>Mes projets</h5>
+        <p>
+            <ul>
+                <li>Projet Openclassrooms n°5 <a href="#">Blog Php</a></li>
+                <li>Projet Openclassrooms n°4 <a href="#">Food Express</a></li>
+                <li>Projet Openclassrooms n°3 <a href="#">Les Films de Plein Air</a></li>
+                <li>Projet Openclassrooms n°2 <a href="#">Chalets et caviar</a></li>
+                <li>Et bien d'autres sur <a href="https://github.com/HaiseB">Github</a></li>
+            </ul>
+        </p>
+    </div>
+
+    <div>
+        <h5>Mon CV</h5>
+        <p>Et pourquoi ne pas emporter un souvenir au format pdf? C'est par <a href="documents/CV_2019.pptx" download>ici</a> !
+        </p>
+    </div>
+
+    <div>
+        <h5>Mentions légales</h5>
+        <p>Vous pouvez retrouver les mentions légales du site en cliquant sur ce <a href="#">lien</a>.</p>
+    </div>
+</div>
+
+<hr>
+
+<form method="post" action="" class="jumbotron text-center">
     <fieldset>
-        <legend>Laissez moi un message! <i class="far fa-grin"></i></legend>
+        <legend>Laissez moi un message!</legend>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <input type="text" name="name"  required class="form-control" id="InputPassword1" placeholder="Nom Prénom et/ou votre Entreprise">
@@ -21,9 +71,10 @@
             </div>
         </div>
         <div class="form-group">
-            <textarea class="form-control" name="textarea"  required id="Textarea" rows="3" placeholder="N'oubliez pas le commentaire! （〜^∇^)〜"></textarea>
+            <textarea class="form-control" name="textarea"  required id="Textarea" rows="5" placeholder="N'oubliez pas votre commentaire (〜^∇^)〜"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Envoyer</button>
     </fieldset>
 </form>
+
 {% endblock %}

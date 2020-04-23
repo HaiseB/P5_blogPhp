@@ -13,18 +13,46 @@
         {% endblock head %}
     </head>
     <body>
-        <div class="main">
+        <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                <a class="navbar-brand" href="http://blogphp/">LOGO a placer</a>
+                <a class="navbar-brand" href="http://blogphp/">[[ LOGO ]]</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item {#active#}">
-                        <a class="nav-link" href="http://blogphp/posts.html">Articles</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://blogphp/">Accueil</a>
                         </li>
+                        <li class="nav-item {#active#}">
+                            <a class="nav-link" href="http://blogphp/posts.html">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Connexion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-search"></i></a>
+                        </li>
+                        {#
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Tags</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">A propos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Connexion</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fas fa-search"></i></a>
+                            </li>
+                        #}
                     </ul>
                     {#<form class="form-inline my-2 my-lg-0">
                         <input class="form-control mr-sm-2" type="text" placeholder="Search">
@@ -33,37 +61,32 @@
                 </div>
             </nav>
 
-            <div class="container">
+            <div class="col-md-8 offset-md-2">
                 {% block content %}
                 {% endblock %}
             </div>
         </div>
 
-    <footer>
-        <div class="d-flex justify-content-around">
-            <a href="https://twitter.com/intent/tweet?screen_name=Raegald&ref_src=twsrc%5Etfw" class="btn-footer"><i class="fab fa-twitter"></i></a>
-            <a href="https://github.com/HaiseB" class="btn-footer"><i class="fab fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/benjamin-haise-624aab16b/" class="btn-footer"><i class="fab fa-linkedin"></i></a>
-            <a href="documents/CV_2019.pptx" download class="btn-footer"><i class="fas fa-download"></i></a>
-        </div>
-        <hr>
-        {% block footerContent %}
-        {% endblock %}
-        <hr>
-        <div class="col-12">
-            <a href="" >plan du site</a>
-        </div>
-        <div class="col-12">
-            <a href="">mentions légales</a>
-        </div>
-        <div class="col-12">
-            <span class="signature">benjaminhaise.com | 2020</span>
-        </div>
-    </footer>
+        <footer>
+            <div class="d-flex justify-content-around">
+                <a href="https://twitter.com/intent/tweet?screen_name=Raegald&ref_src=twsrc%5Etfw" class="btn-footer"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/HaiseB" class="btn-footer"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/benjamin-haise-624aab16b/" class="btn-footer"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="btn-footer"><i class="fas fa-envelope"></i></a>
+            </div>
+            <hr>
+            <div class="col-12">
+                <a href="" >RAPPEL DE LA NAVBAR</a>
+            </div>
+            <hr>
+            <div class="col-12">
+                <span class="signature">© 2018 - 2020 | <strong>Benjamin Haise - Développeur Web</strong> | Tous droits réservés.</span>
+            </div>
+        </footer>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     </body>
 </html>
