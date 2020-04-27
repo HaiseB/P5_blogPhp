@@ -19,6 +19,14 @@ color-sheme{
     font-family: 'Source Sans Pro', sans-serif;
 }
 
+h5::before{
+    content: "|";
+    color: #F2935C;
+    float: left;
+    margin-right: 7px;
+}
+
+/*** Footer ***/
 footer{
     background: #2C3E50;
     text-align: center;

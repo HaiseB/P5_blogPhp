@@ -3,7 +3,7 @@
 
 function getAllPosts(){
 
-    $posts = searchAll('posts');
+    $posts = searchAllInTable('posts');
 
     return $posts;
 }

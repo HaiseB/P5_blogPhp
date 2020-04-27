@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require '../vendor/autoload.php';
 require '../src/Models/Functions/MainFunctions.php';
 
@@ -21,7 +23,7 @@ $twig = new \Twig\Environment($loader, [
 switch ($page) {
     case 'home':
         require '../src/Controllers/HomeController.php';
-        homepage($twig);
+        homePage($twig);
         break;
 
     case 'posts':
@@ -29,8 +31,16 @@ switch ($page) {
         posts($twig);
         break;
 
+    case 'connexion':
+        require '../src/Controllers/UsersController.php';
+        connexionPage($twig);
+        break;
+
+    case 'mentions_legales':
+        echo $twig->render('mentions_legales.twig');
+        break;
+
     default:
-        //TODO ajouter le formulaire de contact
         header('HTTP/1.0 404 Not Found');
         echo $twig->render('404.twig');
 }

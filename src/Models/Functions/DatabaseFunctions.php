@@ -30,28 +30,43 @@ function getPdo() :object {
     return $pdo;
 }
 
-function searchAll(string $table, array $columns = [], array $options = []) :object {
-    $query = 'SELECT * FROM ' . $table . " WHERE is_deleted = false ORDER BY id DESC LIMIT 12";
+function tableExist(string $table) :bool {
+    $allTables = ['posts','users'];
 
-    $result = getPdo()->query($query);
-
-    return $result;
+    return in_array($table, $allTables) ? true : false ;
 }
 
-function searchById(int $id, string $table, array $columns = [], array $options = []) :object {
-    $query = 'SELECT * FROM ' . $table . " WHERE id='" . $id . "' AND is_deleted = false LIMIT 1";
+/*function columnExist(string $table, array $columnsInTables) :bool {
+    if (tableExist($table)) {
 
-    $result = getPdo()->query($query);
+    }
 
-    return $result;
+    return  ? true : false ;
+}*/
+
+function searchAllInTable(string $table, array $columns = ['*'], array $options = []) :object {
+    if (tableExist($table)) {
+        $query = 'SELECT';
+
+        foreach ($columns as $column) {
+            if ($column === end($columns)) {
+                $query .= ' ' . $column .' ';
+            } else {
+                $query .= ' ' . $column .' ,';
+            }
+        }
+
+        $query .= ' FROM ' . $table . ' WHERE is_deleted = false ORDER BY id DESC LIMIT 12';
+
+        $query = getPdo()->prepare($query);
+
+        //$query->bindParam(':options', $options);
+
+        $query->execute();
+
+        return $query;
+    }
 }
 
-/*
-function searchByCondittion(int $id, string $table){
-    //AND is_deleted = false
-}
-
-function updateById(int $id, string $table, array $column, array $values){
-
-}
-*/
+/* function FindById(string $table, int $id){
+} */
