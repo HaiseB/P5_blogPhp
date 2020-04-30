@@ -23,7 +23,7 @@ function getPdo() :object {
 
     $pdo = new PDO($dns, $dbInfos['dbUser'], $dbInfos['dbPass'], [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
         ]
     );
 
@@ -35,14 +35,6 @@ function tableExist(string $table) :bool {
 
     return in_array($table, $allTables) ? true : false ;
 }
-
-/*function columnExist(string $table, array $columnsInTables) :bool {
-    if (tableExist($table)) {
-
-    }
-
-    return  ? true : false ;
-}*/
 
 function searchAllInTable(string $table, array $columns = ['*'], array $options = []) :object {
     if (tableExist($table)) {
@@ -56,17 +48,14 @@ function searchAllInTable(string $table, array $columns = ['*'], array $options 
             }
         }
 
-        $query .= ' FROM ' . $table . ' WHERE is_deleted = false ORDER BY id DESC LIMIT 12';
+        $query .= ' FROM ' . $table . ' WHERE is_deleted = false';
 
         $query = getPdo()->prepare($query);
-
-        //$query->bindParam(':options', $options);
 
         $query->execute();
 
         return $query;
+    } else {
+        echo 'moncul';
     }
 }
-
-/* function FindById(string $table, int $id){
-} */

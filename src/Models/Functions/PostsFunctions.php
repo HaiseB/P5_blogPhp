@@ -1,8 +1,6 @@
 <?php
 
-
-function getAllPosts(){
-
+function getLastPosts() :object {
     $posts = searchAllInTable('posts');
 
     return $posts;

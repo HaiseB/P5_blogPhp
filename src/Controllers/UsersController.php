@@ -2,12 +2,38 @@
 
 require '../src/Models/Functions/UsersFunctions.php';
 
-function connexionPage($twig){
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        var_dump($_POST);
-        login($_POST);
-        echo $twig->render('login.twig');
+function loginPage($twig){
+    if (isset($_POST['name']) && isset($_POST['password'])) {
+        $user = findUserByName($_POST['name']);
+
+        if (!empty($user)) {
+            if ( password_verify($_POST['password'], $user->password)) {
+                $_SESSION['auth'] = $user->name;
+
+                header('Location: dashboard.html');
+
+                die;
+
+            } else {
+                authentificationFailed($twig);
+            }
+        } else {
+            authentificationFailed($twig);
+        }
     } else {
         echo $twig->render('login.twig');
     }
+}
+
+function dashboard($twig){
+    echo $twig->render('dashboard.twig');
+}
+
+function logout(){
+    //TODO AJOUTER LES MESSAGES FLASH
+    unset($_SESSION['auth']);
+
+    header('Location: index.php');
+
+    die;
 }

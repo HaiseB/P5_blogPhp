@@ -39,6 +39,7 @@ class CreateUsersTable extends AbstractMigration
             ->addColumn('created_at', 'datetime')
             ->addColumn('updated_at', 'datetime')
             ->addColumn('is_deleted', 'boolean')
+            ->addIndex(['username', 'email'], ['unique' => true])
             ->create();
     }
 }

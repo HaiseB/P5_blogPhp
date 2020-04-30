@@ -19,6 +19,14 @@ color-sheme{
     font-family: 'Source Sans Pro', sans-serif;
 }
 
+.nav_admin_link::before{
+    content: '.';
+}
+
+.nav_admin_link::after{
+    content: '( )';
+}
+
 h5::before{
     content: "|";
     color: #F2935C;

@@ -27,8 +27,6 @@ class FillUsersTable extends AbstractSeed
             ]
         ];
 
-        $users = $this->table('users');
-        $users->insert($data)
-            ->saveData();
+        $this->insert('users', $data);
     }
 }
