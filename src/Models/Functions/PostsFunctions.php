@@ -5,3 +5,9 @@ function getLastPosts() :object {
 
     return $posts;
 }
+
+function getAllPosts() :object {
+    $posts = searchAllInTable('posts');
+
+    return $posts;
+}

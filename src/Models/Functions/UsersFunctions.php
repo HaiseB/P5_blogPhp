@@ -10,8 +10,13 @@ function findUserByName(string $name) :object {
     $user = $sql->fetch();
 
     return $user;
+}
 
-    }
+function getAllUsers() :object {
+    $users = searchAllInTable('users');
+
+    return $users;
+}
 
 function authentificationFailed(object $twig) :void {
     $badReponse = "Nom d'utilisateur et/ou mot de passe incorrect";

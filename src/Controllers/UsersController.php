@@ -11,7 +11,6 @@ function loginPage($twig){
                 $_SESSION['auth'] = $user->name;
 
                 header('Location: dashboard.html');
-
                 die;
 
             } else {
@@ -26,7 +25,11 @@ function loginPage($twig){
 }
 
 function dashboard($twig){
-    echo $twig->render('dashboard.twig');
+    require '../src/Models/Functions/PostsFunctions.php';
+    echo $twig->render('dashboard.twig', [
+        'posts' => getAllPosts(),
+        'users' => getAllUsers()
+    ]);
 }
 
 function logout(){
@@ -34,6 +37,5 @@ function logout(){
     unset($_SESSION['auth']);
 
     header('Location: index.php');
-
     die;
 }
