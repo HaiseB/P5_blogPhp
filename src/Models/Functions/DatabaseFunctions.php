@@ -23,35 +23,39 @@ function getPdo() :object {
 
     $pdo = new PDO($dns, $dbInfos['dbUser'], $dbInfos['dbPass'], [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
         ]
     );
 
     return $pdo;
 }
 
-function searchAll(string $table, array $columns = [], array $options = []) :object {
-    $query = 'SELECT * FROM ' . $table . " WHERE is_deleted = false ORDER BY id DESC LIMIT 12";
+function tableExist(string $table) :bool {
+    $allTables = ['posts','users'];
 
-    $result = getPdo()->query($query);
-
-    return $result;
+    return in_array($table, $allTables) ? true : false ;
 }
 
-function searchById(int $id, string $table, array $columns = [], array $options = []) :object {
-    $query = 'SELECT * FROM ' . $table . " WHERE id='" . $id . "' AND is_deleted = false LIMIT 1";
+function searchAllInTable(string $table, array $columns = ['*'], array $options = []) :object {
+    if (tableExist($table)) {
+        $query = 'SELECT';
 
-    $result = getPdo()->query($query);
+        foreach ($columns as $column) {
+            if ($column === end($columns)) {
+                $query .= ' ' . $column .' ';
+            } else {
+                $query .= ' ' . $column .' ,';
+            }
+        }
 
-    return $result;
+        $query .= ' FROM ' . $table . ' WHERE is_deleted = false';
+
+        $query = getPdo()->prepare($query);
+
+        $query->execute();
+
+        return $query;
+    } else {
+        echo 'moncul';
+    }
 }
-
-/*
-function searchByCondittion(int $id, string $table){
-    //AND is_deleted = false
-}
-
-function updateById(int $id, string $table, array $column, array $values){
-
-}
-*/

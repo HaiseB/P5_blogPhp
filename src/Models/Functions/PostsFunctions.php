@@ -1,9 +1,13 @@
 <?php
 
+function getLastPosts() :object {
+    $posts = searchAllInTable('posts');
 
-function getAllPosts(){
+    return $posts;
+}
 
-    $posts = searchAll('posts');
+function getAllPosts() :object {
+    $posts = searchAllInTable('posts');
 
     return $posts;
 }

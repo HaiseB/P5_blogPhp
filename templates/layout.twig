@@ -14,7 +14,7 @@
     </head>
     <body>
         <div>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
                 <a class="navbar-brand" href="http://blogphp/">[[ LOGO ]]</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -28,11 +28,16 @@
                             <a class="nav-link" href="http://blogphp/posts.html">Blog</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Connexion</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="#"><i class="fas fa-search"></i></a>
                         </li>
+                        {% if session.auth %}
+                        <li class="nav-item">
+                            <a class="nav-link nav_admin_link" href="http://blogphp/dashboard.html">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav_admin_link" href="http://blogphp/logout.html">Déconnexion</a>
+                        </li>
+                        {% endif %}
                         {#
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Home</a>
@@ -61,13 +66,14 @@
                 </div>
             </nav>
 
-            <div class="col-md-8 offset-md-2">
+            <div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">
                 {% block content %}
                 {% endblock %}
             </div>
         </div>
 
         <footer>
+            <hr>
             <div class="d-flex justify-content-around">
                 <a href="https://twitter.com/intent/tweet?screen_name=Raegald&ref_src=twsrc%5Etfw" class="btn-footer"><i class="fab fa-twitter"></i></a>
                 <a href="https://github.com/HaiseB" class="btn-footer"><i class="fab fa-github"></i></a>
@@ -76,11 +82,19 @@
             </div>
             <hr>
             <div class="col-12">
-                <a href="" >RAPPEL DE LA NAVBAR</a>
+                <a href="http://blogphp/">Accueil</a>
+                <span>|</span>
+                <a href="http://blogphp/posts.html">Blog</a>
+                <span>|</span>
+                {% if not session.auth %}
+                <a href="http://blogphp/connexion.html">Connexion</a>
+                <span>|</span>
+                {% endif %}
+                <a href="http://blogphp/mentions_legales.html">Mentions légales</a>
             </div>
             <hr>
             <div class="col-12">
-                <span class="signature">© 2018 - 2020 | <strong>Benjamin Haise - Développeur Web</strong> | Tous droits réservés.</span>
+                <span class="signature">© 2020 | <strong>Benjamin Haise - Développeur Web</strong> | Tous droits réservés.</span>
             </div>
         </footer>
 

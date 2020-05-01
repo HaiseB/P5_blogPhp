@@ -26,18 +26,29 @@ function sendMail(array $values){
 
     $mailer = new Swift_Mailer($transport);
 
-    $body = 'Vous avez recu un nouveau message sur le site! De la part de : ' . $values['name'] . ' || ' . $values['textarea']
-        . " || à recontacter a l'adresse : " . $values['email'];
+    $body = getMailBody($values);
 
     $message = (new Swift_Message('Nouveau contact!'))
     ->setFrom(['contact@benjaminhaise.com' => 'BenjaminHaise.com'])
     ->setTo(['contact@benjaminhaise.com', 'benjaminhaise@gmail.com' => 'A name'])
     ->setBody($body)
+    ->setContentType("text/html");
     ;
 
     $result = $mailer->send($message);
 
     return $result;
+}
+
+function getMailBody(array $values) :string {
+    $body = file_get_contents('../templates/mailContact.html');
+
+    $body = preg_replace("/NOMDUCONTACT/", $values['name'], $body);
+    $body = preg_replace("/your@email.com/",  $values['email'], $body);
+    $body = preg_replace("/DATETIME/", date("F j, Y"), $body);
+    $body = preg_replace("/TEXTAREA/",  $values['textarea'], $body);
+
+    return $body;
 }
 
 function createMail(array $values):array {
@@ -47,7 +58,9 @@ function createMail(array $values):array {
 
     //TODO faire des vérifications
     $errors = [];
-    if (!isset($values['name']) || !isset($values['email']) || !isset($values['textarea'])) { $errors = 'manque des infos'; }
+    if (!isset($values['name']) || !isset($values['email']) || !isset($values['textarea'])) {
+        $errors = 'manque des infos';
+    }
 
     if (empty($errors)) { sendMail($values); }
 

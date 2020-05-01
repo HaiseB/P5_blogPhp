@@ -19,6 +19,47 @@ color-sheme{
     font-family: 'Source Sans Pro', sans-serif;
 }
 
+.nav_admin_link::before{
+    content: '.';
+}
+
+.nav_admin_link::after{
+    content: '( )';
+}
+
+h5::before{
+    content: "|";
+    color: #F2935C;
+    float: left;
+    margin-right: 7px;
+}
+
+.add_button{
+    display: block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #ccc;
+    font-size: 30px;
+    background-color: #df691a;
+    border-radius: 50%;
+    box-shadow: 0 6px 10px 0 #0000001a, 0 3px 5px -1px #0003;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    text-decoration: none;
+    transition: transform 0.3s;
+    position: fixed;
+}
+
+.add_button:hover{
+    text-decoration: none;
+    color: #ccc;
+    transform: scale(1.2);
+}
+
+/*** Footer ***/
 footer{
     background: #2C3E50;
     text-align: center;
