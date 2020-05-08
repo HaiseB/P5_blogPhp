@@ -1,7 +1,3 @@
-#--------------------------------------------------
-# Repository : /posts/
-#--------------------------------------------------
-
 # The serveur must follow the symbolicals links :
 Options +FollowSymlinks
 
@@ -12,8 +8,5 @@ RewriteEngine on
 # Rules :
 #--------------------------------------------------
 
-# Routing :
+# Main :
 RewriteRule ^(.*).html$ index.php?p=$1 [L]
-
-# Post :
-#RewriteRule ^post/([0-9]+).html$   /CHEMINADEFINIR/post.php?id=$1 [L]

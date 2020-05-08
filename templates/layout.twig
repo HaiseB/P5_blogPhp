@@ -13,6 +13,12 @@
         {% endblock head %}
     </head>
     <body>
+        {% if flash %}
+        <div class="alert alert-dismissible alert-{{ flash.type }}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ flash.message | raw }}
+        </div>
+        {% endif %}
         <div>
             <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
                 <a class="navbar-brand" href="http://blogphp/">[[ LOGO ]]</a>
@@ -87,7 +93,7 @@
                 <a href="http://blogphp/posts.html">Blog</a>
                 <span>|</span>
                 {% if not session.auth %}
-                <a href="http://blogphp/connexion.html">Connexion</a>
+                <a href="http://blogphp/login.html">Connexion</a>
                 <span>|</span>
                 {% endif %}
                 <a href="http://blogphp/mentions_legales.html">Mentions légales</a>

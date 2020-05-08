@@ -2,7 +2,7 @@
 
 require '../src/Models/Functions/UsersFunctions.php';
 
-function loginPage($twig){
+function loginPage($twig, $Session){
     if (isset($_POST['name']) && isset($_POST['password'])) {
         $user = findUserByName($_POST['name']);
 
@@ -10,31 +10,36 @@ function loginPage($twig){
             if ( password_verify($_POST['password'], $user->password)) {
                 $_SESSION['auth'] = $user->name;
 
+                $Session->setFlash('success','<strong>Vous êtes connecté(e)!</strong>');
+
                 header('Location: dashboard.html');
                 die;
 
             } else {
-                authentificationFailed($twig);
+                authentificationFailed($twig, $Session);
             }
         } else {
-            authentificationFailed($twig);
+            authentificationFailed($twig, $Session);
         }
     } else {
         echo $twig->render('login.twig');
     }
 }
 
-function dashboard($twig){
+function dashboard($twig, $Session){
     require '../src/Models/Functions/PostsFunctions.php';
+
     echo $twig->render('dashboard.twig', [
         'posts' => getAllPosts(),
-        'users' => getAllUsers()
+        'users' => getAllUsers(),
+        'flash' => $Session->flash()
     ]);
 }
 
-function logout(){
-    //TODO AJOUTER LES MESSAGES FLASH
+function logout($Session){
     unset($_SESSION['auth']);
+
+    $Session->setFlash('success','<strong>Déconnexion réussie</strong>, à bientôt! :)');
 
     header('Location: index.php');
     die;

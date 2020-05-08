@@ -10,12 +10,12 @@
         <hr>
         <div class="card mb-3">
             <h3 class="card-header">{{ post.name }}</h3>
-            <img style="height: 200px; width: 100%; display: block;" src="{{ post.picture }}" alt="Card image">
+            <img style="height: 200px; width: 100%; display: block;" src="posts_images/{{ post.id }}/{{ post.picture }}" alt="Card image">
             <div class="card-body">
                 <p class="card-text">{{ post.catchphrase }}</p>
             </div>
             <div class="card-body">
-                <a href="#" class="card-link">link</a>
+                <a href="index.php?p=post&id={{ post.id }}" class="card-link">link</a>
             </div>
             <div class="card-footer text-muted">
                 {{ post.created_at }}

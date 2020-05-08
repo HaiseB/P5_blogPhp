@@ -41,7 +41,7 @@ function sendMail(array $values){
 }
 
 function getMailBody(array $values) :string {
-    $body = file_get_contents('../templates/mailContact.html');
+    $body = file_get_contents('../templates/mailContact.twig');
 
     $body = preg_replace("/NOMDUCONTACT/", $values['name'], $body);
     $body = preg_replace("/your@email.com/",  $values['email'], $body);

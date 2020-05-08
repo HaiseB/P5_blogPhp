@@ -48,14 +48,12 @@ function searchAllInTable(string $table, array $columns = ['*'], array $options 
             }
         }
 
-        $query .= ' FROM ' . $table . ' WHERE is_deleted = false';
+        $query .= ' FROM ' . $table . ' WHERE is_deleted = 0';
 
         $query = getPdo()->prepare($query);
 
         $query->execute();
 
         return $query;
-    } else {
-        echo 'moncul';
     }
 }

@@ -18,15 +18,14 @@ class FillPostsTable extends AbstractSeed
         $faker = \Faker\Factory::create();
         $posts = [];
 
-        for ($i = 0; $i < 3 ; ++$i ) {
+        for ($i = 0; $i < 5 ; ++$i ) {
             $timestamp = $faker->unixTime('now');
+            $content = '<p>' . $faker->text(400) . '</p>';
             $posts[] = [
                 'name' => $faker->sentence(6),
                 'picture' => $faker->imageUrl($width = 640, $height = 480),
                 'catchphrase' => $faker->sentence(24),
-                'content' => $faker->text(400),
-                'likes' => rand(0, 20),
-                'dislikes' => rand(0, 10),
+                'content' => $content,
                 'created_at' => date('Y-m-d H:i:s', $timestamp),
                 'updated_at' => date('Y-m-d H:i:s', $timestamp),
                 'is_deleted' => rand(0, 1)

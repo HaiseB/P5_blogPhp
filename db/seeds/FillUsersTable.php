@@ -19,7 +19,7 @@ class FillUsersTable extends AbstractSeed
             [
                 'name'    => 'Benjamin',
                 'email'    => 'benjaminhaise@gmail.com',
-                'password'    => '',
+                'password'    => '$2y$10$dbBRgGS4QlBlzqtkesZZluKFoJ932W5FvaTIR5kDN8HmGw16LsR0e',
                 'is_admin'    => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),

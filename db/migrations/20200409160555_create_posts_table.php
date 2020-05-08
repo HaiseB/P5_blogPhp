@@ -36,8 +36,6 @@ class CreatePostsTable extends AbstractMigration
             ->addColumn('picture', 'string')
             ->addColumn('catchphrase', 'string')
             ->addColumn('content', 'text', ['limit' => \Phinx\Db\Adapter\MysqlAdapter::TEXT_LONG])
-            ->addColumn('likes', 'integer')
-            ->addColumn('dislikes', 'integer')
             ->addColumn('created_at', 'datetime')
             ->addColumn('updated_at', 'datetime')
             ->addColumn('is_deleted', 'boolean')

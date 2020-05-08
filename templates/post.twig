@@ -1,0 +1,17 @@
+{% extends "layout.twig" %}
+
+{% block head %}
+    <title>{{ post.name }}</title>
+{% endblock head %}
+
+{% block content %}
+    <h1>{{ post.name }}</h1>
+    <span>par Benjamin Haise le {{ post.created_at |date("m/d/Y", "Europe/Paris") }}</span>
+    <img style="height: auto; width: 100%; display: block;" src="posts_images/{{ post.id }}/{{ post.picture }}" alt="Post image">
+    <h5>{{ post.catchphrase }}</h5>
+    <span>partager Fb / Twitter / Linkedin / Lien brut</span>
+    <hr>
+    <div>{{ post.content | raw }}</div>
+    <hr>
+    <h1>ESPACE COMMENTAIRE</h1>
+{% endblock %}
