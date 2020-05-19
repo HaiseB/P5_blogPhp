@@ -1,8 +1,8 @@
 ---
-name: 'Epic : New feature'
+name: 'Epic => New feature'
 about: Help to crate a new feature.
 title: '[Epic] New feature'
-labels: epic
+labels: enhancement
 assignees: HaiseB
 
 ---

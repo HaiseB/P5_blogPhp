@@ -42,8 +42,11 @@ function editPost($twig, $Session){
     $post = getPostById();
 
     if (!empty($post) ) {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['picture']['tmp_name']) ) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //TODO vérif données
+            if (!empty($_FILES['picture']['tmp_name'])) {
+                updatePicture();
+            }
             updatePost();
 
             $Session->setFlash('success',"<strong>L'article à bien été modifié !</strong>");
@@ -64,4 +67,21 @@ function editPost($twig, $Session){
         die;
     }
 
+}
+
+function delete($Session) {
+    $post = getPostById();
+
+    if (!empty($post)) {
+        $Session->setFlash('success',"<strong> L'article : " .$post->name. "</strong> A bien été supprimé! :)");
+        deletePost();
+
+        header('Location: dashboard.html');
+        die;
+    } else {
+        $Session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que cet article n'existe pas :(");
+
+        header('Location: dashboard.html');
+        die;
+    }
 }

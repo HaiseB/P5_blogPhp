@@ -39,6 +39,7 @@ class CreatePostsTable extends AbstractMigration
             ->addColumn('created_at', 'datetime')
             ->addColumn('updated_at', 'datetime')
             ->addColumn('is_deleted', 'boolean')
+            ->addIndex(['name', 'catchphrase'], ['unique' => true])
             ->create();
     }
 }

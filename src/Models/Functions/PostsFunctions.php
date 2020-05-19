@@ -54,18 +54,10 @@ function createNewPost() :void {
 
     $insert->execute();
 
-    /* PICTURE */
-    $lastId = ($pdo->lastInsertId());
+    $lastId = $pdo->lastInsertId();
 
-    $pathToImages = 'posts_images/' . $lastId .'/';
+    addPicture($lastId);
 
-    mkdir($pathToImages);
-
-    copy($_FILES['picture']['tmp_name'], $pathToImages . $_FILES['picture']['name']);
-
-    $update = "UPDATE posts SET picture ='". $_FILES['picture']['name']. "' WHERE id ='" . $lastId ."'";
-    $stmt = $pdo->prepare($update);
-    $stmt->execute();
 }
 
 function updatePost() :void {
@@ -73,13 +65,10 @@ function updatePost() :void {
 
     $pdo = getPdo();
 
-    $update = $pdo->prepare("UPDATE posts SET name=:name, picture=:picture, catchphrase=:catchphrase, content=:content, updated_at=:updated_at WHERE id=:id ");
+    $update = $pdo->prepare("UPDATE posts SET name=:name, catchphrase=:catchphrase, content=:content, updated_at=:updated_at WHERE id=:id ");
 
     $name = $_POST['name'];
     $update->bindParam(':name', $name);
-
-    $picture = $_FILES['picture']['name'];
-    $update->bindParam(':picture', $picture);
 
     $catchphrase = $_POST['catchphrase'];
     $update->bindParam(':catchphrase', $catchphrase);
@@ -93,9 +82,54 @@ function updatePost() :void {
     $update->bindParam(':id', $id);
 
     $update->execute();
+}
 
-    /* PICTURE */
-    $pathToImages = 'posts_images/' . $id .'/';
+function addPicture(int $lastId) :void {
+    $pdo = getPdo();
+
+    $pathToImages = 'posts_images/' . $lastId .'/';
+
+    mkdir($pathToImages);
 
     copy($_FILES['picture']['tmp_name'], $pathToImages . $_FILES['picture']['name']);
+
+    $update = "UPDATE posts SET picture ='". $_FILES['picture']['name']. "' WHERE id ='" . $lastId ."'";
+    $stmt = $pdo->prepare($update);
+    $stmt->execute();
+
+}
+
+function updatePicture() :void {
+    $id = $_GET['id'];
+
+    $pdo = getPdo();
+
+    $update = $pdo->prepare("UPDATE posts SET picture=:picture WHERE id=:id ");
+
+    $picture = $_FILES['picture']['name'];
+    $update->bindParam(':picture', $picture);
+
+    $update->bindParam(':id', $id);
+
+    $update->execute();
+
+    $pathToImages = 'posts_images/' . $id .'/';
+
+    mkdir($pathToImages);
+
+    copy($_FILES['picture']['tmp_name'], $pathToImages . $_FILES['picture']['name']);
+}
+
+function deletePost() :void {
+    $id = $_GET['id'];
+    $pdo = getPdo();
+
+    $update = $pdo->prepare("UPDATE posts SET is_deleted=:is_deleted WHERE id=:id ");
+
+    $is_deleted = true ;
+    $update->bindParam(':is_deleted', $is_deleted);
+
+    $update->bindParam(':id', $id);
+
+    $update->execute();
 }

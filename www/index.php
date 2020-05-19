@@ -59,6 +59,11 @@ switch ($page) {
         editPost($twig, $Session);
         break;
 
+    case 'delete_post':
+        require '../src/Controllers/PostsController.php';
+        delete($Session);
+        break;
+
     case 'logout':
         require '../src/Controllers/UsersController.php';
         logout($Session);

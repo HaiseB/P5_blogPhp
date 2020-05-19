@@ -1,7 +1,11 @@
 {% extends "layout.twig" %}
 
 {% block head %}
-    <title>Nouvel article</title>
+  {% if post %}
+  <title>Modifier : {{ post.name }}</title>
+  {% else %}
+  <title>Nouvel article</title>
+  {% endif %}
 {% endblock head %}
 
 {% block content %}
@@ -55,6 +59,7 @@
   </fieldset>
 </form>
 {% if post %}
-<h1>bouton de suppression</h1>
+<hr>
+<a href="index.php?p=delete_post&id={{ post.id }}" class="btn btn-danger"><i class="fas fa-edit"></i> Supprimer</a>
 {% endif %}
 {% endblock %}

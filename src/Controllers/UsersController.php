@@ -10,7 +10,7 @@ function loginPage($twig, $Session){
             if ( password_verify($_POST['password'], $user->password)) {
                 $_SESSION['auth'] = $user->name;
 
-                $Session->setFlash('success','<strong>Vous êtes connecté(e) !</strong>');
+                $Session->setFlash('success','Bon retour parmis nous <strong>' . $user->name . '</strong>! :)');
 
                 header('Location: dashboard.html');
                 die;
