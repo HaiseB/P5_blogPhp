@@ -10,7 +10,7 @@ function loginPage($twig, $Session){
             if ( password_verify($_POST['password'], $user->password)) {
                 $_SESSION['auth'] = $user->name;
 
-                $Session->setFlash('success','<strong>Vous êtes connecté(e)!</strong>');
+                $Session->setFlash('success','<strong>Vous êtes connecté(e) !</strong>');
 
                 header('Location: dashboard.html');
                 die;
@@ -39,7 +39,7 @@ function dashboard($twig, $Session){
 function logout($Session){
     unset($_SESSION['auth']);
 
-    $Session->setFlash('success','<strong>Déconnexion réussie</strong>, à bientôt! :)');
+    $Session->setFlash('success','<strong>Déconnexion réussie</strong>, à bientôt ! :)');
 
     header('Location: index.php');
     die;

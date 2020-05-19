@@ -12,6 +12,7 @@
         "robmorgan/phinx": "^0.12.0",
         "fzaninotto/faker": "^1.9",
         "symfony/dotenv": "^5.0",
-        "swiftmailer/swiftmailer": "^6.2"
+        "swiftmailer/swiftmailer": "^6.2",
+        "nikic/fast-route": "^1.3"
     }
 }

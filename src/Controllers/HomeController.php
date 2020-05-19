@@ -5,7 +5,7 @@ require '../src/Models/Functions/ContactFunctions.php';
 
 function homePage($twig, $Session){
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $Session->setFlash('success','<strong>Message envoyé</strong>, nous vous contacterons dès que possible! :)');
+        $Session->setFlash('success','<strong>Message envoyé</strong>, nous vous contacterons dès que possible ! :)');
 
         createMail($_POST);
 

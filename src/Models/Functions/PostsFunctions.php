@@ -12,14 +12,16 @@ function getAllPosts() :object {
     return $posts;
 }
 
-function getPostById() :object {
+function getPostById() :?object {
     $query = 'SELECT * FROM posts WHERE is_deleted = false AND id= :id LIMIT 1';
 
     $sql = getPdo()->prepare($query);
 
     $sql->execute(array(':id' => $_GET['id']));
 
-    $post = $sql->fetch();
+    $result = $sql->fetch();
+
+    $post = (is_bool($result)) ? null : $result ;
 
     return $post;
 }
@@ -64,4 +66,36 @@ function createNewPost() :void {
     $update = "UPDATE posts SET picture ='". $_FILES['picture']['name']. "' WHERE id ='" . $lastId ."'";
     $stmt = $pdo->prepare($update);
     $stmt->execute();
+}
+
+function updatePost() :void {
+    $id = $_GET['id'];
+
+    $pdo = getPdo();
+
+    $update = $pdo->prepare("UPDATE posts SET name=:name, picture=:picture, catchphrase=:catchphrase, content=:content, updated_at=:updated_at WHERE id=:id ");
+
+    $name = $_POST['name'];
+    $update->bindParam(':name', $name);
+
+    $picture = $_FILES['picture']['name'];
+    $update->bindParam(':picture', $picture);
+
+    $catchphrase = $_POST['catchphrase'];
+    $update->bindParam(':catchphrase', $catchphrase);
+
+    $content = $_POST['content'];
+    $update->bindParam(':content', $content);
+
+    $timestamp = date('Y-m-d H:i:s');
+    $update->bindParam(':updated_at', $timestamp);
+
+    $update->bindParam(':id', $id);
+
+    $update->execute();
+
+    /* PICTURE */
+    $pathToImages = 'posts_images/' . $id .'/';
+
+    copy($_FILES['picture']['tmp_name'], $pathToImages . $_FILES['picture']['name']);
 }

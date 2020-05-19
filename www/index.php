@@ -36,7 +36,7 @@ switch ($page) {
 
     case 'post':
         require '../src/Controllers/PostsController.php';
-        post($twig);
+        post($twig, $Session);
         break;
 
     case 'login':
@@ -52,6 +52,11 @@ switch ($page) {
     case 'new_post':
         require '../src/Controllers/PostsController.php';
         newPost($twig, $Session);
+        break;
+
+    case 'edit_post':
+        require '../src/Controllers/PostsController.php';
+        editPost($twig, $Session);
         break;
 
     case 'logout':
