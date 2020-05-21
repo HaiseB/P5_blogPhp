@@ -6,22 +6,46 @@
 
 {% block content %}
 <ul class="nav nav-tabs">
-    {#
     <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#Commentaires">Commentaires <span class="badge badge-primary badge-pill">0</span></a>
-    </li>#}
+        <a class="nav-link active" data-toggle="tab" href="#Commentaires">Commentaires <span class="badge badge-primary badge-pill">{{ getNumberOfNotConfirmedComments.count }} en attente</span></a>
+    </li>
     <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#Articles">Articles</a>
+        <a class="nav-link" data-toggle="tab" href="#Articles">Articles</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#Utilisateurs">Utilisateurs</a>
     </li>
 </ul>
 <div id="TabContent" class="tab-content">
-    {#<div class="tab-pane fade active show" id="Commentaires">
-        <a class="btn btn-primary" href="#" role="button">Gerer les commentaires</a>
-    </div>#}
-    <div class="tab-pane fade active show" id="Articles">
+    <div class="tab-pane fade active show" id="Commentaires">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Nom d'utilisateur</th>
+                    <th scope="col">Contenu</th>
+                    <th scope="col">Date création</th>
+                    <th scope="col">Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in comments %}
+                <tr {% if comment.is_confirmed == false %}class="table-primary"{% endif %}>
+                    <th scope="row"><a href="index.php?p=post&id={{ comment.post_id }}">{{ comment.user_name }}</a></th>
+                    <td><a href="index.php?p=post&id={{ comment.post_id }}">{{ comment.content }}</a></td>
+                    <td><a href="index.php?p=post&id={{ comment.post_id }}">{{ comment.created_at }}</a></td>
+                    <td><a href="index.php?p=delete_comment&id={{ comment.id }}"><i class="fas fa-trash"></i></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        {% if getNumberOfNotConfirmedComments.count == 0 %}
+            <a href="#" class="btn btn-primary disabled btn-block">Pas de commentaires en attente</a>
+        {% else %}
+            <a href="index.php?p=confirm_all_comments" class="btn btn-primary btn-block">Approuver tout les commentaires en attente</a>
+        {% endif %}
+    </div>
+    <div class="tab-pane fade" id="Articles">
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -56,7 +80,7 @@
             </thead>
             <tbody>
                 {% for user in users %}
-                <tr {% if user.is_admin %}class="table-primary" {% endif %} >
+                <tr {% if user.is_admin %}class="table-primary"{% endif %}>
                     <th scope="row">{{ user.name }}</th>
                     <td>{{ user.email }}</td>
                     <td>{{ user.updated_at |date("m/d/Y") }}</td>

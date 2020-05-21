@@ -1,12 +1,12 @@
 <?php
 
-function getLastPosts() :object {
+function getAllPosts() :object {
     $posts = searchAllInTable('posts');
 
     return $posts;
 }
 
-function getAllPosts() :object {
+function getLastPosts() :object {
     $posts = searchAllInTable('posts');
 
     return $posts;

@@ -31,7 +31,7 @@ function getPdo() :object {
 }
 
 function tableExist(string $table) :bool {
-    $allTables = ['posts','users'];
+    $allTables = ['posts','users','comments'];
 
     return in_array($table, $allTables) ? true : false ;
 }

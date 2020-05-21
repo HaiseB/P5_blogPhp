@@ -33,7 +33,6 @@ class CreateCommentsTable extends AbstractMigration
     {
         $this->table('comments')
             ->addColumn('post_id', 'string')
-            ->addColumn('comment_id', 'string')
             ->addColumn('user_name', 'string')
             ->addColumn('content', 'string')
             ->addColumn('is_confirmed', 'boolean')
