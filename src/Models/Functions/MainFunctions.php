@@ -9,3 +9,10 @@ function dd(...$vars) :void {
         echo '</pre>';
     }
 }
+
+function loggedOnly() :void {
+    if (!isset($_SESSION['auth'])) {
+        header('Location: 404.html');
+        die;
+    }
+}

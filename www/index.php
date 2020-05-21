@@ -46,25 +46,42 @@ switch ($page) {
 
     case 'dashboard':
         require '../src/Controllers/UsersController.php';
+        loggedOnly();
         dashboard($twig, $Session);
         break;
 
     case 'new_post':
+        loggedOnly();
         require '../src/Controllers/PostsController.php';
         newPost($twig, $Session);
         break;
 
     case 'edit_post':
+        loggedOnly();
         require '../src/Controllers/PostsController.php';
         editPost($twig, $Session);
         break;
 
     case 'delete_post':
+        loggedOnly();
         require '../src/Controllers/PostsController.php';
         delete($Session);
         break;
 
+    case 'confirm_all_comments':
+        loggedOnly();
+        require '../src/Controllers/CommentsController.php';
+        confirmAll($Session);
+        break;
+
+    case 'delete_comment':
+        loggedOnly();
+        require '../src/Controllers/CommentsController.php';
+        delete($Session);
+        break;
+
     case 'logout':
+        loggedOnly();
         require '../src/Controllers/UsersController.php';
         logout($Session);
         break;

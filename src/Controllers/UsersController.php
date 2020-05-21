@@ -1,6 +1,8 @@
 <?php
 
 require '../src/Models/Functions/UsersFunctions.php';
+require '../src/Models/Functions/PostsFunctions.php';
+require '../src/Models/Functions/CommentsFunctions.php';
 
 function loginPage($twig, $Session){
     if (isset($_POST['name']) && isset($_POST['password'])) {
@@ -27,12 +29,12 @@ function loginPage($twig, $Session){
 }
 
 function dashboard($twig, $Session){
-    require '../src/Models/Functions/PostsFunctions.php';
-
     echo $twig->render('dashboard.twig', [
         'posts' => getAllPosts(),
         'users' => getAllUsers(),
-        'flash' => $Session->flash()
+        'flash' => $Session->flash(),
+        'comments' => getAllComments(),
+        'getNumberOfNotConfirmedComments' => getNumberOfNotConfirmedComments()
     ]);
 }
 

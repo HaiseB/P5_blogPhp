@@ -1,6 +1,7 @@
 <?php
 
 require '../src/Models/Functions/PostsFunctions.php';
+require '../src/Models/Functions/CommentsFunctions.php';
 
 function posts($twig){
     echo $twig->render('posts.twig', [
@@ -12,8 +13,18 @@ function post($twig, $Session){
     $post = getPostById();
 
     if (!empty($post)) {
+        //Ajout de commentaire
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            //TODO vérif données
+            createComment();
+
+            $Session->setFlash('success',"<strong>Votre commentaire a bien été pris en compte " . $_POST['user_name'] . " !</strong> Il sera ajouté une fois validé");
+        }
+
         echo $twig->render('post.twig', [
-            'post' => $post
+            'post' => $post,
+            'comments' => getCommentsByPots(),
+            'flash' => $Session->flash()
         ]);
 
     } else {
