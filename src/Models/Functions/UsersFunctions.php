@@ -30,3 +30,10 @@ function authentificationFailed(object $twig, $Session) :void {
 
     die;
 }
+
+function loggedOnly() :void {
+    if (!isset($_SESSION['auth'])) {
+        header('Location: 404.html');
+        die;
+    }
+}

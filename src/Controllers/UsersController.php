@@ -29,6 +29,7 @@ function loginPage($twig, $Session){
 }
 
 function dashboard($twig, $Session){
+    //TODO ajouter DataTable
     echo $twig->render('dashboard.twig', [
         'posts' => getAllPosts(),
         'users' => getAllUsers(),

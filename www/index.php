@@ -1,11 +1,24 @@
 <?php
 
-require '../src/Models/Class/session.class.php';
+require '../src/Models/Functions/debugFunctions.php';
+
+require '../src/Models/Session.php';
+require '../src/Models/Database.php';
+
+require '../src/Models/Model.php';
+require '../src/Models/Posts.php';
 
 require '../vendor/autoload.php';
-require '../src/Models/Functions/MainFunctions.php';
 
-$Session = new Session();
+
+use Symfony\Component\Dotenv\Dotenv;
+
+// Initialisation de la Session
+$Session = new Session;
+
+// Initialisation de dotenv
+$dotenv = new Dotenv;
+$dotenv->load('../.env');
 
 // Rendu du template
 $loader = new Twig\Loader\FilesystemLoader('..\templates');
@@ -15,6 +28,11 @@ $twig = new \Twig\Environment($loader, [
 ]);
 
 $twig->addGlobal('session', $_SESSION);
+
+$posts = new PostsModel;
+dd($posts->getAllPosts());
+
+die;
 
 // Routing
 $page = 'home';
