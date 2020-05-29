@@ -1,44 +1,30 @@
 <?php
 
+require '../src/Models/Model.php';
+
 class PostsModel extends Model {
 
-    private $model;
-
-    public function __construct(){
-        $model = new Model;
-
-        return $model;
-    }
-
     public function getAllPosts() :array {
-        dd('DANS POSTS');
-        dd($this);
-        dd($this->pdo);
-        $posts = $this->pdo->fetchAll('SELECT * FROM posts WHERE is_deleted = 0');
+        $query = 'SELECT * FROM posts WHERE is_deleted = false';
+        $posts = $this->pdo->fetchAll($query);
 
         return $posts;
     }
 
-    function getLastPosts() :object {
-        $posts = searchAllInTable('posts');
-    
+    function getLastPosts() :array {
+        $query = 'SELECT name, picture, catchphrase, created_at FROM posts WHERE is_deleted = false ORDER BY created_at DESC LIMIT 12';
+        $posts = $this->pdo->fetchAll($query);
+
         return $posts;
     }
-    
-    function getPostById() :?object {
-        $query = 'SELECT * FROM posts WHERE is_deleted = false AND id= :id LIMIT 1';
-    
-        $sql = getPdo()->prepare($query);
-    
-        $sql->execute(array(':id' => $_GET['id']));
-    
-        $result = $sql->fetch();
-    
-        $post = (is_bool($result)) ? null : $result ;
-    
+
+    function getPostById(int $id) :?object {
+        $query = 'SELECT * FROM posts WHERE is_deleted = false AND id= ' . $id . ' LIMIT 1';
+        $post = $this->pdo->fetch($query);
+
         return $post;
     }
-    
+
     function createNewPost() :void {
         $pdo = getPdo();
     

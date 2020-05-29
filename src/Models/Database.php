@@ -26,10 +26,12 @@ class Database{
 
     public function fetch(string $query) :?object {
         $statement = $this->pdo->prepare($query);
-
         $statement->execute();
+        $result = $statement->fetch();
 
-        return $statement->fetch();
+        $result = (is_bool($result)) ? null : $result ;
+
+        return $result;
     }
 
     public function create(string $query) :void {

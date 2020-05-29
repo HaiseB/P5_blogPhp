@@ -7,8 +7,6 @@ class Model{
     public function __construct(){
         $Database = new Database;
 
-        $this->pdo = $Database->pdo;
-
-        dd($this);
+        $this->pdo = $Database;
     }
 }
