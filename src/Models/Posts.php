@@ -11,78 +11,39 @@ class PostsModel extends Model {
         return $posts;
     }
 
-    function getLastPosts() :array {
+    public function getLastPosts() :array {
         $query = 'SELECT name, picture, catchphrase, created_at FROM posts WHERE is_deleted = false ORDER BY created_at DESC LIMIT 12';
         $posts = $this->pdo->fetchAll($query);
 
         return $posts;
     }
 
-    function getPostById(int $id) :?object {
+    public function getPostById(int $id) :?object {
         $query = 'SELECT * FROM posts WHERE is_deleted = false AND id= ' . $id . ' LIMIT 1';
         $post = $this->pdo->fetch($query);
 
         return $post;
     }
 
-    function createNewPost() :void {
-        $pdo = getPdo();
-    
-        $insert = $pdo->prepare('INSERT INTO posts (name, picture, catchphrase, content, created_at, updated_at, is_deleted)
-        VALUES (:name, :picture, :catchphrase, :content, :created_at, :updated_at, :is_deleted)');
-    
-        $name = $_POST['name'];
-        $insert->bindParam(':name', $name);
-    
-        $picture = ' ';
-        $insert->bindParam(':picture', $picture);
-    
-        $catchphrase = $_POST['catchphrase'];
-        $insert->bindParam(':catchphrase', $catchphrase);
-    
-        $content = $_POST['content'];
-        $insert->bindParam(':content', $content);
-    
-        $timestamp = date('Y-m-d H:i:s');
-    
-        $insert->bindParam(':created_at', $timestamp);
-        $insert->bindParam(':updated_at', $timestamp);
-    
-        $is_deleted = 0 ;
-        $insert->bindParam(':is_deleted', $is_deleted);
-    
-        $insert->execute();
-    
-        $lastId = $pdo->lastInsertId();
-    
-        addPicture($lastId);
-    
+    public function createNewPost(array $post) :void {
+        $timestamp= date('Y-m-d H:i:s');
+
+        $insert = 'INSERT INTO posts (name, picture, catchphrase, content, created_at, updated_at, is_deleted)
+        VALUES (' . $post['name'] . ", ' ', " . $post['catchphrase']  . ', ' . $post['content']  . ", '" . $timestamp . "', '" . $timestamp . "', false)";
+
+        $this->pdo->create($insert);
     }
-    
-    function updatePost() :void {
-        $id = $_GET['id'];
-    
-        $pdo = getPdo();
-    
-        $update = $pdo->prepare("UPDATE posts SET name=:name, catchphrase=:catchphrase, content=:content, updated_at=:updated_at WHERE id=:id ");
-    
-        $name = $_POST['name'];
-        $update->bindParam(':name', $name);
-    
-        $catchphrase = $_POST['catchphrase'];
-        $update->bindParam(':catchphrase', $catchphrase);
-    
-        $content = $_POST['content'];
-        $update->bindParam(':content', $content);
-    
-        $timestamp = date('Y-m-d H:i:s');
-        $update->bindParam(':updated_at', $timestamp);
-    
-        $update->bindParam(':id', $id);
-    
-        $update->execute();
+
+    function updatePost(array $post) :void {
+        $timestamp= date('Y-m-d H:i:s');
+
+        $update = "UPDATE posts
+            SET name='" . $post['name'] ."', catchphrase='" . $post['catchphrase'] . "', content='" . $post['content'] . "', updated_at= '" . $timestamp . "'
+            WHERE id='" . $post['id'] . "'";
+
+        $this->pdo->update($update);
     }
-    
+
     function addPicture(int $lastId) :void {
         $pdo = getPdo();
     
@@ -119,17 +80,9 @@ class PostsModel extends Model {
         copy($_FILES['picture']['tmp_name'], $pathToImages . $_FILES['picture']['name']);
     }
     
-    function deletePost() :void {
-        $id = $_GET['id'];
-        $pdo = getPdo();
-    
-        $update = $pdo->prepare("UPDATE posts SET is_deleted=:is_deleted WHERE id=:id ");
-    
-        $is_deleted = true ;
-        $update->bindParam(':is_deleted', $is_deleted);
-    
-        $update->bindParam(':id', $id);
-    
-        $update->execute();
+    function deletePost(int $id) :void {
+        $update = "UPDATE posts SET is_deleted=true WHERE id='" . $id . "'";
+
+        $this->pdo->update($update);
     }
 }

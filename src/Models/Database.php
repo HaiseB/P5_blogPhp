@@ -35,12 +35,18 @@ class Database{
     }
 
     public function create(string $query) :void {
+        $statement = $this->pdo->prepare($query);
+        $statement->execute();
     }
 
     public function update(string $query) :void {
+        $statement = $this->pdo->prepare($query);
+        $statement->execute();
     }
 
     public function delete(string $query ) :void {
+        $statement = $this->pdo->prepare($query);
+        $statement->execute();
     }
 
 }
