@@ -6,7 +6,11 @@ require '../src/Models/Functions/debugFunctions.php';
 
 require '../src/Models/Session.php';
 require '../src/Models/Database.php';
+
+require '../src/Models/Model.php';
+
 require '../src/Models/Posts.php';
+require '../src/Models/Comments.php';
 
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -26,17 +30,9 @@ $twig = new \Twig\Environment($loader, [
 
 $twig->addGlobal('session', $_SESSION);
 
-$PostsModel = new PostsModel;
+$CommentsModel = new CommentsModel;
 
-$post = [
-    'name' => 'name',
-    'picture' => 'picture',
-    'catchphrase' => 'catchphrase',
-    'content' => 'content',
-    'id' => '22'
-];
-
-dd($PostsModel->addPicture($post));
+dd($CommentsModel->getAllComments());
 
 die;
 

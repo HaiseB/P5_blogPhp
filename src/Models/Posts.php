@@ -1,28 +1,25 @@
 <?php
 
-require '../src/Models/Model.php';
-
 class PostsModel extends Model {
 
     public function getAllPosts() :array {
         $query = 'SELECT * FROM posts WHERE is_deleted = false';
-        $posts = $this->pdo->fetchAll($query);
 
-        return $posts;
+        return $this->pdo->fetchAll($query);
     }
 
     public function getLastPosts() :array {
         $query = 'SELECT name, picture, catchphrase, created_at FROM posts WHERE is_deleted = false ORDER BY created_at DESC LIMIT 12';
-        $posts = $this->pdo->fetchAll($query);
 
-        return $posts;
+        return $this->pdo->fetchAll($query);
     }
 
     public function getPostById(int $id) :?object {
         $query = 'SELECT * FROM posts WHERE is_deleted = false AND id= ' . $id . ' LIMIT 1';
+
         $post = $this->pdo->fetch($query);
 
-        return $post;
+        return ($post === false) ? null : $post;
     }
 
     public function createNewPost(array $post) :void {
@@ -34,7 +31,7 @@ class PostsModel extends Model {
         $this->pdo->create($insert);
     }
 
-    function updatePost(array $post) :void {
+    public function updatePost(array $post) :void {
         $timestamp= date('Y-m-d H:i:s');
 
         $update = "UPDATE posts
@@ -44,43 +41,31 @@ class PostsModel extends Model {
         $this->pdo->update($update);
     }
 
-    function addPicture(int $lastId) :void {
-        $pdo = getPdo();
-    
-        $pathToImages = 'posts_images/' . $lastId .'/';
-    
+    public function addPicture(int $postId, $file) :void {
+        $pathToImages = 'posts_images/' . $postId .'/';
+
         mkdir($pathToImages);
-    
-        copy($_FILES['picture']['tmp_name'], $pathToImages . $_FILES['picture']['name']);
-    
-        $update = "UPDATE posts SET picture ='". $_FILES['picture']['name']. "' WHERE id ='" . $lastId ."'";
-        $stmt = $pdo->prepare($update);
-        $stmt->execute();
-    
+
+        copy($_FILES['picture']['tmp_name'], $pathToImages . $file);
+
+        $update = "UPDATE posts SET picture ='". $file . "' WHERE id ='" . $postId ."'";
+
+        $this->pdo->update($update);
     }
-    
-    function updatePicture() :void {
-        $id = $_GET['id'];
-    
-        $pdo = getPdo();
-    
-        $update = $pdo->prepare("UPDATE posts SET picture=:picture WHERE id=:id ");
-    
-        $picture = $_FILES['picture']['name'];
-        $update->bindParam(':picture', $picture);
-    
-        $update->bindParam(':id', $id);
-    
-        $update->execute();
-    
-        $pathToImages = 'posts_images/' . $id .'/';
-    
+
+    public function updatePicture($postId, $file) :void {
+        $update = "UPDATE posts SET picture='" . $file . "' WHERE id='" . $postId . "'";
+
+        $this->pdo->update($update);
+
+        $pathToImages = 'posts_images/' . $postId .'/';
+
         mkdir($pathToImages);
-    
-        copy($_FILES['picture']['tmp_name'], $pathToImages . $_FILES['picture']['name']);
+
+        copy($file, $pathToImages . $file);
     }
-    
-    function deletePost(int $id) :void {
+
+    public function deletePost(int $id) :void {
         $update = "UPDATE posts SET is_deleted=true WHERE id='" . $id . "'";
 
         $this->pdo->update($update);
