@@ -28,6 +28,7 @@ class PostsModel extends Model {
         $insert = "INSERT INTO posts (name, picture, catchphrase, content, created_at, updated_at, is_deleted)
         VALUES ('" . $post['name'] . "', '', '" . $post['catchphrase']  . "', '" . $post['content']  . "', '" . $timestamp . "', '" . $timestamp . "', false)";
 
+        //! TODO a retirer après le débug
         //$this->pdo->create($insert);
 
         $postId = $this->pdo->getLastId('posts');
@@ -48,7 +49,8 @@ class PostsModel extends Model {
     public function addPicture(string $postId, string $file) :void {
         $pathToImages = 'posts_images/' . $postId .'/';
 
-        mkdir($pathToImages);
+        //! TODO a retirer après le débug
+        //mkdir($pathToImages);
 
         copy($_FILES['picture']['tmp_name'], $pathToImages . 'mainPicture');
 
@@ -60,6 +62,7 @@ class PostsModel extends Model {
         var_dump($update);
         var_dump($postId);
         var_dump($file);
+        var_dump($_FILES['picture']['tmp_name']);
 
         die;
     }

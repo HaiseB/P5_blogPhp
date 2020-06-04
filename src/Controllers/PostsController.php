@@ -30,7 +30,7 @@ function post($twig, $Session){
 
             $CommentsModel->createComment($comment);
 
-            $Session->setFlash('success',"<strong>Votre commentaire a bien été pris en compte " . $_POST['user_name'] . " !</strong> Il sera ajouté une fois validé");
+            $Session->setFlash('success',"<strong>Votre commentaire a bien été pris en compte " . $_POST['user_name'] . " !</strong> Il sera ajouté une fois validé par un Administrateur");
         }
 
         echo $twig->render('post.twig', [
@@ -70,7 +70,11 @@ function newPost($twig, $Session){
 }
 
 function editPost($twig, $Session){
-    $post = getPostById();
+    $PostsModel = new PostsModel;
+    //TODO Add a validator class
+    $id = $_GET['id'];
+
+    $post = $PostsModel->getPostById($id);
 
     if (!empty($post) ) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -101,11 +105,15 @@ function editPost($twig, $Session){
 }
 
 function delete($Session) {
-    $post = getPostById();
+    $PostsModel = new PostsModel;
+    //TODO Add a validator class
+    $id = $_GET['id'];
+
+    $post = $PostsModel->getPostById($id);
 
     if (!empty($post)) {
         $Session->setFlash('success',"<strong> L'article : " .$post->name. "</strong> A bien été supprimé! :)");
-        deletePost();
+        $PostsModel->deletePost($id);
 
         header('Location: dashboard.html');
         die;

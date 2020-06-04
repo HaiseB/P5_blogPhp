@@ -58,8 +58,4 @@
     <button type="submit" class="btn btn-success btn-block"><i class="fas fa-save"></i> Enregistrer</button>
   </fieldset>
 </form>
-{% if post %}
-<hr>
-<a href="index.php?p=delete_post&id={{ post.id }}" class="btn btn-danger"><i class="fas fa-edit"></i> Supprimer</a>
-{% endif %}
 {% endblock %}

@@ -36,6 +36,7 @@ function loginPage($twig, $Session){
 
 function dashboard($twig, $Session){
     //TODO Add number of comments for each posts
+    //TODO Add the post_id for each comments
     $UsersModel = new UsersModel;
     $PostsModel = new PostsModel;
     $CommentsModel = new CommentsModel;
