@@ -15,7 +15,7 @@ class CommentsModel extends Model {
         return $this->pdo->fetchAll($query);
     }
 
-    public function getCommentsById(int $id) :?object {
+    public function getCommentById(int $id) :?object {
         $query = 'SELECT * FROM comments WHERE is_deleted = false AND id= ' . $id . ' LIMIT 1';
 
         $comment = $this->pdo->fetch($query);

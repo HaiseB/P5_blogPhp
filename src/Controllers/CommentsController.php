@@ -12,10 +12,9 @@ function delete($Session) {
 
     if (!empty($comment)) {
         $Session->setFlash('success',"<strong> Le commentaire de : " .$comment->user_name. "</strong> A bien été supprimé! :)");
-        deleteComment();
+        $CommentsModel->deleteComment($id);
 
         header('Location: dashboard.html');
-        die;
     } else {
         $Session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que ce commentaire n'existe pas :(");
 

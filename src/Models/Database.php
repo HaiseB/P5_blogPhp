@@ -18,7 +18,6 @@ class Database{
 
     public function fetchAll(string $query) :array {
         $statement = $this->pdo->prepare($query);
-
         $statement->execute();
 
         return $statement->fetchAll();
@@ -47,6 +46,15 @@ class Database{
     public function delete(string $query ) :void {
         $statement = $this->pdo->prepare($query);
         $statement->execute();
+    }
+
+    public function getLastId(string $table ) {
+        $query = "SELECT MAX(id) as maxId FROM " . $table;
+        $statement = $this->pdo->prepare($query);
+        $statement->execute();
+        $lastID = $statement->fetch();
+
+        return $lastID->maxId;
     }
 
 }

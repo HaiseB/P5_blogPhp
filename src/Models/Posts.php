@@ -22,13 +22,17 @@ class PostsModel extends Model {
         return ($post === false) ? null : $post;
     }
 
-    public function createNewPost(array $post) :void {
-        $timestamp= date('Y-m-d H:i:s');
+    public function createNewPost(array $post, string $file) :void {
+        $timestamp = date('Y-m-d H:i:s');
 
-        $insert = 'INSERT INTO posts (name, picture, catchphrase, content, created_at, updated_at, is_deleted)
-        VALUES (' . $post['name'] . ", ' ', " . $post['catchphrase']  . ', ' . $post['content']  . ", '" . $timestamp . "', '" . $timestamp . "', false)";
+        $insert = "INSERT INTO posts (name, picture, catchphrase, content, created_at, updated_at, is_deleted)
+        VALUES ('" . $post['name'] . "', '', '" . $post['catchphrase']  . "', '" . $post['content']  . "', '" . $timestamp . "', '" . $timestamp . "', false)";
 
-        $this->pdo->create($insert);
+        //$this->pdo->create($insert);
+
+        $postId = $this->pdo->getLastId('posts');
+
+        $this->addPicture($postId, $file);
     }
 
     public function updatePost(array $post) :void {
@@ -41,28 +45,23 @@ class PostsModel extends Model {
         $this->pdo->update($update);
     }
 
-    public function addPicture(int $postId, $file) :void {
+    public function addPicture(string $postId, string $file) :void {
         $pathToImages = 'posts_images/' . $postId .'/';
 
         mkdir($pathToImages);
 
-        copy($_FILES['picture']['tmp_name'], $pathToImages . $file);
+        copy($_FILES['picture']['tmp_name'], $pathToImages . 'mainPicture');
 
-        $update = "UPDATE posts SET picture ='". $file . "' WHERE id ='" . $postId ."'";
-
-        $this->pdo->update($update);
-    }
-
-    public function updatePicture($postId, $file) :void {
-        $update = "UPDATE posts SET picture='" . $file . "' WHERE id='" . $postId . "'";
+        $update = "UPDATE posts SET picture ='". $_FILES['picture']['tmp_name'] . "' WHERE id ='" . $postId ."'";
 
         $this->pdo->update($update);
 
-        $pathToImages = 'posts_images/' . $postId .'/';
+        var_dump($pathToImages);
+        var_dump($update);
+        var_dump($postId);
+        var_dump($file);
 
-        mkdir($pathToImages);
-
-        copy($file, $pathToImages . $file);
+        die;
     }
 
     public function deletePost(int $id) :void {

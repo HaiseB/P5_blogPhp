@@ -46,9 +46,17 @@ function post($twig, $Session){
 }
 
 function newPost($twig, $Session){
+    $PostsModel = new PostsModel;
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['picture']['tmp_name']) ) {
-        //TODO vérif données
-        createNewPost();
+        //TODO Add a validator class
+        $post['name'] = $_POST['name'];
+        $post['catchphrase'] = $_POST['catchphrase'];
+        $post['content'] = $_POST['content'];
+
+        $file = $_FILES['picture']['tmp_name'];
+
+        $PostsModel->createNewPost($post, $file);
 
         $Session->setFlash('success',"<strong>L'article à bien été créé !</strong>");
 
@@ -68,7 +76,7 @@ function editPost($twig, $Session){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //TODO vérif données
             if (!empty($_FILES['picture']['tmp_name'])) {
-                updatePicture();
+                addPicture();
             }
             updatePost();
 

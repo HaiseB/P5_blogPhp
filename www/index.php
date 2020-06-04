@@ -3,7 +3,6 @@
 require '../vendor/autoload.php';
 
 require '../src/Models/Session.php';
-
 require '../src/Models/Model.php';
 
 use Symfony\Component\Dotenv\Dotenv;
@@ -85,11 +84,10 @@ switch ($page) {
     case 'delete_comment':
         //loggedOnly();
         require '../src/Controllers/CommentsController.php';
-        //delete($Session);
+        delete($Session);
         break;
 
     case 'logout':
-        //loggedOnly();
         require '../src/Controllers/UsersController.php';
         logout($Session);
         break;
