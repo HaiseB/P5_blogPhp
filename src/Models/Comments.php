@@ -5,20 +5,20 @@ class CommentsModel extends Model {
     public function getAllComments() :array {
         $query = 'SELECT * FROM comments WHERE is_deleted = false';
 
-        return $this->pdo->fetchAll($query);
+        return $this->database->fetchAll($query);
     }
 
-    public function getCommentsByPots(int $idPost) :array {
+    public function getCommentsByPosts(array $submit) :array {
         $query = "SELECT * FROM comments WHERE is_deleted = false
-            AND post_id='" . $idPost . "'AND is_confirmed = 1 ORDER BY updated_at";
+            AND post_id= :id AND is_confirmed = 1 ORDER BY updated_at";
 
-        return $this->pdo->fetchAll($query);
+        return $this->database->fetchAll($query,$submit);
     }
 
-    public function getCommentById(int $id) :?object {
-        $query = 'SELECT * FROM comments WHERE is_deleted = false AND id= ' . $id . ' LIMIT 1';
+    public function getCommentById(array $submit) :?object {
+        $query = 'SELECT * FROM comments WHERE is_deleted = false AND id= :id LIMIT 1';
 
-        $comment = $this->pdo->fetch($query);
+        $comment = $this->database->fetch($query, $submit);
 
         return ($comment === false) ? null : $comment;
     }
@@ -27,27 +27,27 @@ class CommentsModel extends Model {
     public function getNumberOfNotConfirmedComments() :object {
         $query = 'SELECT count(*) as count FROM comments WHERE is_deleted = false AND is_confirmed = false ORDER BY updated_at';
 
-        return $this->pdo->fetch($query);
+        return $this->database->fetch($query);
     }
 
-    public function createComment(array $comment) :void {
+    public function createComment(array $submit) :void {
         $timestamp = date('Y-m-d H:i:s');
 
-        $insert = 'INSERT INTO comments (post_id, user_name, content, is_confirmed, created_at, updated_at, is_deleted)
-        VALUES (' . $comment['post_id'] . ", '" . $comment['user_name']  . "', '" . $comment['content']  . "', false, '" . $timestamp . "', '" . $timestamp . "', false)";
+        $insert = "INSERT INTO comments (post_id, user_name, content, is_confirmed, created_at, updated_at, is_deleted)
+        VALUES ( :post_id , :user_name , :content , false, '$timestamp', '$timestamp', false)";
 
-        $this->pdo->create($insert);
+        $this->database->create($insert, $submit);
     }
 
     public function confirmAllComments() :void {
         $update = "UPDATE comments SET is_confirmed = true WHERE is_confirmed = false AND is_deleted = false";
 
-        $this->pdo->update($update);
+        $this->database->update($update);
     }
 
-    public function deleteComment(int $id) :void {
-        $update = "UPDATE comments SET is_deleted=true WHERE id='" . $id . "'";
+    public function deleteComment(array $submit) :void {
+        $update = "UPDATE comments SET is_deleted=true WHERE id= :id ";
 
-        $this->pdo->update($update);
+        $this->database->update($update, $submit);
     }
 }

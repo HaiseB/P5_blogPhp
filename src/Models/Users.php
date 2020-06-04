@@ -5,13 +5,13 @@ class UsersModel extends Model {
     public function getAllUsers() :array {
         $query = 'SELECT * FROM users WHERE is_deleted = false';
 
-        return $this->pdo->fetchAll($query);
+        return $this->database->fetchAll($query);
     }
 
-    public function findUserByName(string $name) :?object {
-        $query = "SELECT name, password FROM Users WHERE is_deleted = false AND name= '" . $name . "' LIMIT 1";
+    public function findUserByName(array $submit) :?object {
+        $query = "SELECT name, password FROM Users WHERE is_deleted = false AND name= :name LIMIT 1";
 
-        $user = $this->pdo->fetch($query);
+        $user = $this->database->fetch($query, $submit);
 
         return ($user === false) ? null : $user;
     }

@@ -6,13 +6,13 @@ function delete($Session) {
     $CommentsModel = new CommentsModel;
 
     //TODO Add a validator class
-    $id = $_GET['id'];
+    $submit['id'] = $_GET['id'];
 
-    $comment = $CommentsModel->getCommentById($id);
+    $comment = $CommentsModel->getCommentById($submit);
 
     if (!empty($comment)) {
         $Session->setFlash('success',"<strong> Le commentaire de : " .$comment->user_name. "</strong> A bien été supprimé! :)");
-        $CommentsModel->deleteComment($id);
+        $CommentsModel->deleteComment($submit);
 
         header('Location: dashboard.html');
     } else {

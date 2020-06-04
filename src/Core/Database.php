@@ -2,6 +2,8 @@
 
 class Database{
 
+    private $pdo;
+
     public function __construct(){
         $dns = 'mysql:dbname=' . $_ENV['DB_NAME'] . ';host=' . $_ENV['DB_HOST'] . ';charset=UTF8';
 
@@ -16,16 +18,16 @@ class Database{
         }
     }
 
-    public function fetchAll(string $query) :array {
+    public function fetchAll(string $query, array $submit=[]) :array {
         $statement = $this->pdo->prepare($query);
-        $statement->execute();
+        $statement->execute($submit);
 
         return $statement->fetchAll();
     }
 
-    public function fetch(string $query) :?object {
+    public function fetch(string $query, array $submit=[]) :?object {
         $statement = $this->pdo->prepare($query);
-        $statement->execute();
+        $statement->execute($submit);
         $result = $statement->fetch();
 
         $result = (is_bool($result)) ? null : $result ;
@@ -33,22 +35,22 @@ class Database{
         return $result;
     }
 
-    public function create(string $query) :void {
+    public function create(string $query, array $submit=[]) :void {
         $statement = $this->pdo->prepare($query);
-        $statement->execute();
+        $statement->execute($submit);
     }
 
-    public function update(string $query) :void {
+    public function update(string $query, array $submit=[]) :void {
         $statement = $this->pdo->prepare($query);
-        $statement->execute();
+        $statement->execute($submit);
     }
 
-    public function delete(string $query ) :void {
+    public function delete(string $query, array $submit=[]) :void {
         $statement = $this->pdo->prepare($query);
-        $statement->execute();
+        $statement->execute($submit);
     }
 
-    public function getLastId(string $table ) {
+    public function getLastId(string $table) {
         $query = "SELECT MAX(id) as maxId FROM " . $table;
         $statement = $this->pdo->prepare($query);
         $statement->execute();

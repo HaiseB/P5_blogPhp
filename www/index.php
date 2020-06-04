@@ -2,8 +2,8 @@
 
 require '../vendor/autoload.php';
 
-require '../src/Models/Session.php';
-require '../src/Models/Model.php';
+require '../src/Core/Session.php';
+require '../src/Core/Model.php';
 
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -17,8 +17,10 @@ $dotenv->load('../.env');
 // Rendu du template
 $loader = new Twig\Loader\FilesystemLoader('..\templates');
 
+$cache = ( $_ENV['MODE'] === 'developpement' ) ? false : '../tmp' ;
+
 $twig = new \Twig\Environment($loader, [
-    'cache' => false // '../tmp'
+    'cache' =>  $cache
 ]);
 
 $twig->addGlobal('session', $_SESSION);

@@ -10,9 +10,9 @@ function loginPage($twig, $Session){
     if (isset($_POST['name']) && isset($_POST['password'])) {
         $UsersModel = new UsersModel;
 
-        $name = $_POST['name'];
+        $submit['name'] = $_POST['name'];
 
-        $user = $UsersModel->findUserByName($name);
+        $user = $UsersModel->findUserByName($submit);
 
         if (!empty($user)) {
             if ( password_verify($_POST['password'], $user->password)) {

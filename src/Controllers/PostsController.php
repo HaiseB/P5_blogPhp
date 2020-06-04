@@ -16,15 +16,17 @@ function post($twig, $Session){
     $CommentsModel = new CommentsModel;
 
     //TODO Add a validator class
-    $id = $_GET['id'];
-    $post = $PostsModel->getPostById($id);
+    $submit['id'] = $_GET['id'];
+
+
+    $post = $PostsModel->getPostById($submit);
 
     if (!empty($post)) {
         $CommentsModel = new CommentsModel;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //TODO Add a validator class
-            $comment['post_id'] = $id;
+            $comment['post_id'] = $submit['id'];
             $comment['user_name'] = $_POST['user_name'];
             $comment['content'] = $_POST['content'];
 
@@ -35,10 +37,9 @@ function post($twig, $Session){
 
         echo $twig->render('post.twig', [
             'post' => $post,
-            'comments' => $CommentsModel->getCommentsByPots($id),
+            'comments' => $CommentsModel->getCommentsByPosts($submit),
             'flash' => $Session->flash()
         ]);
-
     } else {
         header('Location: 404.html');
         die;
@@ -53,7 +54,6 @@ function newPost($twig, $Session){
         $post['name'] = $_POST['name'];
         $post['catchphrase'] = $_POST['catchphrase'];
         $post['content'] = $_POST['content'];
-
         $file = $_FILES['picture']['tmp_name'];
 
         $PostsModel->createNewPost($post, $file);
@@ -107,13 +107,13 @@ function editPost($twig, $Session){
 function delete($Session) {
     $PostsModel = new PostsModel;
     //TODO Add a validator class
-    $id = $_GET['id'];
+    $submit['id'] = $_GET['id'];
 
-    $post = $PostsModel->getPostById($id);
+    $post = $PostsModel->getPostById($submit);
 
     if (!empty($post)) {
         $Session->setFlash('success',"<strong> L'article : " .$post->name. "</strong> A bien été supprimé! :)");
-        $PostsModel->deletePost($id);
+        $PostsModel->deletePost($submit);
 
         header('Location: dashboard.html');
         die;
