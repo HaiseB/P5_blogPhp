@@ -1,8 +1,8 @@
 <?php
 
-require '../src/Models/Users.php';
-require '../src/Models/Posts.php';
-require '../src/Models/Comments.php';
+require '../src/Models/UsersModel.php';
+require '../src/Models/PostsModel.php';
+require '../src/Models/CommentsModel.php';
 
 
 function loginPage($twig, $Session){

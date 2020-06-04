@@ -22,49 +22,42 @@ class PostsModel extends Model {
         return ($post === false) ? null : $post;
     }
 
-    public function createNewPost(array $submit, string $file) :void {
+    public function createNewPost(array $submit, array $file) :void {
         $timestamp = date('Y-m-d H:i:s');
 
         $insert = "INSERT INTO posts (name, picture, catchphrase, content, created_at, updated_at, is_deleted)
         VALUES (:name, '', :catchphrase, :content, '$timestamp', '$timestamp', false)";
 
-        //! TODO a retirer après le débug
-        //$this->database->create($insert, $submit);
+        $this->database->create($insert, $submit);
 
-        //$postId = $this->database->getLastId('posts');
+        $postId = $this->database->getLastId('posts');
 
-        //$this->addPicture($postId, $file);
+        $this->addPicture($postId, $file);
     }
 
-    public function updatePost(array $post) :void {
+    public function updatePost(array $submit) :void {
         $timestamp= date('Y-m-d H:i:s');
 
         $update = "UPDATE posts
-            SET name='" . $post['name'] ."', catchphrase='" . $post['catchphrase'] . "', content='" . $post['content'] . "', updated_at= '" . $timestamp . "'
-            WHERE id='" . $post['id'] . "'";
+            SET name= :name, catchphrase= :catchphrase , content= :content, updated_at= '$timestamp'
+            WHERE id= :id ";
 
-        $this->database->update($update);
+        $this->database->update($update, $submit);
     }
 
-    public function addPicture(string $postId, string $file) :void {
+    public function addPicture(string $postId, array $file) :void {
         $pathToImages = 'posts_images/' . $postId .'/';
 
-        //! TODO a retirer après le débug
-        //mkdir($pathToImages);
+        mkdir($pathToImages);
 
-        copy($file, $pathToImages . 'mainPicture');
+        copy($file['temp'], $pathToImages . $file['name']);
 
-        $update = "UPDATE posts SET picture ='". $_FILES['picture']['tmp_name'] . "' WHERE id ='" . $postId ."'";
+        $submit['picture'] = $file['name'];
+        $submit['id'] = $postId;
 
-        $this->database->update($update);
+        $update = "UPDATE posts SET picture = :picture WHERE id = :id ";
 
-        var_dump($pathToImages);
-        var_dump($update);
-        var_dump($postId);
-        var_dump($file);
-        var_dump($_FILES['picture']['tmp_name']);
-
-        die;
+        $this->database->update($update, $submit);
     }
 
     public function deletePost(array $submit) :void {

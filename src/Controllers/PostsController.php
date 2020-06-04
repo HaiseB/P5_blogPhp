@@ -1,7 +1,7 @@
 <?php
 
-require '../src/Models/Posts.php';
-require '../src/Models/Comments.php';
+require '../src/Models/PostsModel.php';
+require '../src/Models/CommentsModel.php';
 
 function posts($twig){
     $PostsModel = new PostsModel;
@@ -54,9 +54,12 @@ function newPost($twig, $Session){
         $post['name'] = $_POST['name'];
         $post['catchphrase'] = $_POST['catchphrase'];
         $post['content'] = $_POST['content'];
-        $file = $_FILES['picture']['tmp_name'];
 
-        $PostsModel->createNewPost($post, $file);
+        //TODO Add a validator class
+        $picture['temp'] = $_FILES['picture']['tmp_name'];
+        $picture['name'] = $_FILES['picture']['name'];
+
+        $PostsModel->createNewPost($post, $picture);
 
         $Session->setFlash('success',"<strong>L'article à bien été créé !</strong>");
 
@@ -71,18 +74,29 @@ function newPost($twig, $Session){
 
 function editPost($twig, $Session){
     $PostsModel = new PostsModel;
-    //TODO Add a validator class
-    $id = $_GET['id'];
 
-    $post = $PostsModel->getPostById($id);
+    //TODO Add a validator class
+    $submit['id'] = $_GET['id'];
+
+    $post = $PostsModel->getPostById($submit);
 
     if (!empty($post) ) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //TODO vérif données
-            if (!empty($_FILES['picture']['tmp_name'])) {
-                addPicture();
+            //TODO Add a validator class
+            $postSubmitted['name'] = $_POST['name'];
+            $postSubmitted['catchphrase'] = $_POST['catchphrase'];
+            $postSubmitted['content'] = $_POST['content'];
+            $postSubmitted['id'] = $post->id;
+
+            //TODO Add a validator class
+            $picture['temp'] = $_FILES['picture']['tmp_name'];
+            $picture['name'] = $_FILES['picture']['name'];
+
+            if (!empty($picture)) {
+                $PostsModel->addPicture($post->id, $picture);
             }
-            updatePost();
+
+            $PostsModel->updatePost($postSubmitted);
 
             $Session->setFlash('success',"<strong>L'article à bien été modifié !</strong>");
 

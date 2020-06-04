@@ -1,6 +1,6 @@
 <?php
 
-require '../src/Models/Comments.php';
+require '../src/Models/CommentsModel.php';
 
 function delete($Session) {
     $CommentsModel = new CommentsModel;
