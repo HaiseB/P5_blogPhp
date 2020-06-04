@@ -2,15 +2,9 @@
 
 require '../vendor/autoload.php';
 
-require '../src/Models/Functions/debugFunctions.php';
-
 require '../src/Models/Session.php';
-require '../src/Models/Database.php';
 
 require '../src/Models/Model.php';
-
-require '../src/Models/Posts.php';
-require '../src/Models/Comments.php';
 
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -29,12 +23,6 @@ $twig = new \Twig\Environment($loader, [
 ]);
 
 $twig->addGlobal('session', $_SESSION);
-
-$CommentsModel = new CommentsModel;
-
-dd($CommentsModel->getAllComments());
-
-die;
 
 // Routing
 $page = 'home';
@@ -65,43 +53,43 @@ switch ($page) {
         break;
 
     case 'dashboard':
+        //loggedOnly();
         require '../src/Controllers/UsersController.php';
-        loggedOnly();
         dashboard($twig, $Session);
         break;
 
     case 'new_post':
-        loggedOnly();
+        //loggedOnly();
         require '../src/Controllers/PostsController.php';
         newPost($twig, $Session);
         break;
 
     case 'edit_post':
-        loggedOnly();
+        //loggedOnly();
         require '../src/Controllers/PostsController.php';
         editPost($twig, $Session);
         break;
 
     case 'delete_post':
-        loggedOnly();
+        //loggedOnly();
         require '../src/Controllers/PostsController.php';
         delete($Session);
         break;
 
     case 'confirm_all_comments':
-        loggedOnly();
+        //loggedOnly();
         require '../src/Controllers/CommentsController.php';
         confirmAll($Session);
         break;
 
     case 'delete_comment':
-        loggedOnly();
+        //loggedOnly();
         require '../src/Controllers/CommentsController.php';
-        delete($Session);
+        //delete($Session);
         break;
 
     case 'logout':
-        loggedOnly();
+        //loggedOnly();
         require '../src/Controllers/UsersController.php';
         logout($Session);
         break;

@@ -16,7 +16,7 @@ class UsersModel extends Model {
         return ($user === false) ? null : $user;
     }
 
-    //! TODO remake it quick
+    //! TODO How to refactor it?
     public function authentificationFailed(object $twig, $Session) :void {
         $Session->setFlash('danger',"<strong>Authentification échouée</strong>, Nom d'utilisateur et/ou mot de passe incorrect");
 
@@ -28,7 +28,8 @@ class UsersModel extends Model {
         die;
     }
 
-    function loggedOnly() :void {
+    //! TODO How to refactor it?
+    public function loggedOnly() :void {
         if (!isset($_SESSION['auth'])) {
             header('Location: 404.html');
             die;

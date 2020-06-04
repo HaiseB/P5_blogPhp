@@ -1,5 +1,7 @@
 <?php
 
+require '../src/Models/Database.php';
+
 class Model{
 
     protected $pdo;

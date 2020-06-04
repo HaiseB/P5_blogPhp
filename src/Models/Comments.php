@@ -15,6 +15,15 @@ class CommentsModel extends Model {
         return $this->pdo->fetchAll($query);
     }
 
+    public function getCommentsById(int $id) :?object {
+        $query = 'SELECT * FROM comments WHERE is_deleted = false AND id= ' . $id . ' LIMIT 1';
+
+        $comment = $this->pdo->fetch($query);
+
+        return ($comment === false) ? null : $comment;
+    }
+
+
     public function getNumberOfNotConfirmedComments() :object {
         $query = 'SELECT count(*) as count FROM comments WHERE is_deleted = false AND is_confirmed = false ORDER BY updated_at';
 
@@ -25,7 +34,7 @@ class CommentsModel extends Model {
         $timestamp = date('Y-m-d H:i:s');
 
         $insert = 'INSERT INTO comments (post_id, user_name, content, is_confirmed, created_at, updated_at, is_deleted)
-        VALUES (' . $comment['post_id'] . ', ' . $comment['user_name']  . ', ' . $comment['content']  . ", false, '" . $timestamp . "', '" . $timestamp . "', false)";
+        VALUES (' . $comment['post_id'] . ", '" . $comment['user_name']  . "', '" . $comment['content']  . "', false, '" . $timestamp . "', '" . $timestamp . "', false)";
 
         $this->pdo->create($insert);
     }

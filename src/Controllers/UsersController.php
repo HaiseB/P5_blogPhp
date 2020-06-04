@@ -1,12 +1,18 @@
 <?php
 
-require '../src/Models/Functions/UsersFunctions.php';
-require '../src/Models/Functions/PostsFunctions.php';
-require '../src/Models/Functions/CommentsFunctions.php';
+require '../src/Models/Users.php';
+require '../src/Models/Posts.php';
+require '../src/Models/Comments.php';
+
 
 function loginPage($twig, $Session){
+    //TODO Add a validator class
     if (isset($_POST['name']) && isset($_POST['password'])) {
-        $user = findUserByName($_POST['name']);
+        $UsersModel = new UsersModel;
+
+        $name = $_POST['name'];
+
+        $user = $UsersModel->findUserByName($name);
 
         if (!empty($user)) {
             if ( password_verify($_POST['password'], $user->password)) {
@@ -18,10 +24,10 @@ function loginPage($twig, $Session){
                 die;
 
             } else {
-                authentificationFailed($twig, $Session);
+                $UsersModel->authentificationFailed($twig, $Session);
             }
         } else {
-            authentificationFailed($twig, $Session);
+            $UsersModel->authentificationFailed($twig, $Session);
         }
     } else {
         echo $twig->render('login.twig');
@@ -29,13 +35,18 @@ function loginPage($twig, $Session){
 }
 
 function dashboard($twig, $Session){
-    //TODO ajouter DataTable
+    //TODO Add number of comments for each posts
+    $UsersModel = new UsersModel;
+    $PostsModel = new PostsModel;
+    $CommentsModel = new CommentsModel;
+
+    //TODO Add DataTable
     echo $twig->render('dashboard.twig', [
-        'posts' => getAllPosts(),
-        'users' => getAllUsers(),
+        'users' => $UsersModel->getAllUsers(),
+        'posts' => $PostsModel->getAllPosts(),
         'flash' => $Session->flash(),
-        'comments' => getAllComments(),
-        'getNumberOfNotConfirmedComments' => getNumberOfNotConfirmedComments()
+        'comments' => $CommentsModel->getAllComments(),
+        'getNumberOfNotConfirmedComments' => $CommentsModel->getNumberOfNotConfirmedComments()
     ]);
 }
 

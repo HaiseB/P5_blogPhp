@@ -1,9 +1,14 @@
 <?php
 
-require '../src/Models/Functions/CommentsFunctions.php';
+require '../src/Models/Comments.php';
 
 function delete($Session) {
-    $comment = getCommentById();
+    $CommentsModel = new CommentsModel;
+
+    //TODO Add a validator class
+    $id = $_GET['id'];
+
+    $comment = $CommentsModel->getCommentById($id);
 
     if (!empty($comment)) {
         $Session->setFlash('success',"<strong> Le commentaire de : " .$comment->user_name. "</strong> A bien été supprimé! :)");
@@ -20,7 +25,9 @@ function delete($Session) {
 }
 
 function confirmAll($Session) {
-    confirmAllComments();
+    $CommentsModel = new CommentsModel;
+
+    $CommentsModel->confirmAllComments();
 
     $Session->setFlash('success',"<strong>Tout les commentaires on étés approuvés!</strong> :)");
 

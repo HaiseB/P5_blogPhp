@@ -1,29 +1,41 @@
 <?php
 
-require '../src/Models/Functions/PostsFunctions.php';
-require '../src/Models/Functions/CommentsFunctions.php';
+require '../src/Models/Posts.php';
+require '../src/Models/Comments.php';
 
 function posts($twig){
+    $PostsModel = new PostsModel;
+
     echo $twig->render('posts.twig', [
-        'posts' => getLastPosts()
+        'posts' => $PostsModel->getLastPosts()
     ]);
 }
 
 function post($twig, $Session){
-    $post = getPostById();
+    $PostsModel = new PostsModel;
+    $CommentsModel = new CommentsModel;
+
+    //TODO Add a validator class
+    $id = $_GET['id'];
+    $post = $PostsModel->getPostById($id);
 
     if (!empty($post)) {
-        //Ajout de commentaire
+        $CommentsModel = new CommentsModel;
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //TODO vérif données
-            createComment();
+            //TODO Add a validator class
+            $comment['post_id'] = $id;
+            $comment['user_name'] = $_POST['user_name'];
+            $comment['content'] = $_POST['content'];
+
+            $CommentsModel->createComment($comment);
 
             $Session->setFlash('success',"<strong>Votre commentaire a bien été pris en compte " . $_POST['user_name'] . " !</strong> Il sera ajouté une fois validé");
         }
 
         echo $twig->render('post.twig', [
             'post' => $post,
-            'comments' => getCommentsByPots(),
+            'comments' => $CommentsModel->getCommentsByPots($id),
             'flash' => $Session->flash()
         ]);
 

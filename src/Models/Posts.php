@@ -9,7 +9,7 @@ class PostsModel extends Model {
     }
 
     public function getLastPosts() :array {
-        $query = 'SELECT name, picture, catchphrase, created_at FROM posts WHERE is_deleted = false ORDER BY created_at DESC LIMIT 12';
+        $query = 'SELECT id, name, picture, catchphrase, created_at FROM posts WHERE is_deleted = false ORDER BY created_at DESC LIMIT 12';
 
         return $this->pdo->fetchAll($query);
     }
