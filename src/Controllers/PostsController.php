@@ -11,7 +11,7 @@ function posts($twig){
     ]);
 }
 
-function post($twig, $Session){
+function post($twig, $session){
     $PostsModel = new PostsModel;
     $CommentsModel = new CommentsModel;
 
@@ -32,13 +32,13 @@ function post($twig, $Session){
 
             $CommentsModel->createComment($comment);
 
-            $Session->setFlash('success',"<strong>Votre commentaire a bien été pris en compte " . $_POST['user_name'] . " !</strong> Il sera ajouté une fois validé par un Administrateur");
+            $session->setFlash('success',"<strong>Votre commentaire a bien été pris en compte " . $_POST['user_name'] . " !</strong> Il sera ajouté une fois validé par un Administrateur");
         }
 
         echo $twig->render('post.twig', [
             'post' => $post,
             'comments' => $CommentsModel->getCommentsByPosts($submit),
-            'flash' => $Session->flash()
+            'flash' => $session->flash()
         ]);
     } else {
         header('Location: 404.html');
@@ -46,7 +46,7 @@ function post($twig, $Session){
     }
 }
 
-function newPost($twig, $Session){
+function newPost($twig, $session){
     $PostsModel = new PostsModel;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['picture']['tmp_name']) ) {
@@ -61,18 +61,18 @@ function newPost($twig, $Session){
 
         $PostsModel->createNewPost($post, $picture);
 
-        $Session->setFlash('success',"<strong>L'article à bien été créé !</strong>");
+        $session->setFlash('success',"<strong>L'article à bien été créé !</strong>");
 
         header('Location: dashboard.html');
         die;
     }
 
     echo $twig->render('formPost.twig', [
-        'flash' => $Session->flash()
+        'flash' => $session->flash()
     ]);
 }
 
-function editPost($twig, $Session){
+function editPost($twig, $session){
     $PostsModel = new PostsModel;
 
     //TODO Add a validator class
@@ -98,7 +98,7 @@ function editPost($twig, $Session){
 
             $PostsModel->updatePost($postSubmitted);
 
-            $Session->setFlash('success',"<strong>L'article à bien été modifié !</strong>");
+            $session->setFlash('success',"<strong>L'article à bien été modifié !</strong>");
 
             header('Location: dashboard.html');
             die;
@@ -106,11 +106,11 @@ function editPost($twig, $Session){
 
         echo $twig->render('formPost.twig', [
             'post' => $post,
-            'flash' => $Session->flash()
+            'flash' => $session->flash()
         ]);
 
     } else {
-        $Session->setFlash('danger',"<strong>Cet article n'existe pas</strong> :(");
+        $session->setFlash('danger',"<strong>Cet article n'existe pas</strong> :(");
 
         header('Location: dashboard.html');
         die;
@@ -118,7 +118,7 @@ function editPost($twig, $Session){
 
 }
 
-function delete($Session) {
+function delete($session) {
     $PostsModel = new PostsModel;
     //TODO Add a validator class
     $submit['id'] = $_GET['id'];
@@ -126,13 +126,13 @@ function delete($Session) {
     $post = $PostsModel->getPostById($submit);
 
     if (!empty($post)) {
-        $Session->setFlash('success',"<strong> L'article : " .$post->name. "</strong> A bien été supprimé! :)");
+        $session->setFlash('success',"<strong> L'article : " .$post->name. "</strong> A bien été supprimé! :)");
         $PostsModel->deletePost($submit);
 
         header('Location: dashboard.html');
         die;
     } else {
-        $Session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que cet article n'existe pas :(");
+        $session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que cet article n'existe pas :(");
 
         header('Location: dashboard.html');
         die;

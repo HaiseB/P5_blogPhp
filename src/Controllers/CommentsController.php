@@ -2,7 +2,7 @@
 
 require '../src/Models/CommentsModel.php';
 
-function delete($Session) {
+function delete($session) {
     $CommentsModel = new CommentsModel;
 
     //TODO Add a validator class
@@ -11,24 +11,24 @@ function delete($Session) {
     $comment = $CommentsModel->getCommentById($submit);
 
     if (!empty($comment)) {
-        $Session->setFlash('success',"<strong> Le commentaire de : " .$comment->user_name. "</strong> A bien été supprimé! :)");
+        $session->setFlash('success',"<strong> Le commentaire de : " .$comment->user_name. "</strong> A bien été supprimé! :)");
         $CommentsModel->deleteComment($submit);
 
         header('Location: dashboard.html');
     } else {
-        $Session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que ce commentaire n'existe pas :(");
+        $session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que ce commentaire n'existe pas :(");
 
         header('Location: dashboard.html');
         die;
     }
 }
 
-function confirmAll($Session) {
+function confirmAll($session) {
     $CommentsModel = new CommentsModel;
 
     $CommentsModel->confirmAllComments();
 
-    $Session->setFlash('success',"<strong>Tout les commentaires on étés approuvés!</strong> :)");
+    $session->setFlash('success',"<strong>Tout les commentaires on étés approuvés!</strong> :)");
 
     header('Location: dashboard.html');
 

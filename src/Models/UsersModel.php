@@ -17,12 +17,12 @@ class UsersModel extends Model {
     }
 
     //! TODO How to refactor it?
-    public function authentificationFailed(object $twig, $Session) :void {
-        $Session->setFlash('danger',"<strong>Authentification échouée</strong>, Nom d'utilisateur et/ou mot de passe incorrect");
+    public function authentificationFailed(object $twig, $session) :void {
+        $session->setFlash('danger',"<strong>Authentification échouée</strong>, Nom d'utilisateur et/ou mot de passe incorrect");
 
         echo $twig->render('login.twig', [
             'data' => $_POST,
-            'flash' => $Session->flash()
+            'flash' => $session->flash()
         ]);
 
         die;

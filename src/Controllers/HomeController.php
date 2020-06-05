@@ -2,9 +2,9 @@
 
 require '../src/Core/Contact.php';
 
-function homePage($twig, $Session){
+function homePage($twig, $session){
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $Session->setFlash('success','<strong>Message envoyé</strong>, nous vous contacterons dès que possible ! :)');
+        $session->setFlash('success','<strong>Message envoyé</strong>, nous vous contacterons dès que possible ! :)');
 
         //TODO Add a validator class
         $submit['name'] = $_POST['name'];
@@ -15,11 +15,11 @@ function homePage($twig, $Session){
         $contact->sendMail($submit);
 
         echo $twig->render('home.twig', [
-            'flash' => $Session->flash()
+            'flash' => $session->flash()
         ]);
     } else {
         echo $twig->render('home.twig', [
-            'flash' => $Session->flash()
+            'flash' => $session->flash()
         ]);
     }
 }

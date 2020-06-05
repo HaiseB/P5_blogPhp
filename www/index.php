@@ -1,29 +1,12 @@
 <?php
 
 require '../vendor/autoload.php';
+require '../src/Core/Kernel.php';
 
-require '../src/Core/Session.php';
-require '../src/Core/Model.php';
+$kernel = new Kernel;
 
-use Symfony\Component\Dotenv\Dotenv;
-
-// Initialisation de la Session
-$Session = new Session;
-
-// Initialisation de dotenv
-$dotenv = new Dotenv;
-$dotenv->load('../.env');
-
-// Rendu du template
-$loader = new Twig\Loader\FilesystemLoader('..\templates');
-
-$cache = ( $_ENV['MODE'] === 'developpement' ) ? false : '../tmp' ;
-
-$twig = new \Twig\Environment($loader, [
-    'cache' =>  $cache
-]);
-
-$twig->addGlobal('session', $_SESSION);
+$session = $kernel->session;
+$twig = $kernel->twig;
 
 // Routing
 $page = 'home';
@@ -35,7 +18,7 @@ if (isset($_GET['p'])){
 switch ($page) {
     case 'home':
         require '../src/Controllers/HomeController.php';
-        homePage($twig, $Session);
+        homePage($twig, $session);
         break;
 
     case 'posts':
@@ -45,53 +28,53 @@ switch ($page) {
 
     case 'post':
         require '../src/Controllers/PostsController.php';
-        post($twig, $Session);
+        post($twig, $session);
         break;
 
     case 'login':
         require '../src/Controllers/UsersController.php';
-        loginPage($twig, $Session);
+        loginPage($twig, $session);
         break;
 
     case 'dashboard':
         //loggedOnly();
         require '../src/Controllers/UsersController.php';
-        dashboard($twig, $Session);
+        dashboard($twig, $session);
         break;
 
     case 'new_post':
         //loggedOnly();
         require '../src/Controllers/PostsController.php';
-        newPost($twig, $Session);
+        newPost($twig, $session);
         break;
 
     case 'edit_post':
         //loggedOnly();
         require '../src/Controllers/PostsController.php';
-        editPost($twig, $Session);
+        editPost($twig, $session);
         break;
 
     case 'delete_post':
         //loggedOnly();
         require '../src/Controllers/PostsController.php';
-        delete($Session);
+        delete($session);
         break;
 
     case 'confirm_all_comments':
         //loggedOnly();
         require '../src/Controllers/CommentsController.php';
-        confirmAll($Session);
+        confirmAll($session);
         break;
 
     case 'delete_comment':
         //loggedOnly();
         require '../src/Controllers/CommentsController.php';
-        delete($Session);
+        delete($session);
         break;
 
     case 'logout':
         require '../src/Controllers/UsersController.php';
-        logout($Session);
+        logout($session);
         break;
 
     case 'mentions_legales':
