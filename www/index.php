@@ -1,12 +1,10 @@
 <?php
 
 require '../vendor/autoload.php';
-require '../src/Core/Kernel.php';
 
-$kernel = new Kernel;
+$kernel = new src\Core\Kernel;
 
 $session = $kernel->session;
-$twig = $kernel->twig;
 
 // Routing
 $page = 'home';
@@ -17,71 +15,72 @@ if (isset($_GET['p'])){
 
 switch ($page) {
     case 'home':
-        require '../src/Controllers/HomeController.php';
-        homePage($twig, $session);
+        $home = new \src\Controllers\HomeController;
+        $home->homePage($session);
         break;
 
     case 'posts':
-        require '../src/Controllers/PostsController.php';
-        posts($twig);
+        $post = new \src\Controllers\PostsController;
+        $post->posts();
         break;
 
     case 'post':
-        require '../src/Controllers/PostsController.php';
-        post($twig, $session);
+        $post = new \src\Controllers\PostsController;
+        $post->post($session);
         break;
 
     case 'login':
-        require '../src/Controllers/UsersController.php';
-        loginPage($twig, $session);
+        $user = new \src\Controllers\UsersController;
+        $user->loginPage($session);
         break;
 
     case 'dashboard':
         //loggedOnly();
-        require '../src/Controllers/UsersController.php';
-        dashboard($twig, $session);
+        $user = new \src\Controllers\UsersController;
+        $user->dashboard($session);
         break;
 
     case 'new_post':
         //loggedOnly();
-        require '../src/Controllers/PostsController.php';
-        newPost($twig, $session);
+        $post = new \src\Controllers\PostsController;
+        $post->newPost($session);
         break;
 
     case 'edit_post':
         //loggedOnly();
-        require '../src/Controllers/PostsController.php';
-        editPost($twig, $session);
+        $post = new \src\Controllers\PostsController;
+        $post->editPost($session);
         break;
 
     case 'delete_post':
         //loggedOnly();
-        require '../src/Controllers/PostsController.php';
-        delete($session);
+        $post = new \src\Controllers\PostsController;
+        $post->delete($session);
         break;
 
     case 'confirm_all_comments':
         //loggedOnly();
-        require '../src/Controllers/CommentsController.php';
-        confirmAll($session);
+        $comment = new \src\Controllers\CommentsController;
+        $comment->confirmAll($session);
         break;
 
     case 'delete_comment':
         //loggedOnly();
-        require '../src/Controllers/CommentsController.php';
-        delete($session);
+        $comment = new \src\Controllers\CommentsController;
+        $comment->delete($session);
         break;
 
     case 'logout':
-        require '../src/Controllers/UsersController.php';
-        logout($session);
+        $user = new \src\Controllers\UsersController;
+        $user->logout($session);
         break;
 
     case 'mentions_legales':
-        echo $twig->render('mentions_legales.twig');
+        $home = new \src\Controllers\HomeController;
+        $home->legalMentions();
         break;
 
     default:
-        header('HTTP/1.0 404 Not Found');
-        echo $twig->render('404.twig');
+        $home = new \src\Controllers\HomeController;
+        $home->e404();
 }

@@ -1,61 +1,64 @@
 <?php
 
-require '../src/Models/UsersModel.php';
-require '../src/Models/PostsModel.php';
-require '../src/Models/CommentsModel.php';
+namespace src\Controllers;
 
+use \src\Core\Controller;
 
-function loginPage($twig, $session){
-    //TODO Add a validator class
-    if (isset($_POST['name']) && isset($_POST['password'])) {
-        $UsersModel = new UsersModel;
+class UsersController extends Controller {
 
-        $submit['name'] = $_POST['name'];
+    function loginPage($session){
+        //TODO Add a validator class
+        if (isset($_POST['name']) && isset($_POST['password'])) {
+            $UsersModel = new \src\Models\UsersModel;
 
-        $user = $UsersModel->findUserByName($submit);
+            $submit['name'] = $_POST['name'];
 
-        if (!empty($user)) {
-            if ( password_verify($_POST['password'], $user->password)) {
-                $_SESSION['auth'] = $user->name;
+            $user = $UsersModel->findUserByName($submit);
 
-                $session->setFlash('success','Bon retour parmis nous <strong>' . $user->name . '</strong>! :)');
+            if (!empty($user)) {
+                if ( password_verify($_POST['password'], $user->password)) {
+                    $_SESSION['auth'] = $user->name;
 
-                header('Location: dashboard.html');
-                die;
+                    $session->setFlash('success','Bon retour parmis nous <strong>' . $user->name . '</strong>! :)');
 
+                    header('Location: dashboard.html');
+                    die;
+
+                } else {
+                    $UsersModel->authentificationFailed($session);
+                }
             } else {
-                $UsersModel->authentificationFailed($twig, $session);
+                $UsersModel->authentificationFailed($session);
             }
         } else {
-            $UsersModel->authentificationFailed($twig, $session);
+            echo $this->twig->render('login.twig');
         }
-    } else {
-        echo $twig->render('login.twig');
     }
-}
 
-function dashboard($twig, $session){
-    //TODO Add number of comments for each posts
-    //TODO Add the post_id for each comments
-    $UsersModel = new UsersModel;
-    $PostsModel = new PostsModel;
-    $CommentsModel = new CommentsModel;
+    function dashboard($session){
+        //TODO Add number of comments for each posts
+        //TODO Add the post_id for each comments
+        $UsersModel = new \src\Models\UsersModel;
+        $PostsModel = new \src\Models\PostsModel;
+        $CommentsModel = new \src\Models\CommentsModel;
 
-    //TODO Add DataTable
-    echo $twig->render('dashboard.twig', [
-        'users' => $UsersModel->getAllUsers(),
-        'posts' => $PostsModel->getAllPosts(),
-        'flash' => $session->flash(),
-        'comments' => $CommentsModel->getAllComments(),
-        'getNumberOfNotConfirmedComments' => $CommentsModel->getNumberOfNotConfirmedComments()
-    ]);
-}
+        //TODO Add DataTable
+        echo $this->twig->render('dashboard.twig', [
+            'users' => $UsersModel->getAllUsers(),
+            'posts' => $PostsModel->getAllPosts(),
+            'flash' => $session->flash(),
+            'comments' => $CommentsModel->getAllComments(),
+            'getNumberOfNotConfirmedComments' => $CommentsModel->getNumberOfNotConfirmedComments()
+        ]);
+    }
 
-function logout($session){
-    unset($_SESSION['auth']);
+    function logout($session){
+        unset($_SESSION['auth']);
 
-    $session->setFlash('success','<strong>Déconnexion réussie</strong>, à bientôt ! :)');
+        $session->setFlash('success','<strong>Déconnexion réussie</strong>, à bientôt ! :)');
 
-    header('Location: index.php');
-    die;
+        header('Location: index.php');
+        die;
+    }
+
 }

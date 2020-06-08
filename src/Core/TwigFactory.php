@@ -1,5 +1,7 @@
 <?php
 
+namespace src\Core;
+
 class TwigFactory{
 
     public $twig;
@@ -8,7 +10,7 @@ class TwigFactory{
     }
 
     static function get(){
-        $loader = new Twig\Loader\FilesystemLoader('..\templates');
+        $loader = new \Twig\Loader\FilesystemLoader('..\templates');
 
         $cache = ( $_ENV['MODE'] === 'developpement' ) ? false : '../tmp' ;
 

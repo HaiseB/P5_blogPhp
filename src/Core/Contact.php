@@ -1,20 +1,22 @@
 <?php
 
+namespace src\Core;
+
 class Contact {
 
     public function __construct(){
     }
 
     public function sendMail(array $form){
-        $transport = (new Swift_SmtpTransport($_ENV['MAIL_HOST'], $_ENV['MAIL_PORT']))
+        $transport = (new \Swift_SmtpTransport($_ENV['MAIL_HOST'], $_ENV['MAIL_PORT']))
             ->setUsername($_ENV['MAIL_NAME'])
             ->setPassword($_ENV['MAIL_PASS']);
 
-        $mailer = new Swift_Mailer($transport);
+        $mailer = new \Swift_Mailer($transport);
 
         $body = $this->getMailBody($form);
 
-        $message = (new Swift_Message('Nouveau contact!'))
+        $message = (new \Swift_Message('Nouveau contact!'))
             ->setFrom(['contact@benjaminhaise.com' => 'BenjaminHaise.com'])
             ->setTo(['contact@benjaminhaise.com', 'benjaminhaise@gmail.com' => 'A name'])
             ->setBody($body)

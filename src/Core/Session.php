@@ -1,5 +1,7 @@
 <?php
 
+namespace src\Core;
+
 class Session{
 
     public function __construct(){

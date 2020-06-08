@@ -7,6 +7,9 @@
             "email": "benjaminhaise@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4" : {"src\\" : "src"}
+    },
     "require": {
         "twig/twig": "^3.0",
         "robmorgan/phinx": "^0.12.0",

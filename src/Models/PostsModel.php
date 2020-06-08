@@ -1,5 +1,9 @@
 <?php
 
+namespace src\Models;
+
+use \src\Core\Model;
+
 class PostsModel extends Model {
 
     public function getAllPosts() :array {

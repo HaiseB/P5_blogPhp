@@ -1,6 +1,6 @@
 <?php
 
-require '../src/Core/Database.php';
+namespace src\Core;
 
 class Model{
 

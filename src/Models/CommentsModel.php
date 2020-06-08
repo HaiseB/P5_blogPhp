@@ -1,5 +1,9 @@
 <?php
 
+namespace src\Models;
+
+use \src\Core\Model;
+
 class CommentsModel extends Model {
 
     public function getAllComments() :array {

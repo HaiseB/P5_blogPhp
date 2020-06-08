@@ -1,5 +1,9 @@
 <?php
 
+namespace src\Models;
+
+use \src\Core\Model;
+
 class UsersModel extends Model {
 
     public function getAllUsers() :array {
@@ -17,10 +21,10 @@ class UsersModel extends Model {
     }
 
     //! TODO How to refactor it?
-    public function authentificationFailed(object $twig, $session) :void {
+    public function authentificationFailed($session) :void {
         $session->setFlash('danger',"<strong>Authentification échouée</strong>, Nom d'utilisateur et/ou mot de passe incorrect");
 
-        echo $twig->render('login.twig', [
+        echo $this->twig->render('login.twig', [
             'data' => $_POST,
             'flash' => $session->flash()
         ]);

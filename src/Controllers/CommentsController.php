@@ -1,36 +1,40 @@
 <?php
 
-require '../src/Models/CommentsModel.php';
+namespace src\Controllers;
 
-function delete($session) {
-    $CommentsModel = new CommentsModel;
+use \src\Core\Controller;
 
-    //TODO Add a validator class
-    $submit['id'] = $_GET['id'];
+class CommentsController extends Controller {
 
-    $comment = $CommentsModel->getCommentById($submit);
+    public function delete($session) {
+        $CommentsModel = new \src\Models\CommentsModel;
 
-    if (!empty($comment)) {
-        $session->setFlash('success',"<strong> Le commentaire de : " .$comment->user_name. "</strong> A bien été supprimé! :)");
-        $CommentsModel->deleteComment($submit);
+        //TODO Add a validator class
+        $submit['id'] = $_GET['id'];
 
-        header('Location: dashboard.html');
-    } else {
-        $session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que ce commentaire n'existe pas :(");
+        $comment = $CommentsModel->getCommentById($submit);
 
-        header('Location: dashboard.html');
-        die;
+        if (!empty($comment)) {
+            $session->setFlash('success',"<strong> Le commentaire de : " .$comment->user_name. "</strong> A bien été supprimé! :)");
+            $CommentsModel->deleteComment($submit);
+
+            header('Location: dashboard.html');
+        } else {
+            $session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que ce commentaire n'existe pas :(");
+
+            header('Location: dashboard.html');
+            die;
+        }
     }
-}
 
-function confirmAll($session) {
-    $CommentsModel = new CommentsModel;
+    function confirmAll($session) {
+        $CommentsModel = new \src\Models\CommentsModel;
 
-    $CommentsModel->confirmAllComments();
+        $CommentsModel->confirmAllComments();
 
-    $session->setFlash('success',"<strong>Tout les commentaires on étés approuvés!</strong> :)");
+        $session->setFlash('success',"<strong>Tout les commentaires on étés approuvés!</strong> :)");
 
-    header('Location: dashboard.html');
-
+        header('Location: dashboard.html');
+    }
 
 }
