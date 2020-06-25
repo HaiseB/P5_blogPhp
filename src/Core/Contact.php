@@ -17,8 +17,8 @@ class Contact {
         $body = $this->getMailBody($form);
 
         $message = (new \Swift_Message('Nouveau contact!'))
-            ->setFrom(['contact@benjaminhaise.com' => 'BenjaminHaise.com'])
-            ->setTo(['contact@benjaminhaise.com', 'benjaminhaise@gmail.com' => 'A name'])
+            ->setFrom([$_ENV['MAIL_NAME'] => $_ENV['MAIL_ADMIN']])
+            ->setTo([$_ENV['MAIL_NAME'], $_ENV['MAIL_ADMIN'] => $_ENV['MAIL_ADMIN']])
             ->setBody($body)
             ->setContentType("text/html");
 

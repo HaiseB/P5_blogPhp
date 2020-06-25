@@ -9,7 +9,7 @@ class CommentsController extends Controller {
     public function delete($session) {
         $CommentsModel = new \src\Models\CommentsModel;
 
-        //TODO Add a validator class
+        // @TODO Add a validator class
         $submit['id'] = $_GET['id'];
 
         $comment = $CommentsModel->getCommentById($submit);

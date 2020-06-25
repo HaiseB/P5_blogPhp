@@ -7,7 +7,7 @@ use \src\Core\Controller;
 class UsersController extends Controller {
 
     function loginPage($session){
-        //TODO Add a validator class
+        // @TODO Add a validator class
         if (isset($_POST['name']) && isset($_POST['password'])) {
             $UsersModel = new \src\Models\UsersModel;
 
@@ -36,13 +36,13 @@ class UsersController extends Controller {
     }
 
     function dashboard($session){
-        //TODO Add number of comments for each posts
-        //TODO Add the post_id for each comments
+        // @TODO Add number of comments for each posts
+        // @TODO Add the post_id for each comments
         $UsersModel = new \src\Models\UsersModel;
         $PostsModel = new \src\Models\PostsModel;
         $CommentsModel = new \src\Models\CommentsModel;
 
-        //TODO Add DataTable
+        // @TODO Add DataTable
         echo $this->twig->render('dashboard.twig', [
             'users' => $UsersModel->getAllUsers(),
             'posts' => $PostsModel->getAllPosts(),

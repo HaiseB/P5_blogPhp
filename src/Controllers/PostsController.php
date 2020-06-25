@@ -18,7 +18,7 @@ class PostsController extends Controller {
         $PostsModel = new \src\Models\PostsModel;
         $CommentsModel = new \src\Models\CommentsModel;
 
-        //TODO Add a validator class
+        // @TODO Add a validator class
         $submit['id'] = $_GET['id'];
 
         $post = $PostsModel->getPostById($submit);
@@ -27,7 +27,7 @@ class PostsController extends Controller {
             $CommentsModel = new \src\Models\CommentsModel;
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                //TODO Add a validator class
+                // @TODO Add a validator class
                 $comment['post_id'] = $submit['id'];
                 $comment['user_name'] = $_POST['user_name'];
                 $comment['content'] = $_POST['content'];
@@ -52,12 +52,12 @@ class PostsController extends Controller {
         $PostsModel = new \src\Models\PostsModel;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['picture']['tmp_name']) ) {
-            //TODO Add a validator class
+            // @TODO Add a validator class
             $post['name'] = $_POST['name'];
             $post['catchphrase'] = $_POST['catchphrase'];
             $post['content'] = $_POST['content'];
 
-            //TODO Add a validator class
+            // @TODO Add a validator class
             $picture['temp'] = $_FILES['picture']['tmp_name'];
             $picture['name'] = $_FILES['picture']['name'];
 
@@ -77,20 +77,20 @@ class PostsController extends Controller {
     public function editPost($session){
         $PostsModel = new \src\Models\PostsModel;
 
-        //TODO Add a validator class
+        // @TODO Add a validator class
         $submit['id'] = $_GET['id'];
 
         $post = $PostsModel->getPostById($submit);
 
         if (!empty($post) ) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                //TODO Add a validator class
+                // @TODO Add a validator class
                 $postSubmitted['name'] = $_POST['name'];
                 $postSubmitted['catchphrase'] = $_POST['catchphrase'];
                 $postSubmitted['content'] = $_POST['content'];
                 $postSubmitted['id'] = $post->id;
 
-                //TODO Add a validator class
+                // @TODO Add a validator class
                 if (!empty($_FILES['picture']['tmp_name'])) {
                     $picture['temp'] = $_FILES['picture']['tmp_name'];
                     $picture['name'] = $_FILES['picture']['name'];
@@ -121,7 +121,7 @@ class PostsController extends Controller {
 
     public function delete($session) {
         $PostsModel = new \src\Models\PostsModel;
-        //TODO Add a validator class
+        // @TODO Add a validator class
         $submit['id'] = $_GET['id'];
 
         $post = $PostsModel->getPostById($submit);

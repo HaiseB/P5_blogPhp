@@ -4,12 +4,12 @@ namespace src\Core;
 
 class TwigFactory{
 
-    public $twig;
+    private static $twig = null ;
 
     public function __construct(){
     }
 
-    static function get(){
+    static function get() {
         $loader = new \Twig\Loader\FilesystemLoader('..\templates');
 
         $cache = ( $_ENV['MODE'] === 'developpement' ) ? false : '../tmp' ;

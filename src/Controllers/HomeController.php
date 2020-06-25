@@ -8,10 +8,10 @@ class HomeController extends Controller {
 
     public function homePage($session){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //TODO Add a $_session to avoid spam
+            // @TODO Add a $_session to avoid spam
             $session->setFlash('success','<strong>Message envoyé</strong>, nous vous contacterons dès que possible ! :)');
 
-            //TODO Add a validator class
+            // @TODO Add a validator class
             $submit['name'] = $_POST['name'];
             $submit['email'] = $_POST['email'];
             $submit['textarea'] = $_POST['textarea'];
