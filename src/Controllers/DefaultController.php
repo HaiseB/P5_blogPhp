@@ -1,11 +1,15 @@
 <?php
 
-namespace src\Controllers;
+namespace App\Controllers;
 
-use \src\Core\Controller;
+use Symfony\Component\Routing\Annotation\Route;
+use \App\Core\Controller;
 
-class HomeController extends Controller {
+class DefaultController extends Controller {
 
+    /**
+     * @Route("/",name="index")
+     */
     public function homePage($session){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // @TODO Add a $_session to avoid spam
@@ -16,7 +20,7 @@ class HomeController extends Controller {
             $submit['email'] = $_POST['email'];
             $submit['textarea'] = $_POST['textarea'];
 
-            $contact = New \src\Core\Contact;
+            $contact = New \App\Core\Contact;
             $contact->sendMail($submit);
 
             echo $this->twig->render('home.twig', [

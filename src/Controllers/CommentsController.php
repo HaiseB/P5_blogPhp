@@ -1,13 +1,13 @@
 <?php
 
-namespace src\Controllers;
+namespace App\Controllers;
 
-use \src\Core\Controller;
+use \App\Core\Controller;
 
 class CommentsController extends Controller {
 
     public function delete($session) {
-        $CommentsModel = new \src\Models\CommentsModel;
+        $CommentsModel = new \App\Models\CommentsModel;
 
         // @TODO Add a validator class
         $submit['id'] = $_GET['id'];
@@ -28,7 +28,7 @@ class CommentsController extends Controller {
     }
 
     function confirmAll($session) {
-        $CommentsModel = new \src\Models\CommentsModel;
+        $CommentsModel = new \App\Models\CommentsModel;
 
         $CommentsModel->confirmAllComments();
 

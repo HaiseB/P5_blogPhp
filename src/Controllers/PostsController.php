@@ -1,13 +1,13 @@
 <?php
 
-namespace src\Controllers;
+namespace App\Controllers;
 
-use \src\Core\Controller;
+use \App\Core\Controller;
 
 class PostsController extends Controller {
 
     public function posts(){
-        $PostsModel = new \src\Models\PostsModel;
+        $PostsModel = new \App\Models\PostsModel;
 
         echo $this->twig->render('posts.twig', [
             'posts' => $PostsModel->getLastPosts()
@@ -15,8 +15,8 @@ class PostsController extends Controller {
     }
 
     public function post($session){
-        $PostsModel = new \src\Models\PostsModel;
-        $CommentsModel = new \src\Models\CommentsModel;
+        $PostsModel = new \App\Models\PostsModel;
+        $CommentsModel = new \App\Models\CommentsModel;
 
         // @TODO Add a validator class
         $submit['id'] = $_GET['id'];
@@ -24,7 +24,7 @@ class PostsController extends Controller {
         $post = $PostsModel->getPostById($submit);
 
         if (!empty($post)) {
-            $CommentsModel = new \src\Models\CommentsModel;
+            $CommentsModel = new \App\Models\CommentsModel;
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // @TODO Add a validator class
@@ -49,7 +49,7 @@ class PostsController extends Controller {
     }
 
     public function newPost($session){
-        $PostsModel = new \src\Models\PostsModel;
+        $PostsModel = new \App\Models\PostsModel;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['picture']['tmp_name']) ) {
             // @TODO Add a validator class
@@ -75,7 +75,7 @@ class PostsController extends Controller {
     }
 
     public function editPost($session){
-        $PostsModel = new \src\Models\PostsModel;
+        $PostsModel = new \App\Models\PostsModel;
 
         // @TODO Add a validator class
         $submit['id'] = $_GET['id'];
@@ -120,7 +120,7 @@ class PostsController extends Controller {
     }
 
     public function delete($session) {
-        $PostsModel = new \src\Models\PostsModel;
+        $PostsModel = new \App\Models\PostsModel;
         // @TODO Add a validator class
         $submit['id'] = $_GET['id'];
 

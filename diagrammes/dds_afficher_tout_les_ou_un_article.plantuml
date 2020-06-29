@@ -1,0 +1,17 @@
+@startuml afficher tout les ou un article
+
+actor User
+boundary Systeme
+database BDD
+
+User -> Systeme: posts() : afficher tout les articles
+Systeme -> BDD: recherche des articles
+BDD --> Systeme : ensemble des articles trouvés
+Systeme --> User: Affichage de la lsite des articles
+
+User -> Systeme: post() : afficher un article
+Systeme -> BDD: recherche de l'article
+BDD --> Systeme : article trouvé
+Systeme --> User: Affichage de l'article
+
+@enduml

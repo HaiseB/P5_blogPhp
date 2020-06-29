@@ -1,8 +1,8 @@
 <?php
 
-namespace src\Models;
+namespace App\Models;
 
-use \src\Core\Model;
+use \App\Core\Model;
 
 class PostsModel extends Model {
 

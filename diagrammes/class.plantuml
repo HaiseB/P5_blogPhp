@@ -1,0 +1,44 @@
+@startuml class
+
+class Users {
+    {static} Auto_increment id
+    {static} String name
+    {static} String email
+    {static} String password
+    {static} Boolean is_admin
+    {static} Datetime created_at
+    {static} Datetime updated_at
+    {static} Boolean is_deleted
+    ---
+}
+
+class Posts {
+    {static} Auto_increment id
+    {static} String user_id
+    {static} String name
+    {static} String picture
+    {static} String catchphrase
+    {static} Text content
+    {static} Datetime created_at
+    {static} Datetime updated_at
+    {static} Boolean is_deleted
+    ---
+}
+
+class Comments {
+    {static} Auto_increment id
+    {static} String post_id
+    {static} String user_name
+    {static} String content
+    {static} Boolean is_confirmed
+    {static} Datetime created_at
+    {static} Datetime updated_at
+    {static} Boolean is_deleted
+    ---
+}
+
+Users "1" -- "many" Posts : writes
+
+Posts "1" -- "many" Comments : contains
+
+@enduml

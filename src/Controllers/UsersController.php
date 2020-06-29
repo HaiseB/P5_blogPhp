@@ -1,15 +1,15 @@
 <?php
 
-namespace src\Controllers;
+namespace App\Controllers;
 
-use \src\Core\Controller;
+use \App\Core\Controller;
 
 class UsersController extends Controller {
 
     function loginPage($session){
         // @TODO Add a validator class
         if (isset($_POST['name']) && isset($_POST['password'])) {
-            $UsersModel = new \src\Models\UsersModel;
+            $UsersModel = new \App\Models\UsersModel;
 
             $submit['name'] = $_POST['name'];
 
@@ -38,9 +38,9 @@ class UsersController extends Controller {
     function dashboard($session){
         // @TODO Add number of comments for each posts
         // @TODO Add the post_id for each comments
-        $UsersModel = new \src\Models\UsersModel;
-        $PostsModel = new \src\Models\PostsModel;
-        $CommentsModel = new \src\Models\CommentsModel;
+        $UsersModel = new \App\Models\UsersModel;
+        $PostsModel = new \App\Models\PostsModel;
+        $CommentsModel = new \App\Models\CommentsModel;
 
         // @TODO Add DataTable
         echo $this->twig->render('dashboard.twig', [
