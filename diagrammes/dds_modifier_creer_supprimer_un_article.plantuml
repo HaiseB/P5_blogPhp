@@ -1,0 +1,28 @@
+@startuml modifier creer supprimer un article
+
+actor Administrateur
+boundary Systeme
+database BDD
+
+Administrateur -> Systeme: login() : doit se connecter
+Systeme -> BDD: recherche de l'utilisateur
+BDD --> Systeme : utilisateur trouvé
+Systeme --> Administrateur: dashboard() / posts() : Affichage du Dashboard / Articles existants
+
+alt creation d'un nouvel article
+    Administrateur -> Systeme: login() : doit se connecter
+    Systeme -> BDD: recherche de l'utilisateur
+    BDD --> Systeme : utilisateur trouvé
+else Modification d'un article
+    Administrateur -> Systeme: login() : doit se connecter
+    Systeme -> BDD: recherche de l'utilisateur
+    BDD --> Systeme : utilisateur trouvé
+else Suppression d'un article
+    Administrateur -> Systeme: login() : doit se connecter
+    Systeme -> BDD: recherche de l'utilisateur
+    BDD --> Systeme : utilisateur trouvé
+end
+
+Systeme --> Administrateur: Affichage du Dashboard / Articles existants
+
+@enduml

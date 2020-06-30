@@ -2,10 +2,14 @@
 
 namespace App\Controllers;
 
+use Symfony\Component\Routing\Annotation\Route;
 use \App\Core\Controller;
 
 class PostsController extends Controller {
 
+    /**
+     * @Route("/biens", name="property.index")
+     */
     public function posts(){
         $PostsModel = new \App\Models\PostsModel;
 
@@ -14,7 +18,7 @@ class PostsController extends Controller {
         ]);
     }
 
-    public function post($session){
+    public function post(){
         $PostsModel = new \App\Models\PostsModel;
         $CommentsModel = new \App\Models\CommentsModel;
 
@@ -34,13 +38,13 @@ class PostsController extends Controller {
 
                 $CommentsModel->createComment($comment);
 
-                $session->setFlash('success',"<strong>Votre commentaire a bien été pris en compte " . $_POST['user_name'] . " !</strong> Il sera ajouté une fois validé par un Administrateur");
+                $this->session->setFlash('success',"<strong>Votre commentaire a bien été pris en compte " . $_POST['user_name'] . " !</strong> Il sera ajouté une fois validé par un Administrateur");
             }
 
             echo $this->twig->render('post.twig', [
                 'post' => $post,
                 'comments' => $CommentsModel->getCommentsByPosts($submit),
-                'flash' => $session->flash()
+                'flash' => $this->session->flash()
             ]);
         } else {
             header('Location: 404.html');
@@ -48,7 +52,7 @@ class PostsController extends Controller {
         }
     }
 
-    public function newPost($session){
+    public function newPost(){
         $PostsModel = new \App\Models\PostsModel;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['picture']['tmp_name']) ) {
@@ -63,18 +67,18 @@ class PostsController extends Controller {
 
             $PostsModel->createNewPost($post, $picture);
 
-            $session->setFlash('success',"<strong>L'article à bien été créé !</strong>");
+            $this->session->setFlash('success',"<strong>L'article à bien été créé !</strong>");
 
             header('Location: dashboard.html');
             die;
         }
 
         echo $this->twig->render('formPost.twig', [
-            'flash' => $session->flash()
+            'flash' => $this->session->flash()
         ]);
     }
 
-    public function editPost($session){
+    public function editPost(){
         $PostsModel = new \App\Models\PostsModel;
 
         // @TODO Add a validator class
@@ -100,7 +104,7 @@ class PostsController extends Controller {
 
                 $PostsModel->updatePost($postSubmitted);
 
-                $session->setFlash('success',"<strong>L'article à bien été modifié !</strong>");
+                $this->session->setFlash('success',"<strong>L'article à bien été modifié !</strong>");
 
                 header('Location: dashboard.html');
                 die;
@@ -108,18 +112,18 @@ class PostsController extends Controller {
 
             echo $this->twig->render('formPost.twig', [
                 'post' => $post,
-                'flash' => $session->flash()
+                'flash' => $this->session->flash()
             ]);
 
         } else {
-            $session->setFlash('danger',"<strong>Cet article n'existe pas</strong> :(");
+            $this->session->setFlash('danger',"<strong>Cet article n'existe pas</strong> :(");
 
             header('Location: dashboard.html');
             die;
         }
     }
 
-    public function delete($session) {
+    public function delete() {
         $PostsModel = new \App\Models\PostsModel;
         // @TODO Add a validator class
         $submit['id'] = $_GET['id'];
@@ -127,13 +131,13 @@ class PostsController extends Controller {
         $post = $PostsModel->getPostById($submit);
 
         if (!empty($post)) {
-            $session->setFlash('success',"<strong> L'article : " .$post->name. "</strong> A bien été supprimé! :)");
+            $this->session->setFlash('success',"<strong> L'article : " .$post->name. "</strong> A bien été supprimé! :)");
             $PostsModel->deletePost($submit);
 
             header('Location: dashboard.html');
             die;
         } else {
-            $session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que cet article n'existe pas :(");
+            $this->session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que cet article n'existe pas :(");
 
             header('Location: dashboard.html');
             die;

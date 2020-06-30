@@ -1,55 +1,15 @@
 <?php
 
-use Doctrine\Common\Annotations\AnnotationReader;
-use Symfony\Bundle\FrameworkBundle\Routing\AnnotatedRouteControllerLoader;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Routing\Loader\AnnotationDirectoryLoader;
-use Composer\Autoload\ClassLoader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
+define('BASE_PATH', dirname(__DIR__));
 
-use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-
-/** @var ClassLoader $loader */
 $loader = require __DIR__.'/../vendor/autoload.php';
 
-$kernel = new App\Core\Kernel;
-//$session = $kernel->session;
+$kernel = new App\Core\Kernel($loader);
 
-AnnotationRegistry::registerLoader([$loader, 'loadClass']);
-
-$loader = new AnnotationDirectoryLoader(
-    new FileLocator(__DIR__.'/../src/Controllers/'),
-    new AnnotatedRouteControllerLoader(
-        new AnnotationReader()
-    )
-);
-
-$routes = $loader->load(__DIR__.'/../src/Controllers/');
-
-// Init RequestContext object
-$context = RequestContext::fromUri($_SERVER['REQUEST_URI']);
-//$context->fromRequest(Request::createFromGlobals());  // Or use the actual Symfony Request object
-
-$matcher = new UrlMatcher($routes, $context);
-$parameters = $matcher->match($context->getPathInfo());
-
-$controllerInfo = explode('::',$parameters['_controller']);
-
-$controller = new $controllerInfo[0];
-$action = $controllerInfo[1];
-
-$controller->$action();
-
-//dump($parameters);
+$kernel->handleRequest();
 
 /*
 switch ($page) {
-    case 'home':
-        $home = new \App\Controllers\HomeController;
-        $home->homePage($session);
-        break;
 
     case 'posts':
         $post = new \App\Controllers\PostsController;

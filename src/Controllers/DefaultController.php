@@ -10,10 +10,10 @@ class DefaultController extends Controller {
     /**
      * @Route("/",name="index")
      */
-    public function homePage($session){
+    public function homePage(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // @TODO Add a $_session to avoid spam
-            $session->setFlash('success','<strong>Message envoyé</strong>, nous vous contacterons dès que possible ! :)');
+            $this->session->setFlash('success','<strong>Message envoyé</strong>, nous vous contacterons dès que possible ! :)');
 
             // @TODO Add a validator class
             $submit['name'] = $_POST['name'];
@@ -24,11 +24,11 @@ class DefaultController extends Controller {
             $contact->sendMail($submit);
 
             echo $this->twig->render('home.twig', [
-                'flash' => $session->flash()
+                'flash' => $this->session->flash()
             ]);
         } else {
             echo $this->twig->render('home.twig', [
-                'flash' => $session->flash()
+                'flash' => $this->session->flash()
             ]);
         }
     }

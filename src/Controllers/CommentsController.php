@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use Symfony\Component\Routing\Annotation\Route;
 use \App\Core\Controller;
 
 class CommentsController extends Controller {
@@ -27,7 +28,7 @@ class CommentsController extends Controller {
         }
     }
 
-    function confirmAll($session) {
+    public function confirmAll($session) {
         $CommentsModel = new \App\Models\CommentsModel;
 
         $CommentsModel->confirmAllComments();

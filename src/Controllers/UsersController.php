@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
+use Symfony\Component\Routing\Annotation\Route;
 use \App\Core\Controller;
 
 class UsersController extends Controller {
 
-    function loginPage($session){
+    public function loginPage(){
         // @TODO Add a validator class
         if (isset($_POST['name']) && isset($_POST['password'])) {
             $UsersModel = new \App\Models\UsersModel;
@@ -19,23 +20,23 @@ class UsersController extends Controller {
                 if ( password_verify($_POST['password'], $user->password)) {
                     $_SESSION['auth'] = $user->name;
 
-                    $session->setFlash('success','Bon retour parmis nous <strong>' . $user->name . '</strong>! :)');
+                    $this->session->setFlash('success','Bon retour parmis nous <strong>' . $user->name . '</strong>! :)');
 
                     header('Location: dashboard.html');
                     die;
 
                 } else {
-                    $UsersModel->authentificationFailed($session);
+                    $UsersModel->authentificationFailed($this->session);
                 }
             } else {
-                $UsersModel->authentificationFailed($session);
+                $UsersModel->authentificationFailed($this->session);
             }
         } else {
             echo $this->twig->render('login.twig');
         }
     }
 
-    function dashboard($session){
+    public function dashboard(){
         // @TODO Add number of comments for each posts
         // @TODO Add the post_id for each comments
         $UsersModel = new \App\Models\UsersModel;
@@ -46,16 +47,16 @@ class UsersController extends Controller {
         echo $this->twig->render('dashboard.twig', [
             'users' => $UsersModel->getAllUsers(),
             'posts' => $PostsModel->getAllPosts(),
-            'flash' => $session->flash(),
+            'flash' => $this->session->flash(),
             'comments' => $CommentsModel->getAllComments(),
             'getNumberOfNotConfirmedComments' => $CommentsModel->getNumberOfNotConfirmedComments()
         ]);
     }
 
-    function logout($session){
+    public function logout(){
         unset($_SESSION['auth']);
 
-        $session->setFlash('success','<strong>Déconnexion réussie</strong>, à bientôt ! :)');
+        $this->session->setFlash('success','<strong>Déconnexion réussie</strong>, à bientôt ! :)');
 
         header('Location: index.php');
         die;
