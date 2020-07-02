@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use Symfony\Component\Routing\Annotation\Route;
 use \App\Core\Controller;
 
 class UsersController extends Controller {

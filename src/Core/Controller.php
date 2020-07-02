@@ -4,12 +4,13 @@ namespace App\Core;
 
 class Controller{
 
-    protected $twig;
     protected $session;
+    protected $twig;
 
-    public function __construct($session){
+    public function __construct(){
+        $this->session = new Session();
+
         $this->twig = TwigFactory::get();
 
-        $this->session = $session;
     }
 }

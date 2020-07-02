@@ -2,14 +2,10 @@
 
 namespace App\Controllers;
 
-use Symfony\Component\Routing\Annotation\Route;
 use \App\Core\Controller;
 
 class DefaultController extends Controller {
 
-    /**
-     * @Route("/",name="index")
-     */
     public function homePage(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // @TODO Add a $_session to avoid spam
@@ -33,7 +29,7 @@ class DefaultController extends Controller {
         }
     }
 
-    public function legalMentions () {
+    public function legalMentions() {
         echo $this->twig->render('mentions_legales.twig');
     }
 

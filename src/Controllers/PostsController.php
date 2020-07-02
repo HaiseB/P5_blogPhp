@@ -2,14 +2,10 @@
 
 namespace App\Controllers;
 
-use Symfony\Component\Routing\Annotation\Route;
 use \App\Core\Controller;
 
 class PostsController extends Controller {
 
-    /**
-     * @Route("/biens", name="property.index")
-     */
     public function posts(){
         $PostsModel = new \App\Models\PostsModel;
 
