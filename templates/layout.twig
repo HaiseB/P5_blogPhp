@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Bungee|Source+Sans+Pro&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/style.css">
@@ -25,17 +25,17 @@
                             <a class="nav-link" href="http://blogphp/">Accueil</a>
                         </li>
                         <li class="nav-item {#active#}">
-                            <a class="nav-link" href="http://blogphp/posts.html">Blog</a>
+                            <a class="nav-link" href="http://blogphp/posts">Blog</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="fas fa-search"></i></a>
                         </li>
                         {% if session.auth %}
                         <li class="nav-item">
-                            <a class="nav-link nav_admin_link" href="http://blogphp/dashboard.html">Dashboard</a>
+                            <a class="nav-link nav_admin_link" href="http://blogphp/dashboard">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav_admin_link" href="http://blogphp/logout.html">Déconnexion</a>
+                            <a class="nav-link nav_admin_link" href="http://blogphp/logout">Déconnexion</a>
                         </li>
                         {% endif %}
                         {#
@@ -91,13 +91,13 @@
             <div class="col-12">
                 <a href="http://blogphp/">Accueil</a>
                 <span>|</span>
-                <a href="http://blogphp/posts.html">Blog</a>
+                <a href="http://blogphp/posts">Blog</a>
                 <span>|</span>
                 {% if not session.auth %}
-                <a href="http://blogphp/login.html">Connexion</a>
+                <a href="http://blogphp/login">Connexion</a>
                 <span>|</span>
                 {% endif %}
-                <a href="http://blogphp/mentions_legales.html">Mentions légales</a>
+                <a href="http://blogphp/mentions_legales">Mentions légales</a>
             </div>
             <hr>
             <div class="col-12">

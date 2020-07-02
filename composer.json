@@ -15,6 +15,10 @@
         "robmorgan/phinx": "^0.12.0",
         "fzaninotto/faker": "^1.9",
         "symfony/dotenv": "^5.0",
-        "swiftmailer/swiftmailer": "^6.2"
+        "swiftmailer/swiftmailer": "^6.2",
+        "altorouter/altorouter": "^2.0"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.1"
     }
 }

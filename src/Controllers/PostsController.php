@@ -14,12 +14,12 @@ class PostsController extends Controller {
         ]);
     }
 
-    public function post(){
+    public function post($postId){
         $PostsModel = new \App\Models\PostsModel;
         $CommentsModel = new \App\Models\CommentsModel;
 
         // @TODO Add a validator class
-        $submit['id'] = $_GET['id'];
+        $submit['id'] = $postId;
 
         $post = $PostsModel->getPostById($submit);
 

@@ -21,7 +21,7 @@ class UsersController extends Controller {
 
                     $this->session->setFlash('success','Bon retour parmis nous <strong>' . $user->name . '</strong>! :)');
 
-                    header('Location: dashboard.html');
+                    header('Location: dashboard');
                     die;
 
                 } else {
@@ -57,7 +57,7 @@ class UsersController extends Controller {
 
         $this->session->setFlash('success','<strong>Déconnexion réussie</strong>, à bientôt ! :)');
 
-        header('Location: index.php');
+        header('Location: /');
         die;
     }
 

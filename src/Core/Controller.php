@@ -8,7 +8,7 @@ class Controller{
     protected $twig;
 
     public function __construct(){
-        $this->session = new Session();
+        $this->session = new Session;
 
         $this->twig = TwigFactory::get();
 
