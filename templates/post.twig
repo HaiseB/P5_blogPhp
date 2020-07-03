@@ -27,9 +27,17 @@
             </div>
         </div>
     {% endfor %}
+    {% if not session.auth %}
+    <div class="text-center">
+        <h4>Vous devez être connecté(e) pour poster un commentaire</h4>
+        <span>(Mais pas de panique ca prend 30 secondes! ;) )</span>
+        <a href="/create_account" class="btn btn-primary btn-block offset-md-3 col-md-6">Créer un compte</a>
+        <a href="/login" class="btn btn-primary btn-block offset-md-3 col-md-6">Se connecter</a>
+    </div>
+    {% else %}
+    <h4>Postez un commentaire!</h4>
     <form method="post" action="">
         <fieldset>
-            <legend>Réagissez à cet article!</legend>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <input type="text" name="user_name"  required class="form-control" id="InputName1" placeholder="Pseudo qui apparaîtra dans le commentaire">
@@ -41,4 +49,5 @@
             <button type="submit" class="btn btn-primary btn-block">Valider</button>
         </fieldset>
     </form>
+    {% endif %}
 {% endblock %}

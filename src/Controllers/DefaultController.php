@@ -30,7 +30,7 @@ class DefaultController extends Controller {
     }
 
     public function legalMentions() {
-        echo $this->twig->render('mentions_legales.twig');
+        echo $this->twig->render('legalMentions.twig');
     }
 
     public function e404(){

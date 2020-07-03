@@ -24,16 +24,18 @@
                         <li class="nav-item">
                             <a class="nav-link" href="http://blogphp/">Accueil</a>
                         </li>
-                        <li class="nav-item {#active#}">
+                        <li class="nav-item">
                             <a class="nav-link" href="http://blogphp/posts">Blog</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="fas fa-search"></i></a>
                         </li>
                         {% if session.auth %}
-                        <li class="nav-item">
-                            <a class="nav-link nav_admin_link" href="http://blogphp/dashboard">Dashboard</a>
-                        </li>
+                            {% if session.role == '1' %}
+                            <li class="nav-item">
+                                <a class="nav-link nav_admin_link" href="http://blogphp/dashboard">Dashboard</a>
+                            </li>
+                            {% endif %}
                         <li class="nav-item">
                             <a class="nav-link nav_admin_link" href="http://blogphp/logout">Déconnexion</a>
                         </li>
@@ -89,15 +91,18 @@
             </div>
             <hr>
             <div class="col-12">
-                <a href="http://blogphp/">Accueil</a>
+                <a href="/">Accueil</a>
                 <span>|</span>
-                <a href="http://blogphp/posts">Blog</a>
+                <a href="/posts">Blog</a>
                 <span>|</span>
                 {% if not session.auth %}
-                <a href="http://blogphp/login">Connexion</a>
+                <a href="/login">Connexion</a>
+                <span>|</span>
+                {% else %}
+                <a href="/logout">Se déconnecter</a>
                 <span>|</span>
                 {% endif %}
-                <a href="http://blogphp/mentions_legales">Mentions légales</a>
+                <a href="/mentions_legales">Mentions légales</a>
             </div>
             <hr>
             <div class="col-12">
