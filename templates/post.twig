@@ -18,7 +18,7 @@
     <hr>
     {% for comment in comments %}
         <div class="card mb-3">
-            <h3 class="card-header">{{ comment.user_name }}</h3>
+            <h5 class="card-header">{{ comment.name }}</h5>
             <div class="card-body">
                 <p class="card-text">{{ comment.content }}</p>
             </div>
@@ -38,11 +38,6 @@
     <h4>Postez un commentaire!</h4>
     <form method="post" action="">
         <fieldset>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <input type="text" name="user_name"  required class="form-control" id="InputName1" placeholder="Pseudo qui apparaîtra dans le commentaire">
-                </div>
-            </div>
             <div class="form-group">
                 <textarea class="form-control" name="content"  required id="Textarea" rows="3" placeholder="Contenu du commentaire (〜^∇^)〜"></textarea>
             </div>

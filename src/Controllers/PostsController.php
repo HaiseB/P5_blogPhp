@@ -26,20 +26,20 @@ class PostsController extends Controller {
         if (!empty($post)) {
             $CommentsModel = new \App\Models\CommentsModel;
 
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_SESSION['id'])) {
                 // @TODO Add a validator class
                 $comment['post_id'] = $submit['id'];
-                $comment['user_name'] = $_POST['user_name'];
+                $comment['user_id'] = $_SESSION['id'];
                 $comment['content'] = $_POST['content'];
 
                 $CommentsModel->createComment($comment);
 
-                $this->session->setFlash('success',"<strong>Votre commentaire a bien été pris en compte " . $_POST['user_name'] . " !</strong> Il sera ajouté une fois validé par un Administrateur");
+                $this->session->setFlash('success',"<strong>Votre commentaire a bien été pris en compte " .  $_SESSION['auth'] . " !</strong> Il sera ajouté une fois validé par un Administrateur");
             }
 
             echo $this->twig->render('post.twig', [
                 'post' => $post,
-                'comments' => $CommentsModel->getCommentsByPosts($submit),
+                'comments' => $CommentsModel->getCommentsByPostsWithUsernames($submit),
                 'flash' => $this->session->flash()
             ]);
         } else {

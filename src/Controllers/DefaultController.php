@@ -17,7 +17,7 @@ class DefaultController extends Controller {
             $submit['textarea'] = $_POST['textarea'];
 
             $contact = New \App\Core\Contact;
-            $contact->sendMail($submit);
+            $contact->sendContactMail($submit);
 
             echo $this->twig->render('home.twig', [
                 'flash' => $this->session->flash()

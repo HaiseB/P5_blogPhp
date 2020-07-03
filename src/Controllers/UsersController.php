@@ -18,18 +18,11 @@ class UsersController extends Controller {
             if (!empty($user)) {
                 if ( password_verify($_POST['password'], $user->password)) {
                     $_SESSION['auth'] = $user->name;
+                    $_SESSION['id'] = $user->id;
                     $_SESSION['role'] = $user->is_admin;
                     $this->session->setFlash('success','Bon retour parmis nous <strong>' . $user->name . '</strong>! :)');
 
-                    if ($_SESSION['role'] === '1') {
-                        header('Location: dashboard');
-                        die;
-                    } else {
-                        header('Location: /');
-                        die;
-                    }
-
-
+                    ($_SESSION['role'] === '1') ? header('Location: dashboard') : header('Location: /');
                 } else {
                     $UsersModel->authentificationFailed($this->session);
                 }
@@ -37,7 +30,9 @@ class UsersController extends Controller {
                 $UsersModel->authentificationFailed($this->session);
             }
         } else {
-            echo $this->twig->render('login.twig');
+            echo $this->twig->render('login.twig', [
+                'flash' => $this->session->flash()
+            ]);
         }
     }
 
@@ -45,17 +40,19 @@ class UsersController extends Controller {
         // @TODO Add a validator class
         $data = $_POST;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            dump($data);
             if ($data['password'] === $data['passwordConfirm']) {
                 $UsersModel = new \App\Models\UsersModel;
 
                 $submit['name'] = $data['name'];
                 $submit['email'] = $data['email'];
+
                 $user = $UsersModel->findUserByNameOrMail($submit);
+
                 if ($user) {
-                    $this->session->setFlash('danger',"Oups! Il semblerait que <strong>votre surnom ou l'email</strong>  soit déjà utilisé par un autre utilisateur :(");
+                    $this->session->setFlash('danger',"Oups! Il semblerait que <strong>votre surnom</strong> ou <strong>votre email</strong>  soit déjà utilisé par un autre utilisateur :(");
                     echo $this->twig->render('newAccount.twig', [
-                        'data' => $data
+                        'data' => $data,
+                        'flash' => $this->session->flash()
                         ]);
                     die;
                 } else {
@@ -65,11 +62,11 @@ class UsersController extends Controller {
                     header('Location: /');
                     die;
                 }
-                die;
             } else {
                 $this->session->setFlash('danger','<strong>Les mots de passes sont différents</strong> :(');
                 echo $this->twig->render('newAccount.twig', [
-                    'data' => $data
+                    'data' => $data,
+                    'flash' => $this->session->flash()
                     ]);
                 die;
             }
@@ -91,8 +88,34 @@ class UsersController extends Controller {
             'users' => $UsersModel->getAllUsers(),
             'posts' => $PostsModel->getAllPosts(),
             'flash' => $this->session->flash(),
-            'comments' => $CommentsModel->getAllComments(),
+            'comments' => $CommentsModel->getAllCommentsWithUsernames(),
             'getNumberOfNotConfirmedComments' => $CommentsModel->getNumberOfNotConfirmedComments()
+        ]);
+    }
+
+    public function confirmRegister(){
+        // @TODO Add a validator class
+        $data = $_GET;
+
+        $UsersModel = new \App\Models\UsersModel;
+        $user = $UsersModel->findUserByNameAndToken($data);
+
+        if ($user) {
+            if ($user->is_registered) {
+                $this->session->setFlash('warning','Huuuummmmm, il semblerait que le compte ai déjà été <strong>activé</strong>! :[');
+            } else {
+                $UsersModel->activateUser($user);
+                $this->session->setFlash('success','<strong>Compte activé</strong>, connectez vous! :)');
+            }
+        } else {
+            $this->session->setFlash('danger','Oups! <strong>Aucun compte ne correspond</strong>! :(');
+        }
+        header('Location: /login');
+    }
+
+    public function resetPassword(){
+        echo $this->twig->render('resetPassword.twig', [
+            'flash' => $this->session->flash()
         ]);
     }
 
@@ -101,9 +124,27 @@ class UsersController extends Controller {
         unset($_SESSION['role']);
 
         $this->session->setFlash('success','<strong>Déconnexion réussie</strong>, à bientôt ! :)');
-
         header('Location: /');
-        die;
+    }
+
+    public function delete($userId) {
+        $UsersModel = new \App\Models\UsersModel;
+        // @TODO Add a validator class
+        $submit['id'] = $userId;
+
+        $user = $UsersModel->findUserById($submit);
+
+        if (!empty($user)) {
+            $this->session->setFlash('success',"L'utilisateur <strong>" .$user->name. "</strong> A bien été supprimé! :)");
+            $UsersModel->deleteUser($submit);
+
+            // @TODO delete users comments too?
+            header('Location: ../dashboard');
+        } else {
+            $this->session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que cet utilisateur n'existe pas :(");
+
+            header('Location: ../dashboard');
+        }
     }
 
 }

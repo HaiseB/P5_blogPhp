@@ -6,15 +6,18 @@ use \App\Core\Model;
 
 class CommentsModel extends Model {
 
-    public function getAllComments() :array {
-        $query = 'SELECT * FROM comments WHERE is_deleted = false';
+    public function getAllCommentsWithUsernames() :array {
+        $query = 'SELECT name, content, comments.created_at, is_confirmed FROM comments
+            JOIN users ON comments.user_id = users.id
+            WHERE comments.is_deleted = false';
 
         return $this->database->fetchAll($query);
     }
 
-    public function getCommentsByPosts(array $submit) :array {
-        $query = "SELECT * FROM comments WHERE is_deleted = false
-            AND post_id= :id AND is_confirmed = 1 ORDER BY updated_at";
+    public function getCommentsByPostsWithUsernames(array $submit) :array {
+        $query = "SELECT name, content, comments.created_at FROM comments
+            JOIN users ON comments.user_id = users.id WHERE comments.is_deleted = false
+            AND post_id= :id AND is_confirmed = 1 ORDER BY comments.updated_at";
 
         return $this->database->fetchAll($query,$submit);
     }
@@ -37,8 +40,8 @@ class CommentsModel extends Model {
     public function createComment(array $submit) :void {
         $timestamp = date('Y-m-d H:i:s');
 
-        $insert = "INSERT INTO comments (post_id, user_name, content, is_confirmed, created_at, updated_at, is_deleted)
-        VALUES ( :post_id , :user_name , :content , false, '$timestamp', '$timestamp', false)";
+        $insert = "INSERT INTO comments (post_id, user_id, content, is_confirmed, created_at, updated_at, is_deleted)
+        VALUES ( :post_id , :user_id , :content , false, '$timestamp', '$timestamp', false)";
 
         $this->database->create($insert, $submit);
     }

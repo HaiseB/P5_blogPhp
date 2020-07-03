@@ -14,8 +14,10 @@ $router = $kernel->router;
 $router->map('GET|POST', '/', 'DefaultController:homePage' );
 $router->map('GET', '/mentions_legales', 'DefaultController:legalMentions' );
 $router->map('GET|POST', '/login', 'UsersController:loginPage' );
-$router->map('GET|POST', '/create_account', 'UsersController:newUser' );
 $router->map('GET', '/logout', 'UsersController:logout' );
+$router->map('GET|POST', '/create_account', 'UsersController:newUser' );
+$router->map('GET', '/confirme_register', 'UsersController:confirmRegister' );
+$router->map('GET', '/reset_password', 'UsersController:resetPassword' );
 $router->map('GET', '/posts', 'PostsController:posts' );
 $router->map('GET|POST', '/post/[i:id]', 'PostsController:post' );
 /** Admins */
@@ -25,14 +27,8 @@ $router->map('GET|POST', '/edit_post/[i:id]', 'PostsController:editPost' );
 $router->map('GET', '/delete_post/[i:id]', 'PostsController:delete' );
 $router->map('GET', '/confirm_all_comments', 'CommentsController:confirmAll' );
 $router->map('GET', '/delete_comment/[i:id]', 'CommentsController:delete' );
-
-
-
 $router->map('GET', '/delete_user/[i:id]', 'UsersController:delete' );
 
-// ADD
-// send mail token user
-// validate token
 
 $match = $router->match();
 
