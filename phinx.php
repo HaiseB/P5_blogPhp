@@ -1,13 +1,22 @@
 <?php
 
-$pdo = new PDO(
-    'mysql:dbname=blogphp;host=localhost',
-    'root',
-    '',
-    [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    ]
-);
+require 'vendor/autoload.php';
+use Symfony\Component\Dotenv\Dotenv;
+
+$dotenv = new Dotenv;
+$dotenv->load('.env');
+
+$dns = 'mysql:dbname=' . $_ENV['DB_NAME'] . ';host=' . $_ENV['DB_HOST'] . ';charset=UTF8';
+
+try {
+    $pdo = new \PDO($dns,$_ENV['DB_USER'], $_ENV['DB_PASS'], [
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ
+        ]
+    );
+} catch (\PDOException $e) {
+    echo 'Connexion failed : ' . $e->getMessage();
+}
 
 return [
     'paths' => [

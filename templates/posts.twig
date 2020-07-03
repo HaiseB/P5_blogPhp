@@ -15,7 +15,7 @@
                 <p class="card-text">{{ post.catchphrase }}</p>
             </div>
             <div class="card-body">
-                <a href="index.php?p=post&id={{ post.id }}" class="card-link">link</a>
+                <a href="post/{{ post.id }}" class="card-link">link</a>
             </div>
             <div class="card-footer text-muted">
                 {{ post.created_at }}

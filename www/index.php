@@ -1,96 +1,39 @@
 <?php
 
-require '../src/Models/Class/session.class.php';
+define('BASE_PATH', dirname(__DIR__));
 
-require '../vendor/autoload.php';
-require '../src/Models/Functions/MainFunctions.php';
+require __DIR__.'/../vendor/autoload.php';
 
-$Session = new Session();
+$kernel = new App\Core\Kernel;
+$router = $kernel->router;
 
-// Rendu du template
-$loader = new Twig\Loader\FilesystemLoader('..\templates');
+/**
+ * Routes
+ */
+$router->map('GET|POST', '/', 'DefaultController:homePage' );
+$router->map('GET', '/mentions_legales', 'DefaultController:legalMentions' );
+$router->map('GET|POST', '/login', 'UsersController:loginPage' );
+$router->map('GET', '/dashboard', 'UsersController:dashboard' );
+$router->map('GET', '/logout', 'UsersController:logout' );
+$router->map('GET', '/posts', 'PostsController:posts' );
+$router->map('GET|POST', '/post/[i:id]', 'PostsController:post' );
+$router->map('GET|POST', '/new_post', 'PostsController:newPost' );
+$router->map('GET|POST', '/edit_post/[i:id]', 'PostsController:editPost' );
+$router->map('GET', '/delete_post/[i:id]', 'PostsController:delete' );
+$router->map('GET', '/confirm_all_comments', 'CommentsController:confirmAll' );
+$router->map('GET', '/delete_comment/[i:id]', 'CommentsController:delete' );
 
-$twig = new \Twig\Environment($loader, [
-    'cache' => false // '../tmp'
-]);
+// ADD
+// create user
+// send mail token user
+// validate token
+// delete user
 
-$twig->addGlobal('session', $_SESSION);
+$match = $router->match();
 
-// Routing
-$page = 'home';
-
-if (isset($_GET['p'])){
-    $page = $_GET['p'];
-}
-
-switch ($page) {
-    case 'home':
-        require '../src/Controllers/HomeController.php';
-        homePage($twig, $Session);
-        break;
-
-    case 'posts':
-        require '../src/Controllers/PostsController.php';
-        posts($twig);
-        break;
-
-    case 'post':
-        require '../src/Controllers/PostsController.php';
-        post($twig, $Session);
-        break;
-
-    case 'login':
-        require '../src/Controllers/UsersController.php';
-        loginPage($twig, $Session);
-        break;
-
-    case 'dashboard':
-        require '../src/Controllers/UsersController.php';
-        loggedOnly();
-        dashboard($twig, $Session);
-        break;
-
-    case 'new_post':
-        loggedOnly();
-        require '../src/Controllers/PostsController.php';
-        newPost($twig, $Session);
-        break;
-
-    case 'edit_post':
-        loggedOnly();
-        require '../src/Controllers/PostsController.php';
-        editPost($twig, $Session);
-        break;
-
-    case 'delete_post':
-        loggedOnly();
-        require '../src/Controllers/PostsController.php';
-        delete($Session);
-        break;
-
-    case 'confirm_all_comments':
-        loggedOnly();
-        require '../src/Controllers/CommentsController.php';
-        confirmAll($Session);
-        break;
-
-    case 'delete_comment':
-        loggedOnly();
-        require '../src/Controllers/CommentsController.php';
-        delete($Session);
-        break;
-
-    case 'logout':
-        loggedOnly();
-        require '../src/Controllers/UsersController.php';
-        logout($Session);
-        break;
-
-    case 'mentions_legales':
-        echo $twig->render('mentions_legales.twig');
-        break;
-
-    default:
-        header('HTTP/1.0 404 Not Found');
-        echo $twig->render('404.twig');
+if (is_array($match)) {
+    $router->callRoute($match['target'], $match['params']);
+} else {
+    $home = new \App\Controllers\DefaultController;
+    $home->e404();
 }

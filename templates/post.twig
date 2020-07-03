@@ -2,12 +2,15 @@
 
 {% block head %}
     <title>{{ post.name }}</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" type="png" href="../images/favicon.png"/>
 {% endblock head %}
 
 {% block content %}
     <h1>{{ post.name }}</h1>
     <span>par Benjamin Haise le {{ post.created_at |date("m/d/Y", "Europe/Paris") }}</span>
-    <img style="height: auto; width: 100%; display: block;" src="posts_images/{{ post.id }}/{{ post.picture }}" alt="Post image">
+    <img style="height: auto; width: 100%; display: block;" src="../posts_images/{{ post.id }}/{{ post.picture }}" alt="Post image">
     <h5>{{ post.catchphrase }}</h5>
     <span>partager Fb / Twitter / Linkedin / Lien brut</span>
     <hr>

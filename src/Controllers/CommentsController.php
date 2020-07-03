@@ -1,30 +1,40 @@
 <?php
 
-require '../src/Models/Functions/CommentsFunctions.php';
+namespace App\Controllers;
 
-function delete($Session) {
-    $comment = getCommentById();
+use \App\Core\Controller;
 
-    if (!empty($comment)) {
-        $Session->setFlash('success',"<strong> Le commentaire de : " .$comment->user_name. "</strong> A bien été supprimé! :)");
-        deleteComment();
+class CommentsController extends Controller {
 
-        header('Location: dashboard.html');
-        die;
-    } else {
-        $Session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que ce commentaire n'existe pas :(");
+    public function delete($commentId) {
+        $CommentsModel = new \App\Models\CommentsModel;
 
-        header('Location: dashboard.html');
-        die;
+        // @TODO Add a validator class
+        $submit['id'] = $commentId;
+
+        $comment = $CommentsModel->getCommentById($submit);
+
+        if (!empty($comment)) {
+            $this->session->setFlash('success',"<strong> Le commentaire de : " .$comment->user_name. "</strong> A bien été supprimé! :)");
+            $CommentsModel->deleteComment($submit);
+
+            header('Location: ../dashboard');
+        } else {
+            $this->session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que ce commentaire n'existe pas :(");
+
+            header('Location: ../dashboard');
+            die;
+        }
     }
-}
 
-function confirmAll($Session) {
-    confirmAllComments();
+    public function confirmAll() {
+        $CommentsModel = new \App\Models\CommentsModel;
 
-    $Session->setFlash('success',"<strong>Tout les commentaires on étés approuvés!</strong> :)");
+        $CommentsModel->confirmAllComments();
 
-    header('Location: dashboard.html');
+        $this->session->setFlash('success',"<strong>Tout les commentaires on étés approuvés!</strong> :)");
 
+        header('Location: dashboard');
+    }
 
 }

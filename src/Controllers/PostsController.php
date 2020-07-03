@@ -1,98 +1,143 @@
 <?php
 
-require '../src/Models/Functions/PostsFunctions.php';
-require '../src/Models/Functions/CommentsFunctions.php';
+namespace App\Controllers;
 
-function posts($twig){
-    echo $twig->render('posts.twig', [
-        'posts' => getLastPosts()
-    ]);
-}
+use \App\Core\Controller;
 
-function post($twig, $Session){
-    $post = getPostById();
+class PostsController extends Controller {
 
-    if (!empty($post)) {
-        //Ajout de commentaire
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //TODO vérif données
-            createComment();
+    public function posts(){
+        $PostsModel = new \App\Models\PostsModel;
 
-            $Session->setFlash('success',"<strong>Votre commentaire a bien été pris en compte " . $_POST['user_name'] . " !</strong> Il sera ajouté une fois validé");
-        }
-
-        echo $twig->render('post.twig', [
-            'post' => $post,
-            'comments' => getCommentsByPots(),
-            'flash' => $Session->flash()
+        echo $this->twig->render('posts.twig', [
+            'posts' => $PostsModel->getLastPosts()
         ]);
-
-    } else {
-        header('Location: 404.html');
-        die;
-    }
-}
-
-function newPost($twig, $Session){
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['picture']['tmp_name']) ) {
-        //TODO vérif données
-        createNewPost();
-
-        $Session->setFlash('success',"<strong>L'article à bien été créé !</strong>");
-
-        header('Location: dashboard.html');
-        die;
     }
 
-    echo $twig->render('formPost.twig', [
-        'flash' => $Session->flash()
-    ]);
-}
+    public function post($postId){
+        $PostsModel = new \App\Models\PostsModel;
+        $CommentsModel = new \App\Models\CommentsModel;
 
-function editPost($twig, $Session){
-    $post = getPostById();
+        // @TODO Add a validator class
+        $submit['id'] = $postId;
 
-    if (!empty($post) ) {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //TODO vérif données
-            if (!empty($_FILES['picture']['tmp_name'])) {
-                updatePicture();
+        $post = $PostsModel->getPostById($submit);
+
+        if (!empty($post)) {
+            $CommentsModel = new \App\Models\CommentsModel;
+
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // @TODO Add a validator class
+                $comment['post_id'] = $submit['id'];
+                $comment['user_name'] = $_POST['user_name'];
+                $comment['content'] = $_POST['content'];
+
+                $CommentsModel->createComment($comment);
+
+                $this->session->setFlash('success',"<strong>Votre commentaire a bien été pris en compte " . $_POST['user_name'] . " !</strong> Il sera ajouté une fois validé par un Administrateur");
             }
-            updatePost();
 
-            $Session->setFlash('success',"<strong>L'article à bien été modifié !</strong>");
+            echo $this->twig->render('post.twig', [
+                'post' => $post,
+                'comments' => $CommentsModel->getCommentsByPosts($submit),
+                'flash' => $this->session->flash()
+            ]);
+        } else {
+            header('Location: 404');
+            die;
+        }
+    }
 
-            header('Location: dashboard.html');
+    public function newPost(){
+        $PostsModel = new \App\Models\PostsModel;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['picture']['tmp_name']) ) {
+            // @TODO Add a validator class
+            $post['name'] = $_POST['name'];
+            $post['catchphrase'] = $_POST['catchphrase'];
+            $post['content'] = $_POST['content'];
+
+            // @TODO Add a validator class
+            $picture['temp'] = $_FILES['picture']['tmp_name'];
+            $picture['name'] = $_FILES['picture']['name'];
+
+            $PostsModel->createNewPost($post, $picture);
+
+            $this->session->setFlash('success',"<strong>L'article à bien été créé !</strong>");
+
+            header('Location: dashboard');
             die;
         }
 
-        echo $twig->render('formPost.twig', [
-            'post' => $post,
-            'flash' => $Session->flash()
+        echo $this->twig->render('formPost.twig', [
+            'flash' => $this->session->flash()
         ]);
-
-    } else {
-        $Session->setFlash('danger',"<strong>Cet article n'existe pas</strong> :(");
-
-        header('Location: dashboard.html');
-        die;
     }
 
-}
+    public function editPost($postId){
+        $PostsModel = new \App\Models\PostsModel;
 
-function delete($Session) {
-    $post = getPostById();
+        // @TODO Add a validator class
+        $submit['id'] = $postId;
 
-    if (!empty($post)) {
-        $Session->setFlash('success',"<strong> L'article : " .$post->name. "</strong> A bien été supprimé! :)");
-        deletePost();
+        $post = $PostsModel->getPostById($submit);
 
-        header('Location: dashboard.html');
-        die;
-    } else {
-        $Session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que cet article n'existe pas :(");
+        if (!empty($post) ) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // @TODO Add a validator class
+                $postSubmitted['name'] = $_POST['name'];
+                $postSubmitted['catchphrase'] = $_POST['catchphrase'];
+                $postSubmitted['content'] = $_POST['content'];
+                $postSubmitted['id'] = $post->id;
 
-        header('Location: dashboard.html');
-        die;
+                // @TODO Add a validator class
+                if (!empty($_FILES['picture']['tmp_name'])) {
+                    $picture['temp'] = $_FILES['picture']['tmp_name'];
+                    $picture['name'] = $_FILES['picture']['name'];
+
+                    $PostsModel->addPicture($post->id, $picture);
+                }
+
+                $PostsModel->updatePost($postSubmitted);
+
+                $this->session->setFlash('success',"<strong>L'article à bien été modifié !</strong>");
+
+                header('Location: ../dashboard');
+                die;
+            }
+
+            echo $this->twig->render('formPost.twig', [
+                'post' => $post,
+                'flash' => $this->session->flash()
+            ]);
+
+        } else {
+            $this->session->setFlash('danger',"<strong>Cet article n'existe pas</strong> :(");
+
+            header('Location: ../dashboard');
+            die;
+        }
+    }
+
+    public function delete($postId) {
+        $PostsModel = new \App\Models\PostsModel;
+        // @TODO Add a validator class
+        $submit['id'] = $postId;
+
+        $post = $PostsModel->getPostById($submit);
+
+        if (!empty($post)) {
+            $this->session->setFlash('success',"<strong> L'article : " .$post->name. "</strong> A bien été supprimé! :)");
+            $PostsModel->deletePost($submit);
+
+            // @TODO delete comments too
+            header('Location: ../dashboard');
+            die;
+        } else {
+            $this->session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que cet article n'existe pas :(");
+
+            header('Location: ../dashboard');
+            die;
+        }
     }
 }

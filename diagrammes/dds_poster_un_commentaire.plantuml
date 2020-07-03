@@ -1,0 +1,39 @@
+@startuml Création de commande
+
+actor client
+boundary Systeme
+database BDD
+
+client -> Systeme: consultationMenu()
+Systeme -> BDD: Recherche des plats dispo
+BDD --> Systeme : Ensemble des plats disponible
+Systeme --> client: Affichage du menu
+
+client -> Systeme: choisirUnPlat() dispo
+Systeme -> BDD: Ajout à la commande
+BDD --> Systeme : Enregistrement effectué
+Systeme --> client: Ajout à la commande
+
+client -> Systeme: validerLaCommande()
+Systeme --> client: Demande d'information de livraison
+client -> Systeme: Saisie des informations
+
+Systeme -> GPS: Choix du livreur
+GPS --> Systeme: Livreur disponible ayant le stock demandé le plus proche
+
+Systeme -> BDD: Enregistrement des données
+BDD --> Systeme : Enregistrement effectué
+Systeme --> client: Confirmation de la commande
+
+alt ajouter d'un paiement en CB
+    client -> Systeme: Saisie des informations de paiement
+    Systeme -> SystemeBancaire: Demande de validation
+    SystemeBancaire --> Systeme : Paiement possible
+    Systeme -> BDD: Enregistrement des informations de paiement
+    BDD --> Systeme : Enregistrement effectué
+    Systeme --> client: Paiement validé
+    end
+
+Systeme --> client: Confirmation & retour à la page d'accueil
+
+@enduml

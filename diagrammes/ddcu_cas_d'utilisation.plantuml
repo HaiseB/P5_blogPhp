@@ -1,0 +1,28 @@
+@startuml cas_d'utilisation
+scale 1
+Left to right direction
+skinparam packageStyle rect
+actor administrateurs
+actor visiteurs
+
+rectangle cas_d'utilisation {
+
+(administrateurs) -- (visiteurs)
+
+(visiteurs) -- (poster un commentaire)
+(visiteurs) -- (visualiser le cv)
+(visiteurs) -- (envoyer un message via le formulaire de contact)
+(visiteurs) -- (visualiser un article)
+(visiteurs) -- (s'authentifier)
+(visiteurs) -- (creer un compte)
+(administrateurs) -- (creer/modifier/supprimer un article)
+(administrateurs) -- (valider/supprimer un commentaire)
+
+(s'authentifier) .>  (creer un compte):extend
+(visualiser la liste des articles) .> (visualiser un article):extend
+
+(creer/modifier/supprimer un article) ..> (s'authentifier):include
+(valider/supprimer un commentaire) ..> (s'authentifier):include
+
+}
+@enduml
