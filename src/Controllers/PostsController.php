@@ -43,7 +43,7 @@ class PostsController extends Controller {
                 'flash' => $this->session->flash()
             ]);
         } else {
-            header('Location: 404.html');
+            header('Location: 404');
             die;
         }
     }
@@ -65,7 +65,7 @@ class PostsController extends Controller {
 
             $this->session->setFlash('success',"<strong>L'article à bien été créé !</strong>");
 
-            header('Location: dashboard.html');
+            header('Location: dashboard');
             die;
         }
 
@@ -74,11 +74,11 @@ class PostsController extends Controller {
         ]);
     }
 
-    public function editPost(){
+    public function editPost($postId){
         $PostsModel = new \App\Models\PostsModel;
 
         // @TODO Add a validator class
-        $submit['id'] = $_GET['id'];
+        $submit['id'] = $postId;
 
         $post = $PostsModel->getPostById($submit);
 
@@ -102,7 +102,7 @@ class PostsController extends Controller {
 
                 $this->session->setFlash('success',"<strong>L'article à bien été modifié !</strong>");
 
-                header('Location: dashboard.html');
+                header('Location: ../dashboard');
                 die;
             }
 
@@ -114,15 +114,15 @@ class PostsController extends Controller {
         } else {
             $this->session->setFlash('danger',"<strong>Cet article n'existe pas</strong> :(");
 
-            header('Location: dashboard.html');
+            header('Location: ../dashboard');
             die;
         }
     }
 
-    public function delete() {
+    public function delete($postId) {
         $PostsModel = new \App\Models\PostsModel;
         // @TODO Add a validator class
-        $submit['id'] = $_GET['id'];
+        $submit['id'] = $postId;
 
         $post = $PostsModel->getPostById($submit);
 
@@ -130,12 +130,13 @@ class PostsController extends Controller {
             $this->session->setFlash('success',"<strong> L'article : " .$post->name. "</strong> A bien été supprimé! :)");
             $PostsModel->deletePost($submit);
 
-            header('Location: dashboard.html');
+            // @TODO delete comments too
+            header('Location: ../dashboard');
             die;
         } else {
             $this->session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que cet article n'existe pas :(");
 
-            header('Location: dashboard.html');
+            header('Location: ../dashboard');
             die;
         }
     }

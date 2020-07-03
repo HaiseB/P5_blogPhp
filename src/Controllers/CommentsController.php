@@ -6,11 +6,11 @@ use \App\Core\Controller;
 
 class CommentsController extends Controller {
 
-    public function delete() {
+    public function delete($commentId) {
         $CommentsModel = new \App\Models\CommentsModel;
 
         // @TODO Add a validator class
-        $submit['id'] = $_GET['id'];
+        $submit['id'] = $commentId;
 
         $comment = $CommentsModel->getCommentById($submit);
 
@@ -18,11 +18,11 @@ class CommentsController extends Controller {
             $this->session->setFlash('success',"<strong> Le commentaire de : " .$comment->user_name. "</strong> A bien été supprimé! :)");
             $CommentsModel->deleteComment($submit);
 
-            header('Location: dashboard.html');
+            header('Location: ../dashboard');
         } else {
             $this->session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que ce commentaire n'existe pas :(");
 
-            header('Location: dashboard.html');
+            header('Location: ../dashboard');
             die;
         }
     }
@@ -34,7 +34,7 @@ class CommentsController extends Controller {
 
         $this->session->setFlash('success',"<strong>Tout les commentaires on étés approuvés!</strong> :)");
 
-        header('Location: dashboard.html');
+        header('Location: dashboard');
     }
 
 }

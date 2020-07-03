@@ -13,7 +13,7 @@ class UsersModel extends Model {
     }
 
     public function findUserByName(array $submit) :?object {
-        $query = "SELECT name, password FROM Users WHERE is_deleted = false AND name= :name LIMIT 1";
+        $query = "SELECT name, password FROM Users WHERE is_deleted = false AND is_registered = true AND name= :name LIMIT 1";
 
         $user = $this->database->fetch($query, $submit);
 
@@ -35,7 +35,7 @@ class UsersModel extends Model {
     //! TODO How to refactor it?
     public function loggedOnly() :void {
         if (!isset($_SESSION['auth'])) {
-            header('Location: 404.html');
+            header('Location: 404');
             die;
         }
     }
