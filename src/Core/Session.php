@@ -1,21 +1,58 @@
 <?php
-
+/**
+ * Session Class Doc Comment
+ *
+ * @category Class
+ * @package  Blogphp
+ * @author   HaiseB <benjaminhaise@gmail.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://github.com/HaiseB/P5_blogPhp/
+ */
 namespace App\Core;
 
-class Session{
+/**
+ * Session Class Doc Comment
+ *
+ * @category Class
+ * @package  Blogphp
+ * @author   HaiseB <benjaminhaise@gmail.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://github.com/HaiseB/P5_blogPhp/
+ */
+class Session
+{
 
-    public function __construct(){
+    /**
+     * Session constructor
+     */
+    public function __construct()
+    {
         session_start();
     }
 
-    public function setFlash(string $type, string $message){
+    /**
+     * Save the message
+     *
+     * @param string $type type of message
+     * @param string $message content
+     *
+     * @return void
+     */
+    public function setFlash(string $type, string $message)
+    {
         $_SESSION['flash'] = array(
             'type' => $type,
             'message' => $message
         );
     }
 
-    public function flash() :array {
+    /**
+     * Print and delete the flash message
+     *
+     * @return array
+     */
+    public function flash() :array
+    {
         $flash = array();
 
         if (isset($_SESSION['flash'])) {

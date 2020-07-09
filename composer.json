@@ -19,6 +19,7 @@
         "altorouter/altorouter": "^2.0"
     },
     "require-dev": {
-        "symfony/var-dumper": "^5.1"
+        "symfony/var-dumper": "^5.1",
+        "squizlabs/php_codesniffer": "3.*"
     }
 }

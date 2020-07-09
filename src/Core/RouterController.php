@@ -1,12 +1,39 @@
 <?php
-
+/**
+ * RouterController Class Doc Comment
+ *
+ * @category Class
+ * @package  Blogphp
+ * @author   HaiseB <benjaminhaise@gmail.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://github.com/HaiseB/P5_blogPhp/
+ */
 namespace App\Core;
 
 use AltoRouter;
 
-class RouterController extends AltoRouter{
+/**
+ * RouterController Class Doc Comment
+ *
+ * @category Class
+ * @package  Blogphp
+ * @author   HaiseB <benjaminhaise@gmail.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://github.com/HaiseB/P5_blogPhp/
+ */
+class RouterController extends AltoRouter
+{
 
-    public function callRoute($target, $params){
+    /**
+     * Redirect to the right controller
+     *
+     * @param [type] $target name of the route
+     * @param [type] $params optonal paramaters
+     *
+     * @return void
+     */
+    public function callRoute($target, $params)
+    {
         if (stripos($target, ':') !== false) {
             list($controller, $method) = explode(':', $target, 2);
 

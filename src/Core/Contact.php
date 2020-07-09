@@ -1,17 +1,47 @@
 <?php
-
+/**
+ * Contact Class Doc Comment
+ *
+ * @category Class
+ * @package  Blogphp
+ * @author   HaiseB <benjaminhaise@gmail.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://github.com/HaiseB/P5_blogPhp/
+ */
 namespace App\Core;
 
-class Contact {
+/**
+ * Contact Class Doc Comment
+ *
+ * @category Class
+ * @package  Blogphp
+ * @author   HaiseB <benjaminhaise@gmail.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://github.com/HaiseB/P5_blogPhp/
+ */
+class Contact
+{
 
-    public function __construct(){
+    /**
+     * Undocumented function
+     */
+    public function __construct()
+    {
     }
 
-    public function sendContactMail(array $form){
-        $transport = $this->getTranport();
+    /**
+     * Send a contact mail
+     *
+     * @param array $form name, email, content
+     *
+     * @return void
+     */
+    public function sendContactMail(array $form)
+    {
+        $transport = $this->_getTranport();
         $mailer = new \Swift_Mailer($transport);
 
-        $body = $this->getContactMailBody($form);
+        $body = $this->_getContactMailBody($form);
 
         $message = (new \Swift_Message('Nouveau contact!'))
             ->setFrom([$_ENV['MAIL_NAME'] => $_ENV['MAIL_ADMIN']])
@@ -24,11 +54,19 @@ class Contact {
         return $result;
     }
 
-    public function sendRegisterMail(array $form){
-        $transport = $this->getTranport();
+    /**
+     * Send a register mail
+     *
+     * @param array $form name, email, token
+     *
+     * @return void
+     */
+    public function sendRegisterMail(array $form)
+    {
+        $transport = $this->_getTranport();
         $mailer = new \Swift_Mailer($transport);
 
-        $body = $this->getRegisterMailBody($form);
+        $body = $this->_getRegisterMailBody($form);
 
         $message = (new \Swift_Message('Terminez votre inscription!'))
             ->setFrom([$_ENV['MAIL_NAME'] => $_ENV['MAIL_NAME']])
@@ -41,7 +79,15 @@ class Contact {
         return $result;
     }
 
-    private function getContactMailBody(array $form) :string {
+    /**
+     * Return the completed contact mail body
+     *
+     * @param array $form name, email, content
+     *
+     * @return string
+     */
+    private function _getContactMailBody(array $form) :string
+    {
         $body = file_get_contents('../templates/mailContact.twig');
 
         $body = preg_replace("/NOMDUCONTACT/", $form['name'], $body);
@@ -52,7 +98,15 @@ class Contact {
         return $body;
     }
 
-    private function getRegisterMailBody(array $form) :string {
+    /**
+     * Return the completed registerer mail body
+     *
+     * @param array $form name, email, token
+     *
+     * @return string
+     */
+    private function _getRegisterMailBody(array $form) :string
+    {
         $body = file_get_contents('../templates/mailNewAccount.twig');
 
         $body = preg_replace("/NOMDUCONTACT/", $form['name'], $body);
@@ -62,7 +116,13 @@ class Contact {
     }
 
 
-    private function getTranport() {
+    /**
+     * Return transporter of the mail
+     *
+     * @return object
+     */
+    private function _getTranport() :object
+    {
         return (new \Swift_SmtpTransport($_ENV['MAIL_HOST'], $_ENV['MAIL_PORT']))
             ->setUsername($_ENV['MAIL_NAME'])
             ->setPassword($_ENV['MAIL_PASS']);

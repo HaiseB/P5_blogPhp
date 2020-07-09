@@ -9,9 +9,10 @@ $dotenv->load('.env');
 $dns = 'mysql:dbname=' . $_ENV['DB_NAME'] . ';host=' . $_ENV['DB_HOST'] . ';charset=UTF8';
 
 try {
-    $pdo = new \PDO($dns,$_ENV['DB_USER'], $_ENV['DB_PASS'], [
-            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ
+    $pdo = new \PDO(
+        $dns, $_ENV['DB_USER'], $_ENV['DB_PASS'], [
+        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+        \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
         ]
     );
 } catch (\PDOException $e) {

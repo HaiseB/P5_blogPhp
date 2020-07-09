@@ -1,20 +1,54 @@
 <?php
-
+/**
+ * PostsController Class Doc Comment
+ *
+ * @category Class
+ * @package  Blogphp
+ * @author   HaiseB <benjaminhaise@gmail.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://github.com/HaiseB/P5_blogPhp/
+ */
 namespace App\Controllers;
 
 use \App\Core\Controller;
 
-class PostsController extends Controller {
+/**
+ * PostsController Class Doc Comment
+ *
+ * @category Class
+ * @package  Blogphp
+ * @author   HaiseB <benjaminhaise@gmail.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     https://github.com/HaiseB/P5_blogPhp/
+ */
+class PostsController extends Controller
+{
 
-    public function posts(){
+    /**
+     * Print all posts
+     *
+     * @return void
+     */
+    public function posts()
+    {
         $PostsModel = new \App\Models\PostsModel;
 
-        echo $this->twig->render('posts.twig', [
+        echo $this->twig->render(
+            'posts.twig', [
             'posts' => $PostsModel->getLastPosts()
-        ]);
+            ]
+        );
     }
 
-    public function post($postId){
+    /**
+     * Get a post by his id
+     *
+     * @param integer $postId id of the post
+     *
+     * @return void
+     */
+    public function post(int $postId)
+    {
         $PostsModel = new \App\Models\PostsModel;
         $CommentsModel = new \App\Models\CommentsModel;
 
@@ -34,21 +68,29 @@ class PostsController extends Controller {
 
                 $CommentsModel->createComment($comment);
 
-                $this->session->setFlash('success',"<strong>Votre commentaire a bien été pris en compte " .  $_SESSION['auth'] . " !</strong> Il sera ajouté une fois validé par un Administrateur");
+                $this->session->setFlash('success', "<strong>Votre commentaire a bien été pris en compte " .  $_SESSION['auth'] . " !</strong> Il sera ajouté une fois validé par un Administrateur");
             }
 
-            echo $this->twig->render('post.twig', [
+            echo $this->twig->render(
+                'post.twig', [
                 'post' => $post,
                 'comments' => $CommentsModel->getCommentsByPostsWithUsernames($submit),
                 'flash' => $this->session->flash()
-            ]);
+                ]
+            );
         } else {
             header('Location: 404');
             die;
         }
     }
 
-    public function newPost(){
+    /**
+     * Create a new post
+     *
+     * @return void
+     */
+    public function newPost()
+    {
         $PostsModel = new \App\Models\PostsModel;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['picture']['tmp_name']) ) {
@@ -63,18 +105,28 @@ class PostsController extends Controller {
 
             $PostsModel->createNewPost($post, $picture);
 
-            $this->session->setFlash('success',"<strong>L'article à bien été créé !</strong>");
+            $this->session->setFlash('success', "<strong>L'article à bien été créé !</strong>");
 
             header('Location: dashboard');
             die;
         }
 
-        echo $this->twig->render('formPost.twig', [
+        echo $this->twig->render(
+            'formPost.twig', [
             'flash' => $this->session->flash()
-        ]);
+            ]
+        );
     }
 
-    public function editPost($postId){
+    /**
+     * Edit a post
+     *
+     * @param [type] $postId id of the post
+     *
+     * @return void
+     */
+    public function editPost($postId)
+    {
         $PostsModel = new \App\Models\PostsModel;
 
         // @TODO Add a validator class
@@ -100,26 +152,36 @@ class PostsController extends Controller {
 
                 $PostsModel->updatePost($postSubmitted);
 
-                $this->session->setFlash('success',"<strong>L'article à bien été modifié !</strong>");
+                $this->session->setFlash('success', "<strong>L'article à bien été modifié !</strong>");
 
                 header('Location: ../dashboard');
                 die;
             }
 
-            echo $this->twig->render('formPost.twig', [
+            echo $this->twig->render(
+                'formPost.twig', [
                 'post' => $post,
                 'flash' => $this->session->flash()
-            ]);
+                ]
+            );
 
         } else {
-            $this->session->setFlash('danger',"<strong>Cet article n'existe pas</strong> :(");
+            $this->session->setFlash('danger', "<strong>Cet article n'existe pas</strong> :(");
 
             header('Location: ../dashboard');
             die;
         }
     }
 
-    public function delete($postId) {
+    /**
+     * Set is_deleted from a post to true
+     *
+     * @param [type] $postId id of the post
+     *
+     * @return void
+     */
+    public function delete($postId)
+    {
         $PostsModel = new \App\Models\PostsModel;
         // @TODO Add a validator class
         $submit['id'] = $postId;
@@ -127,14 +189,14 @@ class PostsController extends Controller {
         $post = $PostsModel->getPostById($submit);
 
         if (!empty($post)) {
-            $this->session->setFlash('success',"<strong> L'article : " .$post->name. "</strong> A bien été supprimé! :)");
+            $this->session->setFlash('success', "<strong> L'article : " .$post->name. "</strong> A bien été supprimé! :)");
             $PostsModel->deletePost($submit);
 
             // @TODO delete comments too
             header('Location: ../dashboard');
             die;
         } else {
-            $this->session->setFlash('danger',"<strong>Oups !</strong> Il semblerait que cet article n'existe pas :(");
+            $this->session->setFlash('danger', "<strong>Oups !</strong> Il semblerait que cet article n'existe pas :(");
 
             header('Location: ../dashboard');
             die;
