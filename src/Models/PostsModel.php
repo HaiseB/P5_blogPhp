@@ -68,11 +68,10 @@ class PostsModel extends Model
      * Create a new post
      *
      * @param array $submit name, catchphrase, content
-     * @param array $file the post's main picture
      *
      * @return void
      */
-    public function createNewPost(array $submit, array $file) :void
+    public function createNewPost(array $submit) :void
     {
         $timestamp = date('Y-m-d H:i:s');
 
@@ -80,10 +79,6 @@ class PostsModel extends Model
         VALUES (:name, '', :catchphrase, :content, '$timestamp', '$timestamp', false)";
 
         $this->database->create($insert, $submit);
-
-        $postId = $this->database->getLastId('posts');
-
-        $this->addPicture($postId, $file);
     }
 
     /**

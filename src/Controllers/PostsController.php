@@ -95,17 +95,27 @@ class PostsController extends Controller
 
         $request = Request::createFromGlobals();
 
-        if ($request->server->get('REQUEST_METHOD') === 'POST' && !empty($request->files->get(['picture']['tmp_name'])) ) {
+        if ($request->server->get('REQUEST_METHOD') === 'POST') {
             // @TODO Add a validator class
             $post['name'] = $request->get('name');
             $post['catchphrase'] = $request->get('catchphrase');
             $post['content'] = $request->get('content');
 
-            // @TODO Add a validator class
-            $picture['temp'] = $request->files->get(['picture']['tmp_name']);
-            $picture['name'] = $request->files->get(['picture']['name']);
+            $PostsModel->createNewPost($post);
 
-            $PostsModel->createNewPost($post, $picture);
+            if (!empty($request->files->get('picture'))) {
+                $file = $request->files->get('picture');
+                var_dump($file);
+                var_dump($file->test);
+                die;
+                $picture['temp'] = $file->pathName;
+                $picture['name'] = $file->originalName;
+
+                $postId = $this->database->getLastId('posts');
+
+                $PostsModel->addPicture($postId, $file);
+            }
+
 
             $this->session->setFlash('success', "<strong>L'article à bien été créé !</strong>");
 

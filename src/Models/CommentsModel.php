@@ -31,7 +31,7 @@ class CommentsModel extends Model
      */
     public function getAllCommentsWithUsernames() :array
     {
-        $query = 'SELECT name, content, comments.created_at, is_confirmed FROM comments
+        $query = 'SELECT name, content, comments.created_at, is_confirmed, comments.id as id FROM comments
             JOIN users ON comments.user_id = users.id
             WHERE comments.is_deleted = false';
 

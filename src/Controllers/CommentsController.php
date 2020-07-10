@@ -41,7 +41,7 @@ class CommentsController extends Controller
         $comment = $CommentsModel->getCommentById($submit);
 
         if (!empty($comment)) {
-            $this->session->setFlash('success', "<strong> Le commentaire de : " .$comment->user_name. "</strong> A bien été supprimé! :)");
+            $this->session->setFlash('success', "<strong> Le commentaire de : " .$comment->name. "</strong> A bien été supprimé! :)");
             $CommentsModel->deleteComment($submit);
 
             header('Location: ../dashboard');
