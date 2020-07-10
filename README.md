@@ -1,5 +1,6 @@
 ## P5_blogPhp
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/abf827e58f054b56958a7c7029eccd60)](https://app.codacy.com/manual/HaiseB/P5_blogPhp?utm_source=github.com&utm_medium=referral&utm_content=HaiseB/P5_blogPhp&utm_campaign=Badge_Grade_Dashboard)
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/powered-by-electricity.svg)](https://forthebadge.com)
 
 Project 5 of the "parcours développeur d'application PHP/Symfony" by Openclassrooms.
