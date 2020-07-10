@@ -169,16 +169,17 @@ class UsersModel extends Model
      * Set a flash message
      *
      * @param object $session session variable
+     * @param array $submit submitted infos
      *
      * @return void
      */
-    public function authentificationFailed(object $session) :void
+    public function authentificationFailed(object $session, array $submit) :void
     {
         $session->setFlash('danger', "<strong>Authentification échouée</strong>, Nom d'utilisateur et/ou mot de passe incorrect");
 
         echo $this->twig->render(
             'login.twig', [
-            'data' => $_POST,
+            'data' => $submit,
             'flash' => $session->flash()
             ]
         );

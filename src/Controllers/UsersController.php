@@ -11,6 +11,8 @@
 namespace App\Controllers;
 
 use \App\Core\Controller;
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * UsersController Class Doc Comment
  *
@@ -30,15 +32,17 @@ class UsersController extends Controller
     public function loginPage()
     {
         // @TODO Add a validator class
-        if (isset($_POST['name']) && isset($_POST['password'])) {
+        $request = Request::createFromGlobals();
+
+        if ($request->server->get('REQUEST_METHOD') === 'POST' && !empty($request->get('name')) && !empty($request->get('password'))) {
             $UsersModel = new \App\Models\UsersModel;
 
-            $submit['name'] = $_POST['name'];
+            $submit['name'] = $request->get('name');
 
             $user = $UsersModel->findUserByName($submit);
 
             if (!empty($user)) {
-                if (password_verify($_POST['password'], $user->password)) {
+                if (password_verify($request->get('password'), $user->password)) {
                     $_SESSION['auth'] = $user->name;
                     $_SESSION['id'] = $user->id;
                     $_SESSION['role'] = $user->is_admin;
@@ -46,10 +50,10 @@ class UsersController extends Controller
 
                     ($_SESSION['role'] === '1') ? header('Location: dashboard') : header('Location: /');
                 } else {
-                    $UsersModel->authentificationFailed($this->session);
+                    $UsersModel->authentificationFailed($this->session, $submit);
                 }
             } else {
-                $UsersModel->authentificationFailed($this->session);
+                $UsersModel->authentificationFailed($this->session, $submit);
             }
         } else {
             echo $this->twig->render(
@@ -68,13 +72,16 @@ class UsersController extends Controller
     public function newUser()
     {
         // @TODO Add a validator class
-        $data = $_POST;
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($data['password'] === $data['passwordConfirm']) {
-                $UsersModel = new \App\Models\UsersModel;
+        $request = Request::createFromGlobals();
 
-                $submit['name'] = $data['name'];
-                $submit['email'] = $data['email'];
+        if ($request->server->get('REQUEST_METHOD') === 'POST') {
+            $submit['name'] = $request->get('name');
+            $submit['email'] = $request->get('email');
+            $submit['password'] = $request->get('password');
+            $submit['passwordConfirm'] = $request->get('passwordConfirm');
+
+            if ($submit['password'] === $submit['passwordConfirm']) {
+                $UsersModel = new \App\Models\UsersModel;
 
                 $user = $UsersModel->findUserByNameOrMail($submit);
 
@@ -82,12 +89,11 @@ class UsersController extends Controller
                     $this->session->setFlash('danger', "Oups! Il semblerait que <strong>votre surnom</strong> ou <strong>votre email</strong>  soit déjà utilisé par un autre utilisateur :(");
                     echo $this->twig->render(
                         'newAccount.twig', [
-                        'data' => $data,
+                        'data' => $submit,
                         'flash' => $this->session->flash()
                         ]
                     );
                 } else {
-                    $submit['password'] = $data['password'];
                     $UsersModel->createNewUser($submit);
                     $this->session->setFlash('success', "Félicitation, il ne reste plus qu'a <strong>activer votre compte via le mail qui vient de vous etre envoyé</strong> :)");
                     header('Location: /');
@@ -96,7 +102,7 @@ class UsersController extends Controller
                 $this->session->setFlash('danger', '<strong>Les mots de passes sont différents</strong> :(');
                 echo $this->twig->render(
                     'newAccount.twig', [
-                    'data' => $data,
+                    'data' => $submit,
                     'flash' => $this->session->flash()
                     ]
                 );
@@ -139,7 +145,9 @@ class UsersController extends Controller
     public function confirmRegister()
     {
         // @TODO Add a validator class
-        $data = $_GET;
+        $request = Request::createFromGlobals();
+        $data['name'] = $request->query->get('name');
+        $data['token'] = $request->query->get('token');
 
         $UsersModel = new \App\Models\UsersModel;
         $user = $UsersModel->findUserByNameAndToken($data);

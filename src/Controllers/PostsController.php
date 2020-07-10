@@ -122,11 +122,11 @@ class PostsController extends Controller
     /**
      * Edit a post
      *
-     * @param [type] $postId id of the post
+     * @param integer $postId id of the post
      *
      * @return void
      */
-    public function editPost($postId)
+    public function editPost(int $postId)
     {
         $PostsModel = new \App\Models\PostsModel;
 
@@ -146,9 +146,9 @@ class PostsController extends Controller
                 $postSubmitted['id'] = $post->id;
 
                 // @TODO Add a validator class
-                if (!empty($_FILES['picture']['tmp_name'])) {
-                    $picture['temp'] = $_FILES['picture']['tmp_name'];
-                    $picture['name'] = $_FILES['picture']['name'];
+                if (!empty($request->files->get(['picture']['tmp_name']))) {
+                    $picture['temp'] = $request->files->get(['picture']['tmp_name']);
+                    $picture['name'] = $request->files->get(['picture']['name']);
 
                     $PostsModel->addPicture($post->id, $picture);
                 }
@@ -180,7 +180,7 @@ class PostsController extends Controller
      *
      * @return void
      */
-    public function delete($postId)
+    public function delete(int $postId)
     {
         $PostsModel = new \App\Models\PostsModel;
         // @TODO Add a validator class
