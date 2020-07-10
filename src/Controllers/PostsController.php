@@ -11,6 +11,7 @@
 namespace App\Controllers;
 
 use \App\Core\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * PostsController Class Doc Comment
@@ -58,13 +59,13 @@ class PostsController extends Controller
         $post = $PostsModel->getPostById($submit);
 
         if (!empty($post)) {
-            $CommentsModel = new \App\Models\CommentsModel;
+            $request = Request::createFromGlobals();
 
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_SESSION['id'])) {
+            if ($request->server->get('REQUEST_METHOD') === 'POST') {
                 // @TODO Add a validator class
                 $comment['post_id'] = $submit['id'];
                 $comment['user_id'] = $_SESSION['id'];
-                $comment['content'] = $_POST['content'];
+                $comment['content'] = $request->get('content');
 
                 $CommentsModel->createComment($comment);
 
@@ -80,7 +81,6 @@ class PostsController extends Controller
             );
         } else {
             header('Location: 404');
-            die;
         }
     }
 
@@ -93,29 +93,30 @@ class PostsController extends Controller
     {
         $PostsModel = new \App\Models\PostsModel;
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['picture']['tmp_name']) ) {
+        $request = Request::createFromGlobals();
+
+        if ($request->server->get('REQUEST_METHOD') === 'POST' && !empty($request->files->get(['picture']['tmp_name'])) ) {
             // @TODO Add a validator class
-            $post['name'] = $_POST['name'];
-            $post['catchphrase'] = $_POST['catchphrase'];
-            $post['content'] = $_POST['content'];
+            $post['name'] = $request->get('name');
+            $post['catchphrase'] = $request->get('catchphrase');
+            $post['content'] = $request->get('content');
 
             // @TODO Add a validator class
-            $picture['temp'] = $_FILES['picture']['tmp_name'];
-            $picture['name'] = $_FILES['picture']['name'];
+            $picture['temp'] = $request->files->get(['picture']['tmp_name']);
+            $picture['name'] = $request->files->get(['picture']['name']);
 
             $PostsModel->createNewPost($post, $picture);
 
             $this->session->setFlash('success', "<strong>L'article à bien été créé !</strong>");
 
             header('Location: dashboard');
-            die;
+        } else {
+            echo $this->twig->render(
+                'formPost.twig', [
+                'flash' => $this->session->flash()
+                ]
+            );
         }
-
-        echo $this->twig->render(
-            'formPost.twig', [
-            'flash' => $this->session->flash()
-            ]
-        );
     }
 
     /**
@@ -135,11 +136,13 @@ class PostsController extends Controller
         $post = $PostsModel->getPostById($submit);
 
         if (!empty($post) ) {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $request = Request::createFromGlobals();
+
+            if ($request->server->get('REQUEST_METHOD') === 'POST') {
                 // @TODO Add a validator class
-                $postSubmitted['name'] = $_POST['name'];
-                $postSubmitted['catchphrase'] = $_POST['catchphrase'];
-                $postSubmitted['content'] = $_POST['content'];
+                $postSubmitted['name'] = $request->get('name');
+                $postSubmitted['catchphrase'] = $request->get('catchphrase');
+                $postSubmitted['content'] = $request->get('content');
                 $postSubmitted['id'] = $post->id;
 
                 // @TODO Add a validator class
@@ -155,28 +158,25 @@ class PostsController extends Controller
                 $this->session->setFlash('success', "<strong>L'article à bien été modifié !</strong>");
 
                 header('Location: ../dashboard');
-                die;
+            } else {
+                echo $this->twig->render(
+                    'formPost.twig', [
+                    'post' => $post,
+                    'flash' => $this->session->flash()
+                    ]
+                );
             }
-
-            echo $this->twig->render(
-                'formPost.twig', [
-                'post' => $post,
-                'flash' => $this->session->flash()
-                ]
-            );
-
         } else {
             $this->session->setFlash('danger', "<strong>Cet article n'existe pas</strong> :(");
 
             header('Location: ../dashboard');
-            die;
         }
     }
 
     /**
      * Set is_deleted from a post to true
      *
-     * @param [type] $postId id of the post
+     * @param integer $postId id of the post
      *
      * @return void
      */
@@ -194,12 +194,10 @@ class PostsController extends Controller
 
             // @TODO delete comments too
             header('Location: ../dashboard');
-            die;
         } else {
             $this->session->setFlash('danger', "<strong>Oups !</strong> Il semblerait que cet article n'existe pas :(");
 
             header('Location: ../dashboard');
-            die;
         }
     }
 }

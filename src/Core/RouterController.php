@@ -47,7 +47,6 @@ class RouterController extends AltoRouter
             }
         } else {
             header('Location: /');
-            die;
         }
 
     }

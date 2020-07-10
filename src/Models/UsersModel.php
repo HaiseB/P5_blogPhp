@@ -182,8 +182,6 @@ class UsersModel extends Model
             'flash' => $session->flash()
             ]
         );
-
-        die;
     }
 
     /**
@@ -195,9 +193,8 @@ class UsersModel extends Model
      */
     public function loggedOnly(string $auth) :void
     {
-        if (!isset($_SESSION['auth'])) {
-            header('Location: 404');
-            die;
+        if (!empty($auth)) {
+            header('Location: /404');
         }
     }
 
@@ -211,8 +208,7 @@ class UsersModel extends Model
     public function adminOnly(int $role)
     {
         if ($role === 0) {
-            header('Location: 404');
-            die;
+            header('Location: /404');
         }
     }
 

@@ -49,7 +49,6 @@ class CommentsController extends Controller
             $this->session->setFlash('danger', "<strong>Oups !</strong> Il semblerait que ce commentaire n'existe pas :(");
 
             header('Location: ../dashboard');
-            die;
         }
     }
 

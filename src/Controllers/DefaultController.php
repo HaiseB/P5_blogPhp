@@ -11,6 +11,7 @@
 namespace App\Controllers;
 
 use \App\Core\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * DefaultController Class Doc Comment
@@ -31,14 +32,16 @@ class DefaultController extends Controller
      */
     public function homePage()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // @TODO Add a $_session to avoid spam
+        $request = Request::createFromGlobals();
+
+        if ($request->server->get('REQUEST_METHOD') === 'POST') {
+            // @TODO find how to avoid spam
             $this->session->setFlash('success', '<strong>Message envoyé</strong>, nous vous contacterons dès que possible ! :)');
 
             // @TODO Add a validator class
-            $submit['name'] = $_POST['name'];
-            $submit['email'] = $_POST['email'];
-            $submit['textarea'] = $_POST['textarea'];
+            $submit['name'] = $request->get('name');
+            $submit['email'] = $request->get('email');
+            $submit['textarea'] = $request->get('textarea');
 
             $contact = New \App\Core\Contact;
             $contact->sendContactMail($submit);

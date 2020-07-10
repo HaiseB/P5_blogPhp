@@ -86,13 +86,11 @@ class UsersController extends Controller
                         'flash' => $this->session->flash()
                         ]
                     );
-                    die;
                 } else {
                     $submit['password'] = $data['password'];
                     $UsersModel->createNewUser($submit);
                     $this->session->setFlash('success', "Félicitation, il ne reste plus qu'a <strong>activer votre compte via le mail qui vient de vous etre envoyé</strong> :)");
                     header('Location: /');
-                    die;
                 }
             } else {
                 $this->session->setFlash('danger', '<strong>Les mots de passes sont différents</strong> :(');
@@ -102,7 +100,6 @@ class UsersController extends Controller
                     'flash' => $this->session->flash()
                     ]
                 );
-                die;
             }
         } else {
             echo $this->twig->render('newAccount.twig');
