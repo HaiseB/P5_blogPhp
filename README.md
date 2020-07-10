@@ -4,7 +4,7 @@ Project 5 of the "parcours développeur d'application PHP/Symfony" by Openclassr
 
 This project consist of creating a professionnal blog, that have severals required features. You can find them at [Visitors Pages](https://github.com/HaiseB/P5_blogPhp/issues/3) and [Administration Pages](https://github.com/HaiseB/P5_blogPhp/issues/4).
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/abf827e58f054b56958a7c7029eccd60)] Direct link [Here](https://app.codacy.com/manual/HaiseB/P5_blogPhp/dashboard).
+![Codacy Badge](https://api.codacy.com/project/badge/Grade/abf827e58f054b56958a7c7029eccd60) Direct link [Here](https://app.codacy.com/manual/HaiseB/P5_blogPhp/dashboard).
 
 ## Table of Contents
 1. [Pre required](#Pre-required)
