@@ -4,22 +4,29 @@ Left to right direction
 skinparam packageStyle rect
 actor administrateurs
 actor visiteurs
+actor utilisateurs
 
 rectangle cas_d'utilisation {
 
-(administrateurs) -- (visiteurs)
+(administrateurs) -- (utilisateurs)
+(utilisateurs) -- (visiteurs)
 
-(visiteurs) -- (poster un commentaire)
+(utilisateurs) -- (poster un commentaire)
+
 (visiteurs) -- (visualiser le cv)
 (visiteurs) -- (envoyer un message via le formulaire de contact)
 (visiteurs) -- (visualiser un article)
 (visiteurs) -- (s'authentifier)
-(visiteurs) -- (creer un compte)
+(visiteurs) --- (creer un compte)
+(utilisateurs) --- (réinitialiser mdp)
 (administrateurs) -- (creer/modifier/supprimer un article)
 (administrateurs) -- (valider/supprimer un commentaire)
 
-(s'authentifier) .>  (creer un compte):extend
+(s'authentifier) ..>  (creer un compte):extend
+(s'authentifier) ..>  (réinitialiser mdp):extend
 (visualiser la liste des articles) .> (visualiser un article):extend
+
+(poster un commentaire) ..> (s'authentifier):include
 
 (creer/modifier/supprimer un article) ..> (s'authentifier):include
 (valider/supprimer un commentaire) ..> (s'authentifier):include

@@ -51,6 +51,7 @@ _Go with a console to the repository and do thoses commands_
 - [faker](https://github.com/fzaninotto/Faker) - generates fake data
 - [swiftMailer](https://swiftmailer.symfony.com/docs/introduction.html) - sending e-mails from PHP applications
 - [altorouter](https://altorouter.com/) - A php routing class
+- [HttpFoundation](https://symfony.com/doc/current/components/http_foundation.html) - A php routing class
 
 ### Author
 * **Benjamin Haise** _alias_ [@HaiseB](https://github.com/HaiseB)

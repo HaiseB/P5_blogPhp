@@ -10,6 +10,17 @@ class Users {
     {static} Datetime updated_at
     {static} Boolean is_deleted
     ---
+    getAllUsers()
+    findUserById()
+    findUserByName()
+    findUserByNameOrMail()
+    findUserByNameAndToken()
+    createNewUser()
+    activateUser()
+    deleteUser()
+    authentificationFailed()
+    loggedOnly()
+    adminOnly()
 }
 
 class Posts {
@@ -23,6 +34,13 @@ class Posts {
     {static} Datetime updated_at
     {static} Boolean is_deleted
     ---
+    getAllPosts()
+    getLastPosts()
+    getPostById()
+    createNewPost()
+    updatePost()
+    addPicture()
+    deletePost()
 }
 
 class Comments {
@@ -35,9 +53,16 @@ class Comments {
     {static} Datetime updated_at
     {static} Boolean is_deleted
     ---
+    getAllCommentsWithUsernames()
+    getCommentsByPostsWithUsernames()
+    getCommentById()
+    getNumberOfNotConfirmedComments()
+    createComment()
+    confirmAllComments()
+    deleteComment()
 }
 
-Users "1" -- "many" Posts : writes
+Users "1" - "many" Posts : writes
 
 Posts "1" -- "many" Comments : contains
 

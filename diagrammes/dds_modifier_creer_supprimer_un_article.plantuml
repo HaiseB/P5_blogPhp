@@ -10,19 +10,20 @@ BDD --> Systeme : utilisateur trouvé
 Systeme --> Administrateur: dashboard() / posts() : Affichage du Dashboard / Articles existants
 
 alt creation d'un nouvel article
-    Administrateur -> Systeme: login() : doit se connecter
-    Systeme -> BDD: recherche de l'utilisateur
-    BDD --> Systeme : utilisateur trouvé
+    Administrateur -> Systeme: newPost() : envoi des données
+    Systeme -> BDD: enregistrement des données
+    BDD --> Systeme : données enregistrée
+    Systeme --> Administrateur: notification de création effectuées + Affichage du Dashboard
 else Modification d'un article
-    Administrateur -> Systeme: login() : doit se connecter
-    Systeme -> BDD: recherche de l'utilisateur
-    BDD --> Systeme : utilisateur trouvé
+    Administrateur -> Systeme: editPost() : envoi des données
+    Systeme -> BDD: modification des données
+    BDD --> Systeme : données modifiées
+    Systeme --> Administrateur: notif de modification + Affichage du Dashboard
 else Suppression d'un article
-    Administrateur -> Systeme: login() : doit se connecter
-    Systeme -> BDD: recherche de l'utilisateur
-    BDD --> Systeme : utilisateur trouvé
+    Administrateur -> Systeme: delete()
+    Systeme -> BDD: passage de is_deleted à true
+    BDD --> Systeme : article supprimmé
+    Systeme --> Administrateur: notif de suppresion + Affichage du Dashboard
 end
-
-Systeme --> Administrateur: Affichage du Dashboard / Articles existants
 
 @enduml

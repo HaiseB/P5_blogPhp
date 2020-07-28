@@ -1,0 +1,29 @@
+@startuml creer un compte et connexion
+
+actor Visiteur
+boundary Systeme
+database BDD
+
+
+Visiteur -> Systeme: newUser() : creer un nouvel utilisateur
+Systeme -> BDD: creation de l'utilisateur
+BDD --> Systeme : utilisateur créé
+Systeme --> Visiteur: envoi d'un mail de confirmation
+
+Visiteur -> Systeme: confirmRegister() : clic sur le lien du mail
+Systeme -> BDD: activation de l'utilisateur
+BDD --> Systeme : activation de l'utilisateur
+Systeme --> Visiteur: confirmation de l'activation
+
+Visiteur -> Systeme: login() : envoi des donnés
+Systeme -> BDD: recherche d'un utilisateur correspondant
+alt utilisateur trouvé
+    BDD --> Systeme : utilisateur trouvé
+    Systeme --> Visiteur: visiteur authentifié (devient un utilisateur)
+else utilisateur non trouvé
+    BDD --> Systeme : utilisateur non trouvé
+    Systeme --> Visiteur: authentifié échoué retour à l'écran de connexion
+end
+
+
+@enduml
