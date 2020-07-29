@@ -28,12 +28,15 @@ You will need to install those on your server
 _Go with a console to the repository and do thoses commands_
 - ``composer install``
 - ``composer update``
-- ``.\vendor\bin\phinx migrate``
+- ``create a new database``
 
 - Rename  `.exemple.env` in `.env`
 
 ## Settings
 - Change all default values in `.env`
+
+_Go with a console to the repository (again) and do thoses commands_
+- ``.\vendor\bin\phinx migrate``
 
 ## How to use
 
