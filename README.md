@@ -39,7 +39,8 @@ _Go with a console to the repository and do thoses commands_
 
 _Go with a console to the repository (again) and do thoses commands_
 - ``.\vendor\bin\phinx migrate``
-- ``.\vendor\bin\phinx seed:run``
+- ``.\vendor\bin\phinx seed:run -s FillPostsTable -s FillUsersTable``
+- ``.\vendor\bin\phinx seed:run -s FillCommentsTable``
 
 ## How to use
 
