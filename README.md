@@ -30,6 +30,8 @@ _Go with a console to the repository and do thoses commands_
 - ``composer update``
 - ``create a new database``
 
+-
+
 - Rename  `.exemple.env` in `.env`
 
 ## Settings
@@ -37,6 +39,7 @@ _Go with a console to the repository and do thoses commands_
 
 _Go with a console to the repository (again) and do thoses commands_
 - ``.\vendor\bin\phinx migrate``
+- ``.\vendor\bin\phinx seed:run``
 
 ## How to use
 
