@@ -5,6 +5,8 @@ class Users {
     {static} String name
     {static} String email
     {static} String password
+    {static} Boolean token
+    {static} Boolean is_registered
     {static} Boolean is_admin
     {static} Datetime created_at
     {static} Datetime updated_at
@@ -46,7 +48,7 @@ class Posts {
 class Comments {
     {static} Auto_increment id
     {static} String post_id
-    {static} String user_name
+    {static} String user_id
     {static} String content
     {static} Boolean is_confirmed
     {static} Datetime created_at
@@ -63,7 +65,7 @@ class Comments {
 }
 
 Users "1" - "many" Posts : writes
-
+Users "1" - "many" Comments : post
 Posts "1" -- "many" Comments : contains
 
 @enduml

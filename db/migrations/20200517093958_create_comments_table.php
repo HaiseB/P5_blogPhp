@@ -32,8 +32,10 @@ class CreateCommentsTable extends AbstractMigration
     public function change()
     {
         $this->table('comments')
-            ->addColumn('post_id', 'string')
-            ->addColumn('user_name', 'string')
+            ->addColumn('post_id', 'integer', ['null' => true])
+            ->addColumn('user_id', 'integer', ['null' => true])
+            ->addForeignKey('user_id', 'users', 'id', ['delete'=> 'SET_NULL', 'update'=> 'NO_ACTION'])
+            ->addForeignKey('post_id', 'posts', 'id', ['delete'=> 'SET_NULL', 'update'=> 'NO_ACTION'])
             ->addColumn('content', 'string')
             ->addColumn('is_confirmed', 'boolean')
             ->addColumn('created_at', 'datetime')

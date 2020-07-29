@@ -35,11 +35,18 @@ class CreateUsersTable extends AbstractMigration
             ->addColumn('name', 'string')
             ->addColumn('email', 'string')
             ->addColumn('password', 'string')
+            ->addColumn('token', 'string', ['limit' => 50])
+            ->addColumn('is_registered', 'boolean')
             ->addColumn('is_admin', 'boolean')
             ->addColumn('created_at', 'datetime')
             ->addColumn('updated_at', 'datetime')
             ->addColumn('is_deleted', 'boolean')
-            ->addIndex(['username', 'email'], ['unique' => true])
+            ->addIndex(['name', 'email'], ['unique' => true])
             ->create();
+
+        $refTable = $this->table('posts');
+        $refTable->addColumn('user_id', 'integer', ['null' => true])
+            ->addForeignKey('user_id', 'users', 'id', ['delete'=> 'SET_NULL', 'update'=> 'NO_ACTION'])
+            ->save();
     }
 }
