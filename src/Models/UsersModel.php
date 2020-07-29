@@ -45,7 +45,7 @@ class UsersModel extends Model
      */
     public function findUserById(array $submit) :?object
     {
-        $query = "SELECT name, id, password, is_admin FROM Users WHERE is_deleted = false AND is_registered = true AND id= :id LIMIT 1";
+        $query = "SELECT name, id, password, is_admin FROM Users WHERE is_deleted = false AND id= :id LIMIT 1";
 
         $user = $this->database->fetch($query, $submit);
 

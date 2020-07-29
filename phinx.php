@@ -10,10 +10,7 @@ $dns = 'mysql:dbname=' . $_ENV['DB_NAME'] . ';host=' . $_ENV['DB_HOST'] . ';char
 
 try {
     $pdo = new \PDO(
-        $dns, $_ENV['DB_USER'], $_ENV['DB_PASS'], [
-        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-        \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
-        ]
+        $dns, $_ENV['DB_USER'], $_ENV['DB_PASS']
     );
 } catch (\PDOException $e) {
     echo 'Connexion failed : ' . $e->getMessage();
