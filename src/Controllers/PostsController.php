@@ -111,16 +111,16 @@ class PostsController extends Controller
             $PostsModel->createNewPost($post);
 
             if (!empty($request->files->get('picture'))) {
-                $file = $request->files->get('picture');
-                var_dump($file);
-                var_dump($file->test);
-                die;
-                $picture['temp'] = $file->pathName;
-                $picture['name'] = $file->originalName;
+                //$file = $request->files->get('picture');
+                //var_dump($file);
+                $picture['temp'] = $_FILES['picture']['tmp_name'];
+                $picture['name'] = $_FILES['picture']['name'];
+                //$picture['temp'] = $file->pathName;
+                //$picture['name'] = $file->originalName;
 
-                $postId = $this->database->getLastId('posts');
+                $postId = $PostsModel->getLastPostId();
 
-                $PostsModel->addPicture($postId, $file);
+                $PostsModel->addPicture($postId, $picture);
             }
 
 
@@ -166,9 +166,12 @@ class PostsController extends Controller
                 $postSubmitted['id'] = $post->id;
 
                 // @TODO Add a validator class
-                if (!empty($request->files->get(['picture']['tmp_name']))) {
-                    $picture['temp'] = $request->files->get(['picture']['tmp_name']);
-                    $picture['name'] = $request->files->get(['picture']['name']);
+                if (!empty($request->files->get('picture'))) {
+                    $picture['temp'] = $_FILES['picture']['tmp_name'];
+                    $picture['name'] = $_FILES['picture']['name'];
+
+                    //$picture['temp'] = $request->files->get(['picture']['tmp_name']);
+                    //$picture['name'] = $request->files->get(['picture']['name']);
 
                     $PostsModel->addPicture($post->id, $picture);
                 }

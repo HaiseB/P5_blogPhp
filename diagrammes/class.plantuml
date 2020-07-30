@@ -42,6 +42,7 @@ class Posts {
     createNewPost()
     updatePost()
     addPicture()
+    getLastPostId()
     deletePost()
 }
 

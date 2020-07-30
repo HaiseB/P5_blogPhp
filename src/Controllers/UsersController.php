@@ -50,10 +50,24 @@ class UsersController extends Controller
 
                     ($_SESSION['role'] === '1') ? header('Location: dashboard') : header('Location: /');
                 } else {
-                    $UsersModel->authentificationFailed($this->session, $submit);
+                    $this->session->setFlash('danger', "<strong>Authentification échouée</strong>, Nom d'utilisateur et/ou mot de passe incorrect");
+
+                    echo $this->twig->render(
+                        'login.twig', [
+                        'data' => $submit,
+                        'flash' => $this->session->flash()
+                        ]
+                    );
                 }
             } else {
-                $UsersModel->authentificationFailed($this->session, $submit);
+                $this->session->setFlash('danger', "<strong>Authentification échouée</strong>, Nom d'utilisateur et/ou mot de passe incorrect");
+
+                echo $this->twig->render(
+                    'login.twig', [
+                    'data' => $submit,
+                    'flash' => $this->session->flash()
+                    ]
+                );
             }
         } else {
             echo $this->twig->render(

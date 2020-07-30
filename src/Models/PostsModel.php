@@ -111,6 +111,7 @@ class PostsModel extends Model
     {
         $pathToImages = 'posts_images/' . $postId .'/';
 
+        mkdir('posts_images/');
         mkdir($pathToImages);
 
         copy($file['temp'], $pathToImages . $file['name']);
@@ -121,6 +122,16 @@ class PostsModel extends Model
         $update = "UPDATE posts SET picture = :picture WHERE id = :id ";
 
         $this->database->update($update, $submit);
+    }
+
+    /**
+     * Get last post id
+     *
+     * @return int
+     */
+    public function getLastPostId() :int
+    {
+        return $this->database->getLastId('posts');
     }
 
     /**
