@@ -194,7 +194,7 @@ class UsersModel extends Model
      */
     public function loggedOnly(string $auth) :void
     {
-        if (!empty($auth)) {
+        if (empty($auth)) {
             header('Location: /404');
         }
     }

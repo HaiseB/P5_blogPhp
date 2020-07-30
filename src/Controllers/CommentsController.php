@@ -33,6 +33,9 @@ class CommentsController extends Controller
      */
     public function delete(int $commentId)
     {
+        $UsersModel = new \App\Models\UsersModel;
+        $UsersModel->adminOnly($_SESSION['role']);
+
         $CommentsModel = new \App\Models\CommentsModel;
 
         // @TODO Add a validator class
@@ -41,7 +44,7 @@ class CommentsController extends Controller
         $comment = $CommentsModel->getCommentById($submit);
 
         if (!empty($comment)) {
-            $this->session->setFlash('success', "<strong> Le commentaire de : " .$comment->name. "</strong> A bien été supprimé! :)");
+            $this->session->setFlash('success', "Le commentaire à bien été <strong>supprimé</strong>! :)");
             $CommentsModel->deleteComment($submit);
 
             header('Location: ../dashboard');
@@ -59,6 +62,9 @@ class CommentsController extends Controller
      */
     public function confirmAll()
     {
+        $UsersModel = new \App\Models\UsersModel;
+        $UsersModel->adminOnly($_SESSION['role']);
+
         $CommentsModel = new \App\Models\CommentsModel;
 
         $CommentsModel->confirmAllComments();

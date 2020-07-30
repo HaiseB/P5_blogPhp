@@ -125,6 +125,8 @@ class UsersController extends Controller
         $PostsModel = new \App\Models\PostsModel;
         $CommentsModel = new \App\Models\CommentsModel;
 
+        $UsersModel->adminOnly($_SESSION['role']);
+
         // @TODO Add DataTable
         echo $this->twig->render(
             'dashboard.twig', [
@@ -203,6 +205,8 @@ class UsersController extends Controller
     public function delete($userId)
     {
         $UsersModel = new \App\Models\UsersModel;
+        $UsersModel->adminOnly($_SESSION['role']);
+
         // @TODO Add a validator class
         $submit['id'] = $userId;
 

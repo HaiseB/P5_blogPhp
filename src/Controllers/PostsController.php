@@ -51,6 +51,7 @@ class PostsController extends Controller
     public function post(int $postId)
     {
         $PostsModel = new \App\Models\PostsModel;
+        $UsersModel = new \App\Models\UsersModel;
         $CommentsModel = new \App\Models\CommentsModel;
 
         // @TODO Add a validator class
@@ -62,6 +63,8 @@ class PostsController extends Controller
             $request = Request::createFromGlobals();
 
             if ($request->server->get('REQUEST_METHOD') === 'POST') {
+                $UsersModel->loggedOnly($_SESSION['auth']);
+
                 // @TODO Add a validator class
                 $comment['post_id'] = $submit['id'];
                 $comment['user_id'] = $_SESSION['id'];
@@ -91,6 +94,9 @@ class PostsController extends Controller
      */
     public function newPost()
     {
+        $UsersModel = new \App\Models\UsersModel;
+        $UsersModel->adminOnly($_SESSION['role']);
+
         $PostsModel = new \App\Models\PostsModel;
 
         $request = Request::createFromGlobals();
@@ -98,6 +104,7 @@ class PostsController extends Controller
         if ($request->server->get('REQUEST_METHOD') === 'POST') {
             // @TODO Add a validator class
             $post['name'] = $request->get('name');
+            $post['user_id'] = $_SESSION['id'];
             $post['catchphrase'] = $request->get('catchphrase');
             $post['content'] = $request->get('content');
 
@@ -138,6 +145,9 @@ class PostsController extends Controller
      */
     public function editPost(int $postId)
     {
+        $UsersModel = new \App\Models\UsersModel;
+        $UsersModel->adminOnly($_SESSION['role']);
+
         $PostsModel = new \App\Models\PostsModel;
 
         // @TODO Add a validator class
@@ -192,6 +202,9 @@ class PostsController extends Controller
      */
     public function delete(int $postId)
     {
+        $UsersModel = new \App\Models\UsersModel;
+        $UsersModel->adminOnly($_SESSION['role']);
+
         $PostsModel = new \App\Models\PostsModel;
         // @TODO Add a validator class
         $submit['id'] = $postId;

@@ -75,8 +75,8 @@ class PostsModel extends Model
     {
         $timestamp = date('Y-m-d H:i:s');
 
-        $insert = "INSERT INTO posts (name, picture, catchphrase, content, created_at, updated_at, is_deleted)
-        VALUES (:name, '', :catchphrase, :content, '$timestamp', '$timestamp', false)";
+        $insert = "INSERT INTO posts (name, picture, catchphrase, content, created_at, updated_at, is_deleted, user_id)
+        VALUES (:name, '', :catchphrase, :content, '$timestamp', '$timestamp', false, :user_id)";
 
         $this->database->create($insert, $submit);
     }
