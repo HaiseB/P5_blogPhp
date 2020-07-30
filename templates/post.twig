@@ -8,34 +8,42 @@
 {% endblock head %}
 
 {% block content %}
-    <h1>{{ post.name }}</h1>
-    <span>par Benjamin Haise le {{ post.created_at |date("m/d/Y", "Europe/Paris") }}</span>
-    <img style="height: auto; width: 100%; display: block;" src="../posts_images/{{ post.id }}/{{ post.picture }}" alt="Post image">
-    <h5>{{ post.catchphrase }}</h5>
-    <span>partager Fb / Twitter / Linkedin / Lien brut</span>
+    <div class="col-12 text-right">
+        <span class="signature ">par Benjamin Haise le {{ post.created_at | date("m/d/Y") }}</span>
+    </div>
+    <div>
+        <div class="post_banner col-12 shadow-lg p-3 mb-5 rounded"
+            {% if post.picture %}
+                style='background-image: url("../posts_images/{{ post.id }}/{{ post.picture }}");
+            {% endif %}'>
+            <h1 class="post_tilte"><strong>{{ post.name }}</strong></h1>
+        </div>
+        <h5>{{ post.catchphrase }}</h5>
+    </div>
     <hr>
-    <div>{{ post.content | raw }}</div>
+    <div class="col-12">{{ post.content | raw }}</div>
+    <div class="social col-12 text-right">
+        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <div id="fb-root"></div><script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v7.0" nonce="hE6a3v5B"></script>
+        <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Partager</a></div>
+    </div>
     <hr>
     {% for comment in comments %}
-        <div class="card mb-3">
-            <h5 class="card-header">{{ comment.name }}</h5>
-            <div class="card-body">
-                <p class="card-text">{{ comment.content }}</p>
-            </div>
-            <div class="card-footer text-muted">
-                {{ comment.created_at }}
-            </div>
+        <div class="mb-3 rounded shadow-lg p-3">
+            <h5>{{ comment.name }}</h5>
+            <p>{{ comment.content }}</p>
+            <div class="text-right"><span class="comment_date">{{ comment.created_at}}</span></div>
         </div>
     {% endfor %}
     {% if not session.auth %}
     <div class="text-center">
-        <h4>Vous devez être connecté(e) pour poster un commentaire</h4>
+        <h5>Vous devez être connecté(e) pour poster un commentaire</h5>
         <span>(Mais pas de panique ca prend 30 secondes! ;) )</span>
         <a href="/create_account" class="btn btn-primary btn-block offset-md-3 col-md-6">Créer un compte</a>
         <a href="/login" class="btn btn-primary btn-block offset-md-3 col-md-6">Se connecter</a>
     </div>
     {% else %}
-    <h4>Postez un commentaire!</h4>
+    <h5>Postez un commentaire!</h5>
     <form method="post" action="">
         <fieldset>
             <div class="form-group">

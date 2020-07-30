@@ -34,7 +34,7 @@ class CommentsModel extends Model
         $query = 'SELECT name, content, comments.created_at, is_confirmed, comments.id as id, post_id FROM comments
             JOIN users ON comments.user_id = users.id WHERE comments.is_deleted = false AND post_id IN (
                 SELECT id from posts where is_deleted = false
-            )';
+            ) ORDER BY comments.created_at DESC';
 
         return $this->database->fetchAll($query);
     }

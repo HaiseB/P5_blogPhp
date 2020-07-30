@@ -80,7 +80,7 @@ class PostsController extends Controller
                 ]
             );
         } else {
-            header('Location: 404');
+            header('Location: http://blogphp/404');
         }
     }
 

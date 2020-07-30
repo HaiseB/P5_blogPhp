@@ -5,21 +5,27 @@
 {% endblock head %}
 
 {% block content %}
-    <h1>Les dernières news</h1>
-    {% for post in posts %}
-        <hr>
-        <div class="card mb-3">
-            <h3 class="card-header">{{ post.name }}</h3>
-            <img style="height: 200px; width: 100%; display: block;" src="posts_images/{{ post.id }}/{{ post.picture }}" alt="Card image">
-            <div class="card-body">
-                <p class="card-text">{{ post.catchphrase }}</p>
+    <h2>Les derniers articles</h2>
+    <hr>
+    <div class="posts">
+        {% for post in posts %}
+            <div class="post col-lg-5 shadow-lg p-3 mb-5 rounded"
+                {% if post.picture %}
+                style='background-image:
+                        url("posts_images/{{ post.id }}/{{ post.picture }}");
+                {% endif %}'>
+                <div class="post_text">
+                    <div>
+                        <strong><a href="post/{{ post.id }}">{{ post.name }}</a></strong>
+                    </div>
+                    <div>
+                        <a href="post/{{ post.id }}">{{ post.catchphrase }}</a>
+                    </div>
+                    <div class="col-12 text-right">
+                        <span class="signature">{{ post.created_at | date("m/d/Y") }}</span>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <a href="post/{{ post.id }}" class="card-link">link</a>
-            </div>
-            <div class="card-footer text-muted">
-                {{ post.created_at }}
-            </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 {% endblock %}
