@@ -137,14 +137,21 @@ class Model {
     __construct()
 }
 
-Model -- Users
-Model -- Posts
-Model -- Comments
+Model - Users
+Model - Posts
+Model - Comments
 
 class Kernel {
     ---
     __construct()
 }
+
+Session - Kernel
+RouterController -- Kernel
+TwigFactory -- Kernel
+Contact - Kernel
+Controller - Kernel
+Model --- Kernel
 
 class Database {
     ---
@@ -156,6 +163,10 @@ class Database {
     delete()
     getLastId()
 }
+
+Database -- Users
+Database -- Posts
+Database -- Comments
 
 class Controller {
     ---
