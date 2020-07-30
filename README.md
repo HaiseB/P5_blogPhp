@@ -28,10 +28,8 @@ You will need to install those on your server
 _Go with a console to the repository and do thoses commands_
 - ``composer install``
 - ``composer update``
-- ``create a new database``
 
--
-
+- Create a new database
 - Rename  `.exemple.env` in `.env`
 
 ## Settings
