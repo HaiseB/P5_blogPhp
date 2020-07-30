@@ -64,8 +64,118 @@ class Comments {
     deleteComment()
 }
 
-Users "1" - "many" Posts : writes
-Users "1" - "many" Comments : post
-Posts "1" -- "many" Comments : contains
+Users "1" - "many" Posts
+Users "1" - "many" Comments
+Posts "1" -- "many" Comments
+
+class CommentsController {
+    ---
+    delete()
+    confirmAll()
+}
+
+class DefaultController {
+    ---
+    homePage()
+    legalMentions()
+    e404()
+}
+
+class PostsController {
+    ---
+    posts()
+    post()
+    newPost()
+    editPost()
+    delete()
+}
+
+class UsersController {
+    ---
+    loginPage()
+    newUser()
+    dashboard()
+    confirmRegister()
+    resetPassword()
+    logout()
+    delete()
+}
+
+class Twig {
+    ---
+    __construct()
+}
+
+class TwigFactory {
+    ---
+    get()
+}
+
+Twig - TwigFactory
+
+class Session {
+    ---
+    __construct()
+    setFlash()
+    flash()
+}
+
+class Altorouter {
+    ---
+    __construct()
+}
+
+class RouterController {
+    ---
+    callRoute()
+}
+
+Altorouter - RouterController
+
+class Model {
+    ---
+    __construct()
+}
+
+Model -- Users
+Model -- Posts
+Model -- Comments
+
+class Kernel {
+    ---
+    __construct()
+}
+
+class Database {
+    ---
+    __construct()
+    fetchAll()
+    fetch()
+    create()
+    update()
+    delete()
+    getLastId()
+}
+
+class Controller {
+    ---
+    __construct()
+}
+
+Controller -- CommentsController
+Controller -- DefaultController
+Controller -- PostsController
+Controller -- UsersController
+
+class Contact {
+    ---
+    __construct()
+    sendContactMail()
+    sendRegisterMail()
+    _getContactMailBody()
+    _getRegisterMailBody()
+    _getTranport()
+}
+
 
 @enduml
