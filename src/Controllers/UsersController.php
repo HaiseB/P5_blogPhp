@@ -186,17 +186,85 @@ class UsersController extends Controller
      *
      * @return void
      */
-    public function resetPassword()
+    public function forgotPassword()
     {
-        echo $this->twig->render(
-            'resetPassword.twig', [
-            'flash' => $this->session->flash()
-            ]
-        );
+        $request = Request::createFromGlobals();
+
+        if ($request->server->get('REQUEST_METHOD') === 'POST') {
+
+            $submit['email'] = $request->get('email');
+
+            $UsersModel = new \App\Models\UsersModel;
+
+            $user = $UsersModel->findUserByMail($submit);
+
+            if (!empty($user)) {
+                $UsersModel->requestResetPassword($user);
+            } else {
+                sleep(2);
+            }
+
+            $this->session->setFlash('success', 'Si un compte correspond à cette adresse mail, vous allez recevoir un <strong>mail de réinitialisation</strong> de mot de passe :)');
+            header('Location: /login');
+        } else {
+            echo $this->twig->render(
+                'forgotPassword.twig', [
+                'flash' => $this->session->flash()
+                ]
+            );
+        }
     }
 
     /**
-     * Unset $_SESSION
+     * Confirm a password change request
+     *
+     * @return void
+     */
+    public function confirmPasswordReset()
+    {
+        $request = Request::createFromGlobals();
+        $data['name'] = $request->query->get('name');
+        $data['token'] = $request->query->get('token');
+
+        $UsersModel = new \App\Models\UsersModel;
+        $user = $UsersModel->findUserByNameAndToken($data);
+
+        if ($user) {
+            if ($request->server->get('REQUEST_METHOD') === 'POST') {
+                $submit['password'] = $request->get('password');
+                $submit['passwordConfirm'] = $request->get('passwordConfirm');
+
+                if ($submit['password'] === $submit['passwordConfirm']) {
+                    $UsersModel->changePassword($submit, $user->id);
+
+                    $this->session->setFlash('success', "Félicitation, <strong>confirmation du changement du mot de passe</strong> :)");
+
+                    header('Location: /login');
+                } else {
+                    $this->session->setFlash('danger', '<strong>Les mots de passes sont différents</strong> :(');
+
+                    echo $this->twig->render(
+                        'confirmPasswordReset.twig', [
+                        'data' => $submit,
+                        'flash' => $this->session->flash()
+                        ]
+                    );
+                }
+            } else {
+                echo $this->twig->render(
+                    'confirmPasswordReset.twig', [
+                    'flash' => $this->session->flash()
+                    ]
+                );
+            }
+        } else {
+            $this->session->setFlash('danger', "Oups! <strong>le lien à expiré ou n'est pas valide</strong>! :(");
+            header('Location: /login');
+        }
+    }
+
+    /**
+     * Unset session informations
      *
      * @return void
      */
@@ -204,6 +272,7 @@ class UsersController extends Controller
     {
         unset($_SESSION['auth']);
         unset($_SESSION['role']);
+        unset($_SESSION['id']);
 
         $this->session->setFlash('success', '<strong>Déconnexion réussie</strong>, à bientôt ! :)');
         header('Location: /');

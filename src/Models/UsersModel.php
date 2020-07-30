@@ -85,6 +85,22 @@ class UsersModel extends Model
     }
 
     /**
+     * Find user who match the mail
+     *
+     * @param array $submit user mail
+     *
+     * @return object|null
+     */
+    public function findUserByMail(array $submit) :?object
+    {
+        $query = "SELECT id, name, email FROM Users WHERE is_deleted = false AND is_registered = true AND email= :email";
+
+        $user = $this->database->fetch($query, $submit);
+
+        return ($user === false) ? null : $user;
+    }
+
+    /**
      *  Find user who match the token and the name
      *
      * @param array $submit user token , user name
@@ -93,7 +109,7 @@ class UsersModel extends Model
      */
     public function findUserByNameAndToken(array $submit) :?object
     {
-        $query = "SELECT name, is_registered FROM Users WHERE is_deleted = false AND name= :name AND token= :token";
+        $query = "SELECT id, name, is_registered FROM Users WHERE is_deleted = false AND name= :name AND token= :token";
 
         $user = $this->database->fetch($query, $submit);
 
@@ -131,6 +147,36 @@ class UsersModel extends Model
     }
 
     /**
+     * Send a mail to reset the password
+     *
+     * @param object $user user found
+     *
+     * @return void
+     */
+    public function requestResetPassword(object $user) :void
+    {
+        $alphabet = "0123456789azertyuiopqsdfghjklmwwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN";
+        $token = substr(str_shuffle(str_repeat($alphabet, 50)), 0, 50);
+
+        $timestamp= date('Y-m-d H:i:s');
+
+        $data['updated_at'] = $timestamp;
+        $data['id'] = $user->id;
+        $data['token'] = $token;
+
+        $update = "UPDATE users SET token = :token, updated_at = :updated_at WHERE id= :id ";
+
+        $this->database->update($update, $data);
+
+        $data['name'] = $user->name;
+        $data['email'] = $user->email;
+        $data['url'] = "http://blogphp/new_password?token=" . $token . "&name=" . $data['name'];
+
+        $contact = New \App\Core\Contact;
+        $contact->sendResetPasswordMail($data);
+    }
+
+    /**
      * Set is_activate from the user to true
      *
      * @param object $user user found
@@ -147,6 +193,29 @@ class UsersModel extends Model
         $update = "UPDATE users
             SET is_registered = true, updated_at = :updated_at
             WHERE name= :name ";
+
+        $this->database->update($update, $data);
+    }
+
+
+    /**
+    * change the user password
+    *
+    * @param array, object $submit, $userId
+    *
+    * @return void
+    */
+    public function changePassword(array $submit, string $userId) :void
+    {
+        $timestamp= date('Y-m-d H:i:s');
+
+        $data['updated_at'] = $timestamp;
+        $data['id'] = $userId;
+        $data['password'] = password_hash($submit['password'], PASSWORD_BCRYPT);
+
+        $update = "UPDATE users
+            SET password = :password, updated_at = :updated_at, token = ''
+            WHERE id= :id ";
 
         $this->database->update($update, $data);
     }

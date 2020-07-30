@@ -80,6 +80,31 @@ class Contact
     }
 
     /**
+     * Send a reset password mail
+     *
+     * @param array $form name, email, token
+     *
+     * @return void
+     */
+    public function sendResetPasswordMail(array $form)
+    {
+        $transport = $this->_getTranport();
+        $mailer = new \Swift_Mailer($transport);
+
+        $body = $this->_getResetMailBody($form);
+
+        $message = (new \Swift_Message('Demande de réinitialisation de mot de passe'))
+            ->setFrom([$_ENV['MAIL_NAME'] => $_ENV['MAIL_NAME']])
+            ->setTo([$_ENV['MAIL_NAME'], $form['email'] => $form['name'] ])
+            ->setBody($body)
+            ->setContentType("text/html");
+
+        $result = $mailer->send($message);
+
+        return $result;
+    }
+
+    /**
      * Return the completed contact mail body
      *
      * @param array $form name, email, content
@@ -115,6 +140,22 @@ class Contact
         return $body;
     }
 
+    /**
+     * Return the reset password mail body
+     *
+     * @param array $form name, email, token
+     *
+     * @return string
+     */
+    private function _getResetMailBody(array $form) :string
+    {
+        $body = file_get_contents('../templates/mailResetPassword.twig');
+
+        $body = preg_replace("/NOMDUCONTACT/", $form['name'], $body);
+        $body = preg_replace("/URL_LINK/",  $form['url'], $body);
+
+        return $body;
+    }
 
     /**
      * Return transporter of the mail
