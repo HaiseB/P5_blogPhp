@@ -91,10 +91,10 @@ class UsersController extends Controller
         if ($request->server->get('REQUEST_METHOD') === 'POST') {
             $submit['name'] = $request->get('name');
             $submit['email'] = $request->get('email');
-            $submit['password'] = $request->get('password');
-            $submit['passwordConfirm'] = $request->get('passwordConfirm');
+            $password = $request->get('password');
+            $passwordConfirm = $request->get('passwordConfirm');
 
-            if ($submit['password'] === $submit['passwordConfirm']) {
+            if ($password === $passwordConfirm) {
                 $UsersModel = new \App\Models\UsersModel;
 
                 $user = $UsersModel->findUserByNameOrMail($submit);
@@ -108,6 +108,7 @@ class UsersController extends Controller
                         ]
                     );
                 } else {
+                    $submit['password'] = $password;
                     $UsersModel->createNewUser($submit);
                     $this->session->setFlash('success', "Félicitation, il ne reste plus qu'a <strong>activer votre compte via le mail qui vient de vous etre envoyé</strong> :)");
                     header('Location: /');
