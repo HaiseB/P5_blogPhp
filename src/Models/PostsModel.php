@@ -111,7 +111,10 @@ class PostsModel extends Model
     {
         $pathToImages = 'posts_images/' . $postId .'/';
 
-        mkdir('posts_images/');
+        if (!is_dir('posts_images/')) {
+            mkdir('posts_images/');
+        }
+
         mkdir($pathToImages);
 
         copy($file['temp'], $pathToImages . $file['name']);
