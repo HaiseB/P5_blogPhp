@@ -33,7 +33,7 @@
                     <th scope="row"><a href="/post/{{ comment.post_id }}">{{ comment.name }}</a></th>
                     <td><a href="/post/{{ comment.post_id }}">{{ comment.content }}</a></td>
                     <td><a href="/post/{{ comment.post_id }}">{{ comment.created_at }}</a></td>
-                    <td><a href="/delete_comment/{{ comment.id }}"><i class="fas fa-trash"></i></td>
+                    <td><a href="/delete_comment/{{ comment.id }}" class="delete"><i class="fas fa-trash"></i></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -63,7 +63,7 @@
                     <td><a href="/post/={{ post.id }}">{{ post.id }}</a></td>
                     <td><a href="/post/{{ post.id }}">{{ post.updated_at |date("m/d/Y") }}</a></td>
                     <td><a href="/edit_post/{{ post.id }}"><i class="fas fa-edit"></i></a></td>
-                    <td><a href="/delete_post/{{ post.id }}"><i class="fas fa-trash"></i></td>
+                    <td><a href="/delete_post/{{ post.id }}" class="delete"><i class="fas fa-trash"></i></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -86,7 +86,7 @@
                     <th scope="row">{{ user.name }}</th>
                     <td>{{ user.email }}</td>
                     <td>{{ user.updated_at |date("m/d/Y") }}</td>
-                    <td><a href="/delete_user/{{ user.id }}"><i class="fas fa-trash"></i></td>
+                    <td><a href="/delete_user/{{ user.id }}"  class="delete"><i class="fas fa-trash"></i></td>
                 </tr>
                 {% endfor %}
             </tbody>
